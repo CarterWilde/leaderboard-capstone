@@ -2,6 +2,7 @@ import React, { Component, ReactNode } from "react";
 import CloseIcon from '@material-ui/icons/Close';
 import Button from "../Button";
 import "./PopUp.css";
+import Card from "../Card/Card";
 
 type PopUpProps = {
     title?: string;
@@ -62,8 +63,8 @@ export default class PopUp extends Component<PopUpProps, PopUpState> {
     render() {
         if(this.props.open) {
             return(
-                <div className="pop-up">
-                    <div className="card">
+                <div className="pop-up-wrapper">
+                    <Card className="pop-up">
                         <section className="header">
                             <h3>{this.props.title}</h3>
                             <CloseIcon onClick={this.handleClose} htmlColor="#76777c" style={{cursor: "pointer"}}/>
@@ -76,7 +77,7 @@ export default class PopUp extends Component<PopUpProps, PopUpState> {
                             <Button variant="text" onClick={this.handleCancel}>{this.props.cancelText ? this.props.cancelText : "Back"}</Button>
                             <Button variant="outline" onClick={this.handleProgress}>{this.props.progressText}</Button>
                         </section>
-                    </div>
+                    </Card>
                 </div>
             );
         } else {
