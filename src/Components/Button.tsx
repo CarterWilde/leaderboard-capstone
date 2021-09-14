@@ -32,7 +32,8 @@ const outlineStyles: CSSProperties = {
 };
 
 const textStyles: CSSProperties = {
-    color: "#828387"
+    color: "#828387",
+    fontWeight: "lighter"
 };
 
 const Button = (props: ButtonProps) => {
@@ -56,7 +57,7 @@ const Button = (props: ButtonProps) => {
     }
     if(props.color) pickedStyle = {...pickedStyle, color: props.color}
     return(
-        <div className="btn" onClick={props.onClick} style={{...pickedStyle, cursor: "pointer"}}>
+        <div className="btn" onClick={props.onClick} style={{...pickedStyle, cursor: "pointer", width: "fit-content"}}>
             {props.children}
         </div>
     );
