@@ -15,12 +15,12 @@ export class InvalidVariantError extends Error {
 }
 
 const primaryStyles: CSSProperties = {
-    color: "#3e414a",
-    fontWeight: "normal",
+    color: "white",
     backgroundColor: "#5cfcac",
     borderRadius: "3px",
     padding: "4px 10px",
-    lineHeight: "0.8em"
+    lineHeight: "0.8em",
+    boxShadow: "3px 2px 8px 4px rgba(0,0,0,0.49);"
 };
 
 const outlineStyles: CSSProperties = {
