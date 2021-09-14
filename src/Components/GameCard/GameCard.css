@@ -1,0 +1,19 @@
+.game.card {
+    height: 100%;
+    aspect-ratio: 3/5;
+}
+
+.game.card .image {
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.game.card .title {
+    line-height: normal;
+    padding: 5% 10%;
+    text-align: center;
+}
