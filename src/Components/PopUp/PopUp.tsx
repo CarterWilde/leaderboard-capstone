@@ -1,13 +1,13 @@
 import React, { Component, ReactNode } from "react";
 import CloseIcon from '@material-ui/icons/Close';
 import Button from "../Button";
-import "./PopUp.css"
+import "./PopUp.css";
 
 type PopUpProps = {
     title?: string;
     cancelText?: string;
     progressText: string;
-    children?: ReactNode
+    children?: ReactNode;
     /**
      * Invoked when the user clicks the close button.
      */
