@@ -54,6 +54,7 @@ const Button = (props: ButtonProps) => {
     } else {
         pickedStyle = primaryStyles;
     }
+    if(props.color) pickedStyle = {...pickedStyle, color: props.color}
     return(
         <div className="btn" onClick={props.onClick} style={{...pickedStyle, cursor: "pointer"}}>
             {props.children}
