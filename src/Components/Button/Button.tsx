@@ -18,7 +18,7 @@ export class InvalidVariantError extends Error {
 
 const Button = (props: ButtonProps) => {
     return(
-        <div className={"btn" + (props.variant ? ` ${props.variant}` : ' primary')} onClick={props.onClick} style={{cursor: "pointer", width: "fit-content", color: props.color}}>
+        <div className={"btn" + (props.variant ? ` ${props.variant}` : ' primary')} onClick={props.onClick} style={{cursor: props.onClick ? "pointer": undefined, width: "fit-content", color: props.color}}>
             {props.children}
         </div>
     );
