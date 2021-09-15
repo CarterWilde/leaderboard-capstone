@@ -1,6 +1,6 @@
 import React, { Component, ReactNode } from "react";
 import CloseIcon from '@material-ui/icons/Close';
-import Button from "../Button";
+import Button from "../Button/Button";
 import "./PopUp.css";
 import Card from "../Card/Card";
 
