@@ -65,10 +65,10 @@ export default class PopUp extends Component<PopUpProps, PopUpState> {
             return(
                 <div className="pop-up-wrapper">
                     <Card className="pop-up">
-                        <section className="header">
+                        <header>
                             <h3>{this.props.title}</h3>
                             <CloseIcon onClick={this.handleClose} htmlColor="#76777c" style={{cursor: "pointer"}}/>
-                        </section>
+                        </header>
                         <hr/>
                         <section className="content">
                             {this.props.children}

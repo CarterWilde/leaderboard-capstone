@@ -15,14 +15,14 @@
     min-width: 300px;
 }
 
-.pop-up-wrapper .pop-up .header {
+.pop-up-wrapper .pop-up header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 6px 10px;
 }
 
-.pop-up-wrapper .pop-up .header h3 {
+.pop-up-wrapper .pop-up header h3 {
     font-weight: normal;
 }
 
