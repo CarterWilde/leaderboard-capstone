@@ -1,0 +1,27 @@
+.feild {
+    line-height: normal;
+}
+
+.feild label{
+    display: block;
+    color: #828387;
+    font-weight: normal;
+    color:white;
+}
+
+.feild input {
+    all: unset;
+    width: 100%;
+    background-color: #3e414a;
+    box-sizing: border-box;
+    border: 1px solid #25282e;
+    border-radius: 3px;
+    margin-top: 6px;
+    padding: 4px 12px;
+    font-weight: normal;
+    transition-duration: 150ms;
+}
+
+.feild input:focus {
+    border-color: #40ffa0;
+}
