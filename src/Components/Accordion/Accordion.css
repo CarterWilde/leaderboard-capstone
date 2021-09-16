@@ -17,3 +17,11 @@
 .accordion .accordion-item:last-child summary {
     border-top: 1px solid #25282e;
 }
+
+.accordion-item > summary > .accordion {
+    box-shadow: none;
+}
+
+.accordion-item > summary > .accordion > .accordion-item > summary {
+    border-bottom: none;
+}
