@@ -1,0 +1,19 @@
+.accordion {
+    overflow: hidden;
+}
+
+.accordion .accordion-item:nth-child(1n) header {
+    border-bottom: 1px solid #25282e;
+}
+
+.accordion .accordion-item:nth-child(1n) summary {
+    border-bottom: 1px solid #25282e;
+}
+
+.accordion .accordion-item:last-child header {
+    border-bottom: none;
+}
+
+.accordion .accordion-item:last-child summary {
+    border-top: 1px solid #25282e;
+}

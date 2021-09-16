@@ -1,0 +1,15 @@
+.accordion-item {
+    background-color: #31343d;
+}
+
+.accordion-item header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 12px;
+}
+
+.accordion-item summary {
+    padding: 8px;
+    padding-left: 25px;
+}
