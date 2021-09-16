@@ -13,9 +13,9 @@ type FeildState = {
 
 export default class Feild extends Component<FeildProps, FeildState> {
     render() {
-        const {name, ...inputProps} = this.props;
+        const {name, style, ...inputProps} = this.props;
         return(
-            <div className="feild">
+            <div className="feild" style={this.props.style}>
                 <label>{this.props.name}</label>
                 <input placeholder={this.props.name} {...inputProps}/>
             </div>
