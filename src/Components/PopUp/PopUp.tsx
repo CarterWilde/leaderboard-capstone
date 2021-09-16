@@ -23,6 +23,7 @@ type PopUpProps = {
     onClosed: React.MouseEventHandler<SVGElement | HTMLDivElement>;
     onProgress?: React.MouseEventHandler<HTMLDivElement>;
     open: boolean;
+    width?: string;
 };
 
 type PopUpState = {
@@ -64,7 +65,7 @@ export default class PopUp extends Component<PopUpProps, PopUpState> {
         if(this.props.open) {
             return(
                 <div className="pop-up-wrapper">
-                    <Card className="pop-up">
+                    <Card className="pop-up" style={{width: this.props.width}}>
                         <header>
                             <h3>{this.props.title}</h3>
                             <CloseIcon onClick={this.handleClose} htmlColor="#76777c" style={{cursor: "pointer"}}/>
