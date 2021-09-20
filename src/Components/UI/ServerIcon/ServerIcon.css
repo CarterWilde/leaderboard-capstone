@@ -25,7 +25,7 @@
 }
 
 .server-icon .child svg {
-    --size: 70%;
+    --size: 55%;
     width: var(--size);
     height: var(--size);
 }
