@@ -19,6 +19,9 @@ export * from "./Feild";
 export { default as GameCard } from "./GameCard";
 export * from "./GameCard";
 
+export { default as Page } from "./Page";
+export * from "./Page"
+
 export { default as PopUp } from "./PopUp";
 export * from "./PopUp";
 
