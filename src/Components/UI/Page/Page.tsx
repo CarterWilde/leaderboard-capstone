@@ -21,7 +21,7 @@ const Page = (props: PageProps) => {
                     {props.aside}
                 </aside>
             </header>
-            <hr/>
+            <hr style={{zIndex: 6}}/>
             <section>
                 {props.children}
             </section>
