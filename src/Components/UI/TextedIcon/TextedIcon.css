@@ -1,7 +1,6 @@
 .texted-icon {
-    display: inline-flex;
+    display: flex;
     align-items: center;
-    width: fit-content;
     font-weight: normal;
     font-size: 28px;
     height: 32px;
@@ -9,7 +8,7 @@
 
 .texted-icon p {
     font-size: inherit;
-    margin-left: 8%;
+    margin-left: 12px;
 }
 
 .texted-icon svg {
