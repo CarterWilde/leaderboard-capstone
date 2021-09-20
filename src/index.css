@@ -4,11 +4,12 @@
 }
 
 body, h1, h2, h3, h4, h5, h6, hr, p {
-  margin: 0;
-  font-size: 24px;
+    margin: 0;
+    font-size: 24px;
 }
 
-body, html {
+html, body, #root {
+    height: 100%;
     background-color: #2f3139;
 }
 
