@@ -1,0 +1,63 @@
+#app {
+    display: grid;
+    height: 100%;
+    grid-template-columns: 100px 28% 1fr;
+    --server-icon-space: 16px;
+}
+
+#serverNavigation {
+    padding: 8px 8px;
+    overflow-y: auto;
+    direction: rtl;
+}
+
+#serverNavigation > .server-icon {
+    margin-bottom: var(--server-icon-space);
+}
+
+#serverNavigation > a.server-icon-parent > div.server-icon {
+    margin-bottom: calc(var(--server-icon-space) - 5px) !important;
+}
+
+#pageLinks {
+    color: #6f7178;
+    font-weight: normal;
+    background-color: #31343d;
+    box-shadow: 0px 0px 7.6px 0.4px rgba(0, 0, 0, 0.49);
+    z-index: 2;
+}
+
+#pageLinks > h1 {
+    color: white;
+    display: flex;
+    align-items: center;
+    margin: 0px 24px;
+    min-height: 2em;
+    height: 2em;
+    font-weight: normal;
+    font-size: 100%;
+}
+
+
+#pageLinks > :not(hr):nth-child(n + 2),
+#pageLinks > a {
+    margin: 12px 24px;
+    font-size: 25px;
+    transition: color 200ms ease-in-out;
+}
+
+#pageLinks > a {
+    display: block;
+    color: #6f7178;
+    text-decoration: none;
+}
+
+#pageLinks > a > .texted-icon {
+    font-size: 25px;
+}
+
+#pageLinks > :not(hr):nth-child(n + 2):hover,
+#pageLinks > a:hover,
+#pageLinks > a.active {
+    color: white;
+}
