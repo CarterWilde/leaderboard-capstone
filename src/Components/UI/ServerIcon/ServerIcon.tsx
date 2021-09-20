@@ -10,13 +10,15 @@ export type ServerIconProps = {
     style?: CSSProperties;
     size?: string;
     onClick?: React.MouseEventHandler<HTMLDivElement>;
-    active?: boolean
+    active?: boolean;
 }
 
 const ServerIcon = (props: ServerIconProps) => {
     let backgroundStyles:CSSProperties = typeof(props.icon) === "string" ? {backgroundImage: `url(${props.icon})`} : {};
     return(
-        <div className={"server-icon" + ((props.active) ? " active" : "") + (props.className ? ` ${props.className}` : '')} style={props.style} onClick={props.onClick}>
+        <div className={"server-icon" + ((props.active) ? " active" : "") + (props.className ? ` ${props.className}` : '')}
+             style={typeof(props.icon) === "string" ? {...props.style, margin: "0px", padding: "5px", backgroundColor: "none"} : props.style}
+             onClick={props.onClick}>
             <div className="child" style={backgroundStyles}>
                 {typeof(props.icon) !== "string" ? props.icon : null}
             </div>

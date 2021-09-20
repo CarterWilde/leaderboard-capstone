@@ -5,7 +5,9 @@
     align-items: center;
     border-radius: 100%;
     cursor: pointer;
-    padding: 5px;
+    margin: 5px;
+    color: #5cfcac;
+    background-color: #343740;
     background-image: linear-gradient(135deg, #7044ff00, #d081f800);
 }
 
@@ -20,6 +22,12 @@
     background-repeat: no-repeat;
     background-size: cover;
     border-radius: 100%;
+}
+
+.server-icon .child svg {
+    --size: 70%;
+    width: var(--size);
+    height: var(--size);
 }
 
 
@@ -45,8 +53,10 @@
     opacity: 0;
     border-radius: 100%;
   }
-  
   .server-icon:hover::before,
+  .server-icon-parent.active > .server-icon::before,
   .server-icon.active::before {
     opacity: 1;
   }
+
+ 
