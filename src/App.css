@@ -1,7 +1,7 @@
 #app {
     display: grid;
     height: 100%;
-    grid-template-columns: 100px 28% 1fr;
+    grid-template-columns: 90px 340px 1fr;
     --server-icon-space: 16px;
 }
 
