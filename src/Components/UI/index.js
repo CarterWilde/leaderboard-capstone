@@ -24,3 +24,6 @@ export * from "./PopUp";
 
 export { default as TextedIcon } from "./TextedIcon";
 export * from "./TextedIcon";
+
+export { default as ServerIcon } from "./ServerIcon";
+export * from "./ServerIcon";

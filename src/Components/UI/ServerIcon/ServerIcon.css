@@ -1,0 +1,52 @@
+.server-icon {
+    display: flex;
+    aspect-ratio: 1 / 1;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100%;
+    cursor: pointer;
+    padding: 5px;
+    background-image: linear-gradient(135deg, #7044ff00, #d081f800);
+}
+
+.server-icon .child {
+    aspect-ratio: 1 / 1;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 100%;
+}
+
+
+/*
+ * Border Animation
+ */
+.server-icon {
+    position: relative;
+    background-image: linear-gradient(135deg, #7044ff00, #d081f800);
+    z-index: 1;
+  }
+  
+  .server-icon::before {
+    position: absolute;
+    content: "";
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-image: linear-gradient(135deg, #7044ff, #d081f8);
+    z-index: -1;
+    transition: opacity 250ms ease-in-out;
+    opacity: 0;
+    border-radius: 100%;
+  }
+  
+  .server-icon:hover::before,
+  .server-icon.active::before {
+    opacity: 1;
+  }
