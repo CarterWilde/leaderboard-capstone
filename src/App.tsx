@@ -1,30 +1,33 @@
 import { useState } from 'react';
 import './App.css';
 import {
-    Accordion,
     PopUp, 
     TextedIcon, 
     Feild, 
     GameCard, 
     ButtonGroup, 
     Button, 
-    AccordionItem,
     ServerIcon,
-    Page
 } from './Components/UI';
-import { AccountTreeOutlined, Add, GamepadOutlined, GroupAddOutlined } from '@material-ui/icons';
+import { Add, GamepadOutlined, GroupAddOutlined } from '@material-ui/icons';
 import data from "./dummy-data.json";
 import {
     Switch,
-    Route,
     BrowserRouter as Router,
-    NavLink
+    NavLink,
+    Route
 } from 'react-router-dom';
+import { Server } from './Models';
+import ServerPage from './Components/Pages/ServerPage/ServerPage';
 
-const mapServersToLink = (servers: any[]) => {
+const mapServersToLink = (servers: Server[]) => {
     return servers.map(server => {
         return(
-            <NavLink to={`/${server.id}`} key={server.id} className="server-icon-parent">
+            <NavLink to={`/${server.id}`} key={server.id} className="server-icon-parent" isActive={(match, location) => {
+                if(match) return true;
+                if(location.pathname === '/') return true;
+                return false;
+            }}>
                 <ServerIcon icon={server.icon}/>
             </NavLink>
         );
@@ -52,59 +55,22 @@ const App = () => {
             </PopUp>
             <Router>
                 <aside id="serverNavigation">
-                    {mapServersToLink(data.servers)}
+                    {mapServersToLink((data.servers as unknown[]) as Server[])}
                     <ServerIcon key="joinServer" icon={<GroupAddOutlined/>} onClick={() => setOpen(true)}/>
                     <ServerIcon key="createServer" icon={<Add/>} onClick={() => setOpen(true)}/>
                 </aside>
-                <section id="pageLinks">
-                    <h1>{data.servers[0].name}</h1>
-                    <hr/>
-                    <NavLink to={`/${data.servers[0].id}/settings`}>
-                        <TextedIcon icon={<AccountTreeOutlined/>}>Server Info</TextedIcon>
-                    </NavLink>
-                    <hr/>
-                    {data.servers[0].games.map(game => {
+                <Switch>
+                    {((data.servers as unknown[]) as Server[]).map(server => {
                         return (
-                            <NavLink to={`/${data.servers[0].id}/${game.id}`} key={game.id}>
-                                <TextedIcon icon={<GamepadOutlined/>}>{game.name}</TextedIcon>
-                            </NavLink>
+                            <Route key={server.id} path={`/${server.id}`} render={props => (
+                                <ServerPage {...props} server={server}/>
+                            )}/>
                         );
                     })}
-                </section>
-                <section id="serverPages">
-                    <Switch>
-                        {
-                            data.servers.map(server => {
-                                return server.games.map(game => {
-                                    return(
-                                        <Route exact path={`/${server.id}/${game.id}`}>
-                                            <Page className="game" title={game.name} icon={<GamepadOutlined/>}>
-                                                <header>
-                                                    <GameCard image={game.image} title={game.name} />
-                                                    <section>
-                                                            <ButtonGroup style={{fontWeight: "lighter"}}>
-                                                                {game.categories?.map(category => {
-                                                                    return <Button>{category.name}</Button>
-                                                                })}
-                                                            </ButtonGroup>
-                                                            <Accordion style={{marginTop: "16px"}}>
-                                                                <AccordionItem title="Game Rules">
-                                                                    {game.rules}
-                                                                </AccordionItem>
-                                                                <AccordionItem title="Category Rules">
-                                                                    {game.categories[0].rules}
-                                                                </AccordionItem>
-                                                            </Accordion>
-                                                    </section>
-                                                </header>
-                                            </Page>
-                                        </Route>
-                                    );
-                                });
-                            })
-                        }
-                    </Switch>
-                </section>
+                    <Route path={`/`} render={props => (
+                        <ServerPage {...props} server={(data.servers[0] as unknown) as Server}/>
+                    )}/>
+                </Switch>
             </Router>
         </div>
     );

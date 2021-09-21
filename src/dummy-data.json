@@ -65,7 +65,7 @@
                                 {
                                     "id": "4321",
                                     "categoryId": "1010",
-                                    "user": {
+                                    "runner": {
                                         "id": "80351110224678912",
                                         "username": "Carter",
                                         "discriminator": "1337",
@@ -78,7 +78,7 @@
                                         "premium_type": 1,
                                         "public_flags": 64
                                     },
-                                    "columns": [
+                                    "values": [
                                         {
                                             "id": "55",
                                             "columnId": "1",
@@ -99,7 +99,7 @@
                                 {
                                     "id": "54321",
                                     "categoryId": "1010",
-                                    "user": {
+                                    "runner": {
                                         "id": "80351110224678913",
                                         "username": "Alex",
                                         "discriminator": "1337",
@@ -112,7 +112,7 @@
                                         "premium_type": 1,
                                         "public_flags": 64
                                     },
-                                    "columns": [
+                                    "values": [
                                         {
                                             "id": "55",
                                             "columnId": "1",
@@ -174,7 +174,7 @@
                                 {
                                     "id": "4321",
                                     "categoryId": "1010",
-                                    "user": {
+                                    "runner": {
                                         "id": "80351110224678912",
                                         "username": "Carter",
                                         "discriminator": "1337",
@@ -187,7 +187,7 @@
                                         "premium_type": 1,
                                         "public_flags": 64
                                     },
-                                    "columns": [
+                                    "values": [
                                         {
                                             "id": "55",
                                             "columnId": "1",
@@ -208,7 +208,7 @@
                                 {
                                     "id": "54321",
                                     "categoryId": "1010",
-                                    "user": {
+                                    "runner": {
                                         "id": "80351110224678913",
                                         "username": "Alex",
                                         "discriminator": "1337",
@@ -221,7 +221,7 @@
                                         "premium_type": 1,
                                         "public_flags": 64
                                     },
-                                    "columns": [
+                                    "values": [
                                         {
                                             "id": "55",
                                             "columnId": "1",
