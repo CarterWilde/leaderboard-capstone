@@ -1,3 +1,7 @@
+.btn {
+    text-decoration: none;
+}
+
 .btn.primary,
 .btn.filled {
     color: white;
