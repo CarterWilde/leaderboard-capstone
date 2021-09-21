@@ -16,16 +16,19 @@
         {
             "id": "1",
             "name": "time",
+            "type": "Duration",
             "category": null
         },
         {
             "id": "2",
             "name": "date",
+            "type": "Date",
             "category": null
         },
         {
             "id": "3",
-            "name": "vod",
+            "name": "VOD",
+            "type": "string",
             "category": null
         }
     ],
