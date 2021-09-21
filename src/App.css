@@ -61,3 +61,17 @@
 #pageLinks > a.active {
     color: white;
 }
+
+#serverPages > .game.page > .content > header {
+    display: grid;
+    gap: 18px;
+    grid-template-columns: 200px 1fr;
+}
+
+#serverPages > .game.page > .content {
+    margin: 35px;
+}
+
+#serverPages > .page.game > .content > header > .card.game {
+    height: min-content;
+}

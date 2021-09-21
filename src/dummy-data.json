@@ -52,7 +52,117 @@
                     "id": "1",
                     "name": "Portal",
                     "isPreset": true,
-                    "rules": "## Goal\nBeat the game without scripts, macros or cheats. This has to be done in one sitting, quicksaves and quickloads are allowed.\n\n## Version\nFor Portal runs the Source Unpack is used which can be found in the resource section, you can do runs on the latest Steampipe but note that not all tricks will be usable (mainly saveglitch).",
+                    "rules": "Beat the game without scripts, macros or cheats. This has to be done in one sitting, quicksaves and quickloads are allowed.",
+                    "image": "https://www.speedrun.com/gameasset/4pd0n31e/cover",
+                    "categories": [
+                        {
+                            "id": "1010",
+                            "gameId": "1",
+                            "isPreset": true,
+                            "name": "Out of Bounds",
+                            "rules": "Beat the game, all out of bounds tricks are allowed.",
+                            "runs": [
+                                {
+                                    "id": "4321",
+                                    "categoryId": "1010",
+                                    "user": {
+                                        "id": "80351110224678912",
+                                        "username": "Carter",
+                                        "discriminator": "1337",
+                                        "avatar": "8342729096ea3675442027381ff50dfe",
+                                        "verified": true,
+                                        "email": "nelly@discord.com",
+                                        "flags": 64,
+                                        "banner": "06c16474723fe537c283b8efa61a30c8",
+                                        "accent_color": 16711680,
+                                        "premium_type": 1,
+                                        "public_flags": 64
+                                    },
+                                    "columns": [
+                                        {
+                                            "id": "55",
+                                            "columnId": "1",
+                                            "value": 376900
+                                        },
+                                        {
+                                            "id": "58",
+                                            "columnId": "2",
+                                            "value": 1631834644429
+                                        },
+                                        {
+                                            "id": "60",
+                                            "columnId": "3",
+                                            "value": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": "54321",
+                                    "categoryId": "1010",
+                                    "user": {
+                                        "id": "80351110224678913",
+                                        "username": "Alex",
+                                        "discriminator": "1337",
+                                        "avatar": "8342729096ea3675442027381ff50dfe",
+                                        "verified": true,
+                                        "email": "nelly@discord.com",
+                                        "flags": 64,
+                                        "banner": "06c16474723fe537c283b8efa61a30c8",
+                                        "accent_color": 16711680,
+                                        "premium_type": 1,
+                                        "public_flags": 64
+                                    },
+                                    "columns": [
+                                        {
+                                            "id": "55",
+                                            "columnId": "1",
+                                            "value": 376900
+                                        },
+                                        {
+                                            "id": "58",
+                                            "columnId": "2",
+                                            "value": 1631834644429
+                                        },
+                                        {
+                                            "id": "60",
+                                            "columnId": "3",
+                                            "value": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "id": "1011",
+                            "gameId": "1",
+                            "isPreset": true,
+                            "name": "Inbounds",
+                            "rules": "Beat the game, all out of bounds tricks are not allowed.",
+                            "runs": []
+                        },
+                        {
+                            "id": "1012",
+                            "gameId": "1",
+                            "isPreset": true,
+                            "name": "Glitchless",
+                            "rules": "Beat the game, no glitches allowed.",
+                            "runs": []
+                        },
+                        {
+                            "id": "1013",
+                            "gameId": "1",
+                            "isPreset": true,
+                            "name": "Inbounds No SLA",
+                            "rules": "Beat the game, all out of bounds tricks are not allowed. No SLA",
+                            "runs": []
+                        }
+                    ]
+                },
+                {
+                    "id": "1001",
+                    "name": "Satisfactory",
+                    "image": "https://www.speedrun.com/gameasset/4pd0n31e/cover",
+                    "isPreset": false,
                     "categories": [
                         {
                             "id": "1010",
@@ -132,11 +242,6 @@
                             ]
                         }
                     ]
-                },
-                {
-                    "id": "1001",
-                    "name": "Satisfactory",
-                    "isPreset": false
                 }
             ]
         }

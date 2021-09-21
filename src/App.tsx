@@ -43,7 +43,7 @@ const App = () => {
                 <p style={{ padding: "6% 0" }}>Hello!</p>
                 <TextedIcon size="24px" icon={<GamepadOutlined />}>Portal</TextedIcon>
                 <Feild type="text" name="Invite Code" style={{ marginTop: "12px" }} />
-                <GameCard title="Super Mario 64" image="https://www.speedrun.com/gameasset/o1y9wo6q/cover" style={{ maxHeight: "300px", margin: "5% 0" }}></GameCard>
+                <GameCard title="Super Mario 64" image="https://www.speedrun.com/gameasset/o1y9wo6q/cover" style={{margin: "5% 0", maxWidth: "200px"}}></GameCard>
                 <ButtonGroup>
                     <Button>1</Button>
                     <Button>2</Button>
@@ -73,22 +73,36 @@ const App = () => {
                 </section>
                 <section id="serverPages">
                     <Switch>
-                        <Route exact path="/8932/1">
-                            <Page title={data.servers[0].games[0].name} icon={<GamepadOutlined />}>
-                                <Accordion style={{margin: "25px 5%"}}>
-                                    <AccordionItem title="Category Rules" bolded>
-                                        <Accordion>
-                                            <AccordionItem title="Goal">
-                                                <p>Finish the Easter Egg</p>
-                                            </AccordionItem>
-                                        </Accordion>
-                                    </AccordionItem>
-                                    <AccordionItem title="Game Rules" bolded>
-                                        <p>Dont' get VAC banned...</p>
-                                    </AccordionItem>
-                                </Accordion>
-                            </Page>
-                        </Route>
+                        {
+                            data.servers.map(server => {
+                                return server.games.map(game => {
+                                    return(
+                                        <Route exact path={`/${server.id}/${game.id}`}>
+                                            <Page className="game" title={game.name} icon={<GamepadOutlined/>}>
+                                                <header>
+                                                    <GameCard image={game.image} title={game.name} />
+                                                    <section>
+                                                            <ButtonGroup style={{fontWeight: "lighter"}}>
+                                                                {game.categories?.map(category => {
+                                                                    return <Button>{category.name}</Button>
+                                                                })}
+                                                            </ButtonGroup>
+                                                            <Accordion style={{marginTop: "16px"}}>
+                                                                <AccordionItem title="Game Rules">
+                                                                    {game.rules}
+                                                                </AccordionItem>
+                                                                <AccordionItem title="Category Rules">
+                                                                    {game.categories[0].rules}
+                                                                </AccordionItem>
+                                                            </Accordion>
+                                                    </section>
+                                                </header>
+                                            </Page>
+                                        </Route>
+                                    );
+                                });
+                            })
+                        }
                     </Switch>
                 </section>
             </Router>
