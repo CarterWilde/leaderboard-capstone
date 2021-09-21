@@ -1,9 +1,10 @@
-import React, { ReactNode } from "react";
+import React, { CSSProperties, ReactNode } from "react";
 
 import "./ButtonGroup.css";
 
 type ButtonGroupProps  = {
     children?: ReactNode
+    style?: CSSProperties
 };
 
 const ButtonGroup = (props: ButtonGroupProps) => {
@@ -15,7 +16,7 @@ const ButtonGroup = (props: ButtonGroupProps) => {
         || typeof(child) == "number") throw new Error("Invalid Child Element expected 'Button'");
     });
     return(
-        <div className="btn-group">
+        <div className="btn-group" style={props.style}>
             {props.children}
         </div>
     );
