@@ -10,11 +10,12 @@ export type PageProps = {
     aside?: ReactNode;
     icon: ReactElement<SvgIconProps, SvgIconComponent>;
     children?: ReactNode;
+    className?: string;
 }
 
 const Page = (props: PageProps) => {
     return(
-        <article className="page">
+        <article className={"page" + (props.className ? ` ${props.className}` : '')}>
             <header>
                 <h6><TextedIcon icon={props.icon}>{props.title}</TextedIcon></h6>
                 <aside>
@@ -22,7 +23,7 @@ const Page = (props: PageProps) => {
                 </aside>
             </header>
             <hr style={{zIndex: 6}}/>
-            <section>
+            <section className="content">
                 {props.children}
             </section>
         </article>
