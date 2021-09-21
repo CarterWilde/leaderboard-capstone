@@ -1,9 +1,9 @@
 .game.card {
     height: 100%;
-    aspect-ratio: 3/5;
 }
 
 .game.card .image {
+    aspect-ratio: 2/3;
     height: 100%;
     background-position: center;
     background-repeat: no-repeat;
@@ -15,6 +15,7 @@
 .game.card .title {
     display: block !important;
     line-height: normal;
-    padding: 5% 10%;
+    padding: 5% 0%;
     text-align: center;
+    max-height: 65px;
 }
