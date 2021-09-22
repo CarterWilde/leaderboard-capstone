@@ -47,10 +47,6 @@
     grid-template-columns: 200px 1fr;
 }
 
-#serverPage > .game.page > .content {
-    margin: 35px;
-}
-
 #serverPage > .page.game > .content > header > .card.game {
     height: min-content;
 }
