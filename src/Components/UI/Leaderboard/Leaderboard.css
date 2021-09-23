@@ -1,0 +1,63 @@
+.leaderboard {
+    --border: 2px solid #25282e;
+    background-color: #343740;
+    width: 100%;
+    text-align: left;
+    font-weight: lighter;
+    border-collapse: collapse;
+    border-top: var(--border);
+    border-bottom: var(--border);
+}
+
+.leaderboard thead {
+    font-weight: lighter;
+    background-color: #31343d;
+}
+
+.leaderboard th,
+.leaderboard td {
+    border: var(--border);
+    padding: 8px 12px;
+}
+
+.leaderboard > tbody > tr {
+    background-color: #343740;
+}
+
+.leaderboard > thead > tr > th:nth-child(1),
+.leaderboard > tbody > tr > td:nth-child(1) {
+    text-align: center;
+    border-left: none;
+}
+
+.leaderboard > thead > tr > th:last-child,
+.leaderboard > tbody > tr > td:last-child {
+    border-right: none;
+}
+
+.leaderboard > tbody > tr:nth-child(1) > td:nth-child(1) {
+    color: gold;
+}
+
+.leaderboard > tbody > tr:nth-child(2) > td:nth-child(1) {
+    color: silver;
+}
+
+.leaderboard > tbody > tr:nth-child(3) > td:nth-child(1) {
+    color: rgb(196, 137, 61);
+}
+
+@keyframes shine {
+	0%, 10% {
+		background-position: -1000px;
+	}
+	20% {
+		background-position: top left;
+	}
+	90% {
+		background-position: top right;
+	}
+	100% {
+		background-position: 1000px;
+	}
+}
