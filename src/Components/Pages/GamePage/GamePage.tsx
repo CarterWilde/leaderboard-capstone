@@ -2,7 +2,7 @@ import { GamepadOutlined } from "@material-ui/icons";
 import { Component } from "react";
 import { NavLink, RouteComponentProps } from "react-router-dom";
 import { Server, Game, Category } from "../../../Models";
-import { Accordion, AccordionItem, Button, ButtonGroup, GameCard, Page } from "../../UI";
+import { Accordion, AccordionItem, Button, ButtonGroup, GameCard, Leaderboard, Page } from "../../UI";
 import "./GamePage.css"
 
 export interface GamePageProps extends RouteComponentProps {
@@ -36,6 +36,7 @@ export default class GamePage extends Component<GamePageProps, GamePageState> {
                             </Accordion>
                     </section>
                 </header>
+                <Leaderboard category={this.props.category} runs={this.props.category.runs}/>
             </Page>
         );
     }
