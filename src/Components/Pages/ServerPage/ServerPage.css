@@ -17,7 +17,6 @@
     font-size: 100%;
 }
 
-
 #pageLinks > :not(hr):nth-child(n + 2),
 #pageLinks > a {
     margin: 12px 24px;
@@ -49,4 +48,8 @@
 
 #serverPage > .page.game > .content > header > .card.game {
     height: min-content;
+}
+
+#serverPage {
+    background-color: #343740;
 }
