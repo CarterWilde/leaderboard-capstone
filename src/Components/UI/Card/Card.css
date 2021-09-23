@@ -4,3 +4,26 @@
     font-weight: lighter;
     border-radius: 5px;
 }
+
+.card.flair-hover {
+    position: relative;
+    background-image: linear-gradient(135deg, #7044ff00, #d081f800);
+    z-index: 1;
+  }
+  
+  .card.flair-hover::before {
+    position: absolute;
+    content: "";
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-image: linear-gradient(135deg, #7044ff, #d081f8);
+    z-index: -1;
+    transition: opacity 250ms ease-in-out;
+    opacity: 0;
+    border-radius: 5px;
+  }
+  .card.flair-hover:hover::before {
+    opacity: 1;
+  }
