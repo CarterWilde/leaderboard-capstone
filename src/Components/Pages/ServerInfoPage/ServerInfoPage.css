@@ -1,0 +1,57 @@
+.info.page > .content > section {
+    margin: 10px 28px;
+}
+
+.info.page > .content > section > h3 {
+    font-size: larger;
+    margin-bottom: 12px;
+}
+
+.info.page > .content > section.games > section {
+    display: grid;
+    grid-template-columns: 150px 150px 150px 150px;
+    grid-auto-flow: row;
+    gap: 20px;
+}
+
+.info.page > .content > section.moderators > section,
+.info.page > .content > section.members > section {
+    display: grid;
+    grid-template-columns: repeat(4, fit-content(50%));
+    grid-auto-rows: 58px;
+    gap: 20px;
+    margin-bottom: 24px;
+}
+
+.info.page > .content > section.games .game.card .image {
+    height: auto;
+}
+
+.info.page > .content > section.settings > section.feilds {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2%;
+}
+
+.info.page > .content > section.settings > section.buttons {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 16px;
+}
+
+.add.card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 2em;
+    color: #5cfcac;
+    cursor: pointer;
+}
+
+.add.card > svg {
+    --size: 2em;
+    width: var(--size);
+    height: var(--size);
+}
+

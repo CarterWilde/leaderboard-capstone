@@ -4,6 +4,7 @@ import { NavLink, Route, RouteComponentProps } from "react-router-dom";
 import { Server } from "../../../Models";
 import { TextedIcon } from "../../UI";
 import GamePage from "../GamePage/GamePage";
+import ServerInfoPage from "../ServerInfoPage/ServerInfoPage";
 import "./ServerPage.css"
 
 export interface ServerPageProps extends RouteComponentProps {
@@ -21,7 +22,7 @@ export default class ServerPage extends Component<ServerPageProps, ServerPageSta
                 <section id="pageLinks">
                     <h1>{this.props.server.name}</h1>
                     <hr/>
-                    <NavLink to={`/${this.props.server.id}/settings`}>
+                    <NavLink to={`/${this.props.server.id}/info`}>
                         <TextedIcon icon={<AccountTreeOutlined/>}>Server Info</TextedIcon>
                     </NavLink>
                     <hr/>
@@ -36,11 +37,15 @@ export default class ServerPage extends Component<ServerPageProps, ServerPageSta
                     })}
                 </section>
                 <section id="serverPage">
+                    <Route exact path={`/${this.props.server.id}/info`} render={props => (
+                            <ServerInfoPage {...props} server={this.props.server}/>
+                    )}/>
                     {this.props.server.games.map(game => (
                         game.categories.map(category => (
-                        <Route key={this.props.server.id + game.id + category.id} path={`/${this.props.server.id}/${game.id}/${category.id}`} render={props => (
-                            <GamePage {...props} server={this.props.server} game={game} category={category}/>
-                        )}/>))
+                            <Route key={this.props.server.id + game.id + category.id} path={`/${this.props.server.id}/${game.id}/${category.id}`} render={props => (
+                                <GamePage {...props} server={this.props.server} game={game} category={category}/>
+                            )}/>
+                        ))
                     ))}
                 </section>
             </>
