@@ -10,6 +10,9 @@ export * from "./ColumnValue";
 export { default as DiscordUser } from "./DiscordUser";
 export * from "./DiscordUser";
 
+export { default as Duration } from "./Duration";
+export * from "./Duration";
+
 export { default as Game } from "./Game";
 export * from "./Game";
 
@@ -21,3 +24,6 @@ export * from "./Server";
 
 export { default as User } from "./User";
 export * from "./User";
+
+export { default as VOD } from "./VOD";
+export * from "./VOD";
