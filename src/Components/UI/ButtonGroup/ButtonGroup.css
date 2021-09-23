@@ -7,9 +7,11 @@
     border-radius: 5px;
     text-decoration: none;
     overflow-x: auto;
+    background-color: #31343d;
 }
 
 .btn-group > a {
+    height: 100%;
     text-decoration: none;
 }
 
