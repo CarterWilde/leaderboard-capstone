@@ -168,10 +168,10 @@
                                     "id": "5468465",
                                     "categoryId": "1010",
                                     "runner": {
-                                        "id": "80351110224678913",
+                                        "id": "246763186215190528",
                                         "username": "Almond Milk",
-                                        "discriminator": "8984",
-                                        "avatar": "8342729096ea3675442027381ff50dfe",
+                                        "discriminator": "8185",
+                                        "avatar": "98d18395c97ab3d0867987c40ad762a9",
                                         "verified": true,
                                         "email": "nelly@discord.com",
                                         "flags": 64,
@@ -202,10 +202,10 @@
                                     "id": "12434223",
                                     "categoryId": "1010",
                                     "runner": {
-                                        "id": "80351110224678913",
+                                        "id": "183663991820779530",
                                         "username": "The Able",
-                                        "discriminator": "5468",
-                                        "avatar": "8342729096ea3675442027381ff50dfe",
+                                        "discriminator": "0403",
+                                        "avatar": "55c559bbc70e8fdfa30404673494c51c",
                                         "verified": true,
                                         "email": "nelly@discord.com",
                                         "flags": 64,
@@ -219,40 +219,6 @@
                                             "id": "55",
                                             "columnId": "1",
                                             "value": 618.94
-                                        },
-                                        {
-                                            "id": "58",
-                                            "columnId": "2",
-                                            "value": 1631834644429
-                                        },
-                                        {
-                                            "id": "60",
-                                            "columnId": "3",
-                                            "value": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-                                        }
-                                    ]
-                                },
-                                {
-                                    "id": "186522",
-                                    "categoryId": "1010",
-                                    "runner": {
-                                        "id": "80351110224678913",
-                                        "username": "Johnny Test",
-                                        "discriminator": "8796",
-                                        "avatar": "8342729096ea3675442027381ff50dfe",
-                                        "verified": true,
-                                        "email": "nelly@discord.com",
-                                        "flags": 64,
-                                        "banner": "06c16474723fe537c283b8efa61a30c8",
-                                        "accent_color": 16711680,
-                                        "premium_type": 1,
-                                        "public_flags": 64
-                                    },
-                                    "values": [
-                                        {
-                                            "id": "55",
-                                            "columnId": "1",
-                                            "value": 816.84
                                         },
                                         {
                                             "id": "58",
