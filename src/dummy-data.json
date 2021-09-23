@@ -1,9 +1,9 @@
 {
     "user": {
-        "id": "80351110224678912",
+        "id": "514259067506655242",
         "username": "Carter Wilde",
-        "discriminator": "1337",
-        "avatar": "8342729096ea3675442027381ff50dfe",
+        "discriminator": "6432",
+        "avatar": "b41a315c6a414af303a88d6c59a66b3e",
         "verified": true,
         "email": "nelly@discord.com",
         "flags": 64,
@@ -12,6 +12,22 @@
         "premium_type": 1,
         "public_flags": 64
     },
+    "games": [
+        {
+            "id": "1",
+            "name": "Portal",
+            "isPreset": true,
+            "rules": "Beat the game without scripts, macros or cheats. This has to be done in one sitting, quicksaves and quickloads are allowed.",
+            "image": "https://www.speedrun.com/gameasset/4pd0n31e/cover"
+        },
+        {
+            "id": "2",
+            "name": "Super Mario 64",
+            "isPreset": true,
+            "rules": "Beat the game without scripts, macros or cheats. This has to be done in one sitting, quicksaves and quickloads are allowed.",
+            "image": "https://www.speedrun.com/gameasset/o1y9wo6q/cover"
+        }
+    ],
     "columns": [
         {
             "id": "1",
@@ -38,10 +54,10 @@
             "name": "Carter's Leaderboards",
             "icon": "https://images.unsplash.com/photo-1446776709462-d6b525c57bd3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1100&q=80",
             "owner": {
-                "id": "80351110224678912",
-                "username": "Nelly",
-                "discriminator": "1337",
-                "avatar": "8342729096ea3675442027381ff50dfe",
+                "id": "514259067506655242",
+                "username": "Carter Wilde",
+                "discriminator": "6432",
+                "avatar": "b41a315c6a414af303a88d6c59a66b3e",
                 "verified": true,
                 "email": "nelly@discord.com",
                 "flags": 64,
@@ -50,6 +66,21 @@
                 "premium_type": 1,
                 "public_flags": 64
             },
+            "moderators": [
+                {
+                    "id": "223251828651851777",
+                    "username": "ALEX",
+                    "discriminator": "2923",
+                    "avatar": "ea226f4e31489eed8a0459f6d9891430",
+                    "verified": true,
+                    "email": "nelly@discord.com",
+                    "flags": 64,
+                    "banner": "06c16474723fe537c283b8efa61a30c8",
+                    "accent_color": 16711680,
+                    "premium_type": 1,
+                    "public_flags": 64
+                }
+            ],
             "games": [
                 {
                     "id": "1",
@@ -69,10 +100,10 @@
                                     "id": "4321",
                                     "categoryId": "1010",
                                     "runner": {
-                                        "id": "80351110224678912",
+                                        "id": "514259067506655242",
                                         "username": "Carter Wilde",
-                                        "discriminator": "1337",
-                                        "avatar": "8342729096ea3675442027381ff50dfe",
+                                        "discriminator": "6432",
+                                        "avatar": "b41a315c6a414af303a88d6c59a66b3e",
                                         "verified": true,
                                         "email": "nelly@discord.com",
                                         "flags": 64,
@@ -103,10 +134,10 @@
                                     "id": "54321",
                                     "categoryId": "1010",
                                     "runner": {
-                                        "id": "80351110224678913",
-                                        "username": "Alex",
-                                        "discriminator": "8948",
-                                        "avatar": "8342729096ea3675442027381ff50dfe",
+                                        "id": "223251828651851777",
+                                        "username": "ALEX",
+                                        "discriminator": "2923",
+                                        "avatar": "ea226f4e31489eed8a0459f6d9891430",
                                         "verified": true,
                                         "email": "nelly@discord.com",
                                         "flags": 64,
@@ -266,7 +297,7 @@
                 {
                     "id": "1001",
                     "name": "Satisfactory",
-                    "image": "https://www.speedrun.com/gameasset/4pd0n31e/cover",
+                    "image": "https://i.redd.it/hmeo9odoiab51.jpg",
                     "isPreset": false,
                     "categories": [
                         {
@@ -280,10 +311,10 @@
                                     "id": "4321",
                                     "categoryId": "1010",
                                     "runner": {
-                                        "id": "80351110224678912",
-                                        "username": "Carter",
-                                        "discriminator": "1337",
-                                        "avatar": "8342729096ea3675442027381ff50dfe",
+                                        "id": "514259067506655242",
+                                        "username": "Carter Wilde",
+                                        "discriminator": "6432",
+                                        "avatar": "b41a315c6a414af303a88d6c59a66b3e",
                                         "verified": true,
                                         "email": "nelly@discord.com",
                                         "flags": 64,
@@ -314,10 +345,10 @@
                                     "id": "54321",
                                     "categoryId": "1010",
                                     "runner": {
-                                        "id": "80351110224678913",
-                                        "username": "Alex",
-                                        "discriminator": "1337",
-                                        "avatar": "8342729096ea3675442027381ff50dfe",
+                                        "id": "223251828651851777",
+                                        "username": "ALEX",
+                                        "discriminator": "2923",
+                                        "avatar": "ea226f4e31489eed8a0459f6d9891430",
                                         "verified": true,
                                         "email": "nelly@discord.com",
                                         "flags": 64,
