@@ -6,5 +6,6 @@ export default interface Server {
     name: string;
     icon: string;
     owner: User;
+    moderators: User[];
     games: Game[];
 }
