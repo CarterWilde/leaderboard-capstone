@@ -22,6 +22,11 @@
 
 .leaderboard > tbody > tr {
     background-color: #343740;
+    transition: background-color 250ms ease-in-out;
+}
+
+.leaderboard > tbody > tr:hover {
+    background-color: #3a3d47;
 }
 
 .leaderboard > thead > tr > th:nth-child(1),

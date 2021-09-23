@@ -36,6 +36,7 @@ export default class Leaderboard extends Component<LeaderboardProps, Leaderboard
                 </thead>
                 <tbody>
                     {this.props.runs
+                    .filter(run => run.categoryId === this.props.category.id)
                     .sort(this.props.sorter ? this.props.sorter : (run1, run2) => {
                         const a = run1.values.find(value => ColumnConverter.Resolve(this.state.columns, value) instanceof Duration)?.value;
                         const b = run2.values.find(value => ColumnConverter.Resolve(this.state.columns, value) instanceof Duration)?.value;
