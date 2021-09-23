@@ -1,7 +1,8 @@
 .user.card {
     display: flex;
     align-items: center;
-    padding: 8px 4px;
+    padding: 8px;
+    padding-right: 12px;
 }
 
 .user.card > .name {
