@@ -1,15 +1,11 @@
 import { useState } from 'react';
 import './App.css';
 import {
-    PopUp, 
-    TextedIcon, 
-    Feild, 
-    GameCard, 
-    ButtonGroup, 
-    Button, 
+    PopUp,
+    Feild,
     ServerIcon,
 } from './Components/UI';
-import { Add, GamepadOutlined, GroupAddOutlined } from '@material-ui/icons';
+import { Add, GroupAddOutlined } from '@material-ui/icons';
 import data from "./dummy-data.json";
 import {
     Switch,
@@ -35,29 +31,33 @@ const mapServersToLink = (servers: Server[]) => {
 }
 
 const App = () => {
-    const [open, setOpen] = useState(false);
+    const [openCreateServer, setOpenCreateServer] = useState(false);
+    const [openJoinServer, setOpenJoinServer] = useState(false);
     return (
         <div id="app">
-            <PopUp open={open}
-                title="Test"
-                progressText="Continue"
-                onClosed={() => { setOpen(false) }}
+            <PopUp open={openCreateServer}
+                title="Create Server"
+                progressText="Create Server"
+                width="24%"
+                onClosed={() => { setOpenCreateServer(false) }}
             >
-                <p style={{ padding: "6% 0" }}>Hello!</p>
-                <TextedIcon size="24px" icon={<GamepadOutlined />}>Portal</TextedIcon>
-                <Feild type="text" name="Invite Code" style={{ marginTop: "12px" }} />
-                <GameCard title="Super Mario 64" image="https://www.speedrun.com/gameasset/o1y9wo6q/cover" style={{margin: "5% 0", maxWidth: "200px"}}></GameCard>
-                <ButtonGroup>
-                    <Button>1</Button>
-                    <Button>2</Button>
-                    <Button>3</Button>
-                </ButtonGroup>
+                <p style={{ padding: "12px 0" }}>Make this server yours!</p>
+                <Feild style={{ padding: "12px 0px" }} name="Server Name" type="text"/>
+            </PopUp>
+            <PopUp open={openJoinServer}
+                title="Join Server"
+                progressText="Join Server"
+                width="24%"
+                onClosed={() => { setOpenJoinServer(false) }}
+            >
+                <p style={{ padding: "12px 0" }}>Make this server yours!</p>
+                <Feild style={{ padding: "12px 0px" }} name="Invite Code" type="text"/>
             </PopUp>
             <Router>
                 <aside id="serverNavigation">
                     {mapServersToLink((data.servers as unknown[]) as Server[])}
-                    <ServerIcon key="joinServer" icon={<GroupAddOutlined/>} onClick={() => setOpen(true)}/>
-                    <ServerIcon key="createServer" icon={<Add/>} onClick={() => setOpen(true)}/>
+                    <ServerIcon key="joinServer" icon={<GroupAddOutlined/>} onClick={() => setOpenJoinServer(true)}/>
+                    <ServerIcon key="createServer" icon={<Add/>} onClick={() => setOpenCreateServer(true)}/>
                 </aside>
                 <Switch>
                     {((data.servers as unknown[]) as Server[]).map(server => {
@@ -67,7 +67,7 @@ const App = () => {
                             )}/>
                         );
                     })}
-                    <Route path={`/`} render={props => (
+                    <Route path="/" render={props => (
                         <ServerPage {...props} server={(data.servers[0] as unknown) as Server}/>
                     )}/>
                 </Switch>
