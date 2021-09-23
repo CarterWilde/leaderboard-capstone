@@ -1,0 +1,60 @@
+.user.card {
+    display: flex;
+    align-items: center;
+    padding: 8px 4px;
+}
+
+.user.card > .name {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    width: 100%;
+    height: 100%;
+    margin-left: 8px;
+}
+
+.user.card > .name > .sub-text {
+    font-size: 18px;
+    color: #6f7178;
+}
+
+.user.card > .profile {
+    aspect-ratio: 1/1;
+    --image-padding: 1px;
+    height: calc(100% - 2*var(--image-padding));
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 100%;
+    margin: 0px calc(var(--image-padding)*2);
+    border: 0px;
+    padding: 4px;
+}
+
+.user.card.owner > .profile {
+    position: relative;
+    background-image: linear-gradient(135deg, #7044ff00, #d081f800);
+    z-index: 1;
+  }
+  
+  .user.card.owner > .profile::before {
+    position: absolute;
+    content: "";
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-image: linear-gradient(135deg, #7044ff, #d081f8);
+    z-index: -1;
+    transition: opacity 250ms ease-in-out;
+    opacity: 1;
+    border-radius: 100%;
+  }
+
+.user.card.owner > .profile > .child {
+    aspect-ratio: 1/1;
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 100%;
+}

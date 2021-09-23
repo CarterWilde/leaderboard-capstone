@@ -23,13 +23,16 @@ export { default as Leaderboard } from "./Leaderboard";
 export * from "./Leaderboard";
 
 export { default as Page } from "./Page";
-export * from "./Page"
+export * from "./Page";
 
 export { default as PopUp } from "./PopUp";
 export * from "./PopUp";
 
+export { default as ServerIcon } from "./ServerIcon";
+export * from "./ServerIcon";
+
 export { default as TextedIcon } from "./TextedIcon";
 export * from "./TextedIcon";
 
-export { default as ServerIcon } from "./ServerIcon";
-export * from "./ServerIcon";
+export { default as UserCard } from "./UserCard";
+export * from "./UserCard";
