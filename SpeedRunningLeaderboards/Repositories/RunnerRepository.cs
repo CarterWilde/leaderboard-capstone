@@ -7,64 +7,105 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Configuration;
+using Dapper;
 
 using SpeedRunningLeaderboards.Models;
+using System.Data;
 
 namespace SpeedRunningLeaderboards.Repositories
 {
 	public class RunnerRepository : Repository<Runner, Guid>
 	{
-		public RunnerRepository(IConfiguration configuration) : base(configuration) {
-			using(var conn = GetConnection()) {
+		public RunnerRepository(DapperContext context) : base(context) {
+			using(var conn = _context.CreateConnection()) {
 				ExecuteNonQueryFromFile("./SQL/Creations/DiscordLogin.sql", conn);
 				ExecuteNonQueryFromFile("./SQL/Creations/Region.sql", conn);
 				ExecuteNonQueryFromFile("./SQL/Creations/Runner.sql", conn);
+				ExecuteNonQueryFromFile("./SQL/Creations/Social.sql", conn);
+				ExecuteNonQueryFromFile("./SQL/Creations/Server.sql", conn);
+				ExecuteNonQueryFromFile("./SQL/Creations/RunnerAuthority.sql", conn);
 			}
 		}
 
 		public override Runner Create(Runner entity)
 		{
-			throw new NotImplementedException();
+			using(var conn = _context.CreateConnection()) {
+				conn.Open();
+				using(var transaction = conn.BeginTransaction()) {
+					entity.RunnerID = Guid.NewGuid();
+					conn.Execute("INSERT INTO dbo.DiscordLogin VALUES (@DiscordLoginID, @Username, @Discriminator, @Avatar, @Bot, @System, @MfaEnabled, @Banner, @AccentColor, @Locale, @Verified, @Email, @Flags, @PremiumType, @PublicFlags);", entity, transaction);
+					conn.Execute("INSERT INTO dbo.Runner VALUES (@RunnerID, @DiscordLoginID, @RegionID, @SignUpDate);", entity, transaction);
+					if(entity.RunnerAuthorities != null) {
+							foreach(var authority in entity.RunnerAuthorities) {
+							authority.AuthorityID = Guid.NewGuid();
+							conn.Execute("INSERT INTO dbo.RunnerAuthority VALUES (@AuthorityID, @RunnerID, @ServerID, @Value)", authority, transaction);
+						}
+					}
+
+					if(entity.Socials != null) {
+						foreach(var social in entity.Socials) {
+							social.SocialID = Guid.NewGuid();
+							conn.Execute("INSERT INTO dbo.Social VALUES (@SocialID, @RunnerID, @IconEndpoint, @Url)", social, transaction);
+						}
+					}
+
+					transaction.Commit();
+				}
+			}
+
+			return entity;
 		}
 
-		public override void Delete(Runner entity)
+		public override void Delete(Guid id)
 		{
-			throw new NotImplementedException();
+			using(var conn = _context.CreateConnection()) {
+				conn.Execute("DELETE DiscordLogin FROM DiscordLogin JOIN Runner ON Runner.DiscordLoginID = DiscordLogin.DiscordLoginID WHERE Runner.RunnerID = @id;", new { id });
+			}
 		}
 
-		public override void DeleteByID(Guid entity)
+		public override Runner Get(Guid id)
 		{
-			throw new NotImplementedException();
+			using(var conn = _context.CreateConnection()) {
+				return conn.QuerySingle<Runner>("SELECT * FROM Runner FULL JOIN DiscordLogin ON Runner.DiscordLoginID = DiscordLogin.DiscordLoginID FULL JOIN Region ON Region.RegionID = Runner.RegionID WHERE Runner.RunnerID = @id;", new { id });
+			}
 		}
 
-		public override bool Equals(object? obj)
+		public override IEnumerable<Runner> Get()
 		{
-			return base.Equals(obj);
-		}
-
-		public override IEnumerable<Runner> Get(Runner entity)
-		{
-			throw new NotImplementedException();
-		}
-
-		public override Runner GetByID(Guid id)
-		{
-			throw new NotImplementedException();
-		}
-
-		public override int GetHashCode()
-		{
-			return base.GetHashCode();
-		}
-
-		public override string? ToString()
-		{
-			return base.ToString();
+			using(var conn = _context.CreateConnection()) {
+				var runnerDictionary = new Dictionary<Guid, Runner>();
+				return conn.Query<Runner, Region, Runner>("SELECT * FROM Runner FULL JOIN DiscordLogin ON Runner.DiscordLoginID = DiscordLogin.DiscordLoginID FULL JOIN Region ON Region.RegionID = Runner.RegionID", (runner, region) => {
+					runner.Region = region;
+					return runner;
+				}, splitOn: "RegionID");
+			}
 		}
 
 		public override Runner Update(Runner entity)
 		{
-			throw new NotImplementedException();
+			using(var conn = _context.CreateConnection()) {
+				conn.Open();
+				using(var transaction = conn.BeginTransaction()) {
+					conn.Execute("UPDATE dbo.DiscordLogin " +
+												"SET Username = @Username, " +
+												"Discriminator = @Discriminator, " +
+												"Avatar = @Avatar, " +
+												"Bot = @Bot, " +
+												"[System] = @System, " +
+												"MfaEnabled = @MfaEnabled, " +
+												"Banner = @Banner, " +
+												"AccentColor = @AccentColor, " +
+												"Locale = @Locale, " +
+												"Verified = @Verified, " +
+												"Email = @Email, " +
+												"Flags = @Flags, " +
+												"PublicFlags = @PublicFlags " +
+											"WHERE DiscordLogin.DiscordLoginID = @DiscordLoginID;", entity, transaction);
+					conn.Execute("UPDATE dbo.Runner SET RegionID = @RegionID, SignUpDate = @SignUpDate WHERE RunnerID = @RunnerID;", entity, transaction);
+					transaction.Commit();
+				}
+			}
+			return entity;
 		}
 	}
 }

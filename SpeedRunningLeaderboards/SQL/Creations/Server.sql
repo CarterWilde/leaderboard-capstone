@@ -1,3 +1,4 @@
+IF NOT EXISTS (SELECT * FROM sysobjects WHERE name = 'Server' AND xtype='U')
 CREATE TABLE dbo.Server
 (
 	ServerID UNIQUEIDENTIFIER NOT NULL PRIMARY KEY,

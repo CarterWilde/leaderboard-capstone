@@ -10,14 +10,18 @@ namespace SpeedRunningLeaderboards.Models
 	{
 		public Guid RunnerID { get; set; }
 		public int? RegionID { get; set; }
+		public Region? Region { get; set; }
 		public DateTime SignUpDate { get; set; }
-		public IEnumerable<Authority> RunnerAuthorities { get; set; }
-		public IEnumerable<Social> Socials { get; set; }
-		public Runner(Guid runnerID
-								 , int? regionID
+		public ICollection<Authority> RunnerAuthorities { get; set; } = new List<Authority>();
+		public ICollection<Social> Socials { get; set; } = new List<Social>();
+		internal Runner()
+		{
+
+		}
+		public Runner(int? regionId
 								 , DateTime signUpDate
-								 , IEnumerable<Authority> authorities
-								 , IEnumerable<Social> socials
+								 , ICollection<Authority> authorities
+								 , ICollection<Social> socials
 								 , string discordLoginID
 								 , string username
 								 , string discriminator
@@ -31,7 +35,8 @@ namespace SpeedRunningLeaderboards.Models
 								 , int? flags
 								 , int? premiumType
 								 , string? bannerColor
-								 , string? accentColor) 
+								 , string? accentColor
+								 , int? publicFlags) 
 					 : base(discordLoginID
 								 , username
 								 , discriminator
@@ -46,10 +51,10 @@ namespace SpeedRunningLeaderboards.Models
 								 , premiumType
 								 , bannerColor
 								 , accentColor
+								 , publicFlags
 						)
 		{
-			RunnerID = runnerID;
-			RegionID = regionID;
+			RegionID = regionId;
 			SignUpDate = signUpDate;
 			RunnerAuthorities = authorities;
 			Socials = socials;

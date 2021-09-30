@@ -8,10 +8,10 @@ namespace SpeedRunningLeaderboards.Models
 {
 	public class DiscordLogin
 	{
-		public string DiscordLoginID { get; set; }
-		public string Username { get; set; }
-		public string Discriminator { get; set; }
-		public string Avatar { get; set; }
+		public string DiscordLoginID { get; set; } = string.Empty;
+		public string Username { get; set; } = string.Empty;
+		public string Discriminator { get; set; } = string.Empty;
+		public string Avatar { get; set; } = string.Empty;
 		public bool? Bot { get; set; }
 		public bool? System { get; set; }
 		public bool? MfaEnabled { get; set; }
@@ -20,10 +20,15 @@ namespace SpeedRunningLeaderboards.Models
 		public string? Email { get; set; }
 		public int? Flags { get; set; }
 		public int? PremiumType { get; set; }
-		public string? BannerColor { get; set; }
+		public string? Banner { get; set; }
 		public string? AccentColor { get; set; }
+		public int? PublicFlags { get; set; }
 
-		public DiscordLogin(string discordLoginID, string username, string discriminator, string avatar, bool? bot, bool? system, bool? mfaEnabled, string? locale, bool? verified, string? email, int? flags, int? premiumType, string? bannerColor, string? accentColor)
+		internal DiscordLogin()
+		{
+
+		}
+		public DiscordLogin(string discordLoginID, string username, string discriminator, string avatar, bool? bot, bool? system, bool? mfaEnabled, string? locale, bool? verified, string? email, int? flags, int? premiumType, string? banner, string? accentColor, int? publicFlags)
 		{
 			DiscordLoginID = discordLoginID;
 			Username = username;
@@ -37,8 +42,9 @@ namespace SpeedRunningLeaderboards.Models
 			Email = email;
 			Flags = flags;
 			PremiumType = premiumType;
-			BannerColor = bannerColor;
+			Banner = banner;
 			AccentColor = accentColor;
+			PublicFlags = publicFlags;
 		}
 	}
 }

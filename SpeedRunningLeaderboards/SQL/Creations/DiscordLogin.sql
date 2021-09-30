@@ -1,6 +1,6 @@
 IF NOT EXISTS (SELECT * FROM sysobjects WHERE name = 'DiscordLogin' AND xtype='U')
 	CREATE TABLE dbo.DiscordLogin (
-	  DiscordLoginID NCHAR(8) NOT NULL PRIMARY KEY,
+	  DiscordLoginID CHAR(18) NOT NULL PRIMARY KEY,
 	  Username NVARCHAR(32) NOT NULL,
 	  Discriminator NCHAR(4) NOT NULL,
 	  Avatar VARCHAR(128) NULL,
