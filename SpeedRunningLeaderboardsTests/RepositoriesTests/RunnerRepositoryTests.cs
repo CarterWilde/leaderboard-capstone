@@ -10,9 +10,9 @@ using SpeedRunningLeaderboards;
 using SpeedRunningLeaderboards.Models;
 using SpeedRunningLeaderboards.Repositories;
 
-namespace SpeedRunningLeaderboardsTests
+namespace SpeedRunningLeaderboardsTests.RepositoriesTests
 {
-	public class RepositoriesTests
+	public class RunnerRepositoryTests
 	{
 		private IConfiguration _configuration;
 		private DapperContext _context;
