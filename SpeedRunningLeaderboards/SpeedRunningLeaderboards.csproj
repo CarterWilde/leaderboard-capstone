@@ -13,12 +13,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  
-  <ItemGroup>
-    <None Remove="SQL\Inserts\DiscordLogin.sql" />
-    <None Remove="SQL\Inserts\Runner.sql" />
-    <None Remove="SQL\Inserts\RunnerAuthority.sql" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Dapper" Version="2.0.90" />
