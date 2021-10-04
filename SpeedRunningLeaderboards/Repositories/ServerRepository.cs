@@ -21,18 +21,45 @@ namespace SpeedRunningLeaderboards.Repositories
 				ExecuteNonQueryFromFile("./SQL/Creations/Server.sql", conn);
 				ExecuteNonQueryFromFile("./SQL/Creations/Runner.sql", conn);
 				ExecuteNonQueryFromFile("./SQL/Creations/Run.sql", conn);
+				ExecuteNonQueryFromFile("./SQL/Creations/Game.sql", conn);
+				ExecuteNonQueryFromFile("./SQL/Creations/ServerGames.sql", conn);
+				ExecuteNonQueryFromFile("./SQL/Creations/ServerMembers.sql", conn);
 			}
 		}
-
 		public override Server Create(Server entity)
 		{
 			using(var conn = _context.CreateConnection()) {
-				entity.ServerID = Guid.NewGuid();
-				conn.Execute("INSERT INTO dbo.Server VALUES (@ServerID, @Name, @Icon, @Owner)", entity);
+				conn.Open();
+				using(var transaction = conn.BeginTransaction()) {
+					entity.ServerID = Guid.NewGuid();
+					conn.Execute("INSERT INTO dbo.Server VALUES (@ServerID, @Name, @Icon, @Owner);", entity, transaction);
+					if(entity.Games != null) {
+						foreach(var game in entity.Games) {
+							AddGame(entity.ServerID, game.GameID, transaction);
+						}
+					}
+					if(entity.Members != null) {
+						foreach(var member in entity.Members) {
+							AddMember(entity.ServerID, member.RunnerID, transaction);
+						}
+					}
+					transaction.Commit();
+				}
 			}
 			return entity;
 		}
-
+		public void AddGame(Guid serverId, Guid gameId, IDbTransaction? transaction = null)
+		{
+			using(var conn = _context.CreateConnection()) {
+				conn.Execute("INSERT INTO dbo.ServerGames VALUES (@serverId, @gameId);", new {serverId, gameId}, transaction);
+			}
+		}
+		internal void AddMember(Guid serverId, Guid runnerId, IDbTransaction? transaction = null)
+		{
+			using(var conn = _context.CreateConnection()) {
+				conn.Execute("INSERT INTO dbo.ServerMembers VALUES (@serverId, @gameId);", new { serverId, runnerId }, transaction);
+			}
+		}
 		public override void Delete(Guid id)
 		{
 			using(var conn = _context.CreateConnection()) {
@@ -51,6 +78,13 @@ namespace SpeedRunningLeaderboards.Repositories
 		{
 			using(var conn = _context.CreateConnection()) {
 				return conn.Query<Server>("SELECT * FROM dbo.Server");
+			}
+		}
+
+		public IEnumerable<Server> GetUserServers(Guid runnerId)
+		{
+			using(var conn = _context.CreateConnection()) {
+				return conn.Query<Server>("SELECT * FROM dbo.Server FULL JOIN dbo.ServerMembers ON dbo.Server.ServerID = dbo.ServerMembers.ServerID WHERE dbo.ServerMembers.RunnerID = @runnerId;", new { runnerId });
 			}
 		}
 

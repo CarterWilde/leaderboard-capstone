@@ -55,5 +55,18 @@ namespace SpeedRunningLeaderboards.Repositories
 			}
 			return entity;
 		}
+		public Ruleset AddRuleset(Guid gameId, Ruleset ruleset)
+		{
+			using(var conn = _context.CreateConnection()) {
+				conn.Execute("INSERT INTO dbo.Ruleset VALUES (@gameId, @Title, @Rules);", ruleset);
+			}
+			return ruleset;
+		}
+		public void RemoveRuleset(Guid rulesetId)
+		{
+			using(var conn = _context.CreateConnection()) {
+				conn.Execute("DELETE FROM dbo.Ruleset WHERE dbo.Ruleset.RulesetID = @rulesetId", new { rulesetId });
+			}
+		}
 	}
 }

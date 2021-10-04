@@ -12,17 +12,19 @@ namespace SpeedRunningLeaderboards.Models
 		public string Name { get; set; } = string.Empty;
 		public string Icon { get; set; } = string.Empty;
 		public Guid Owner { get; set; }
-		public IEnumerable<Runner> Members { get; set; }
+		public IEnumerable<Runner> Members { get; set; } = new List<Runner>();
+		public IEnumerable<Game> Games { get; set; } = new List<Game>();
 		public Server()
 		{
 		}
-		public Server(Guid serverID, string name, string icon, Guid owner, IEnumerable<Runner> members)
+		public Server(Guid serverID, string name, string icon, Guid owner, IEnumerable<Runner> members, IEnumerable<Game> games)
 		{
 			ServerID = serverID;
 			Name = name;
 			Icon = icon;
 			Owner = owner;
 			Members = members;
+			Games = games;
 		}
 	}
 }

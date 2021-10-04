@@ -41,7 +41,8 @@ namespace SpeedRunningLeaderboardsTests.RepositoriesTests
 		public void CanGetSingle()
 		{
 			var repo = new RunnerRepository(_context);
-			var id = repo.Create(GetRunnerObject()).RunnerID;
+			var entity = GetRunnerObject();
+			var id = repo.Create(entity).RunnerID;
 			var runner = repo.Get(id);
 			Assert.AreEqual(id, runner.RunnerID);
 			Assert.AreEqual("Carter Wilde", runner.Username);
@@ -62,7 +63,7 @@ namespace SpeedRunningLeaderboardsTests.RepositoriesTests
 		public void CanGet()
 		{
 			var repo = new RunnerRepository(_context);
-			repo.Get();
+			var items = repo.Get();
 		}
 
 		[Test]

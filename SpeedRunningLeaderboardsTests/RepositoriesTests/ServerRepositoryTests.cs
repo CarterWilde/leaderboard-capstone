@@ -55,10 +55,7 @@ namespace SpeedRunningLeaderboardsTests.RepositoriesTests
 		public void CanCreate()
 		{
 			var repo = new ServerRepository(_context);
-			Assert.DoesNotThrow(() =>
-			{
-				repo.Create(GetServerObject());
-			});
+			repo.Create(GetServerObject());
 		}
 
 		[Test]
@@ -102,7 +99,7 @@ namespace SpeedRunningLeaderboardsTests.RepositoriesTests
 
 		private Server GetServerObject()
 		{
-			return new Server(Guid.NewGuid(), "Carter's Server", "https://images.unsplash.com/photo-1446776709462-d6b525c57bd3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1100&q=80", _runner.RunnerID, null);
+			return new Server(Guid.NewGuid(), "Carter's Server", "https://images.unsplash.com/photo-1446776709462-d6b525c57bd3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1100&q=80", _runner.RunnerID, null, null);
 		}
 	}
 }
