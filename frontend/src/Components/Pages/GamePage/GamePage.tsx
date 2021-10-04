@@ -23,7 +23,7 @@ export default class GamePage extends Component<GamePageProps, GamePageState> {
                     <section>
                             <ButtonGroup style={{fontWeight: "lighter"}}>
                                 {this.props.game.categories.map(category => {
-                                    return <NavLink key={category.id} to={`/${this.props.server.id}/${this.props.game.id}/${category.id}`} className="category-button-parent"><Button>{category.name}</Button></NavLink>
+                                    return <NavLink key={category.id} to={`/${this.props.server.serverID}/${this.props.game.id}/${category.id}`} className="category-button-parent"><Button>{category.name}</Button></NavLink>
                                 })}
                             </ButtonGroup>
                             <Accordion style={{marginTop: "16px"}}>

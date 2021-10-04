@@ -17,16 +17,17 @@ export default class ServerInfoPage extends Component<ServerInfoPageProps, Serve
     render() {
         const members: User[] = [this.props.server.owner];
         
-        this.props.server.games.map(game => {
-            return game.categories.map(category => {
-                return category.runs.map(run => {
-                    const {runner} = run;
-                    if(!members.find(member => member.id === runner.id)) {
-                        members.push(runner);
-                    }
-                })
-            })
-        })
+				// TODO: Get server members!
+        // this.props.server.games.map(game => {
+        //     return game.categories.map(category => {
+        //         return category.runs.map(run => {
+        //             const {runner} = run;
+        //             if(!members.find(member => member.id === runner.id)) {
+        //                 members.push(runner);
+        //             }
+        //         })
+        //     })
+        // })
 
         return(
             <Page className="info" title="Server Info" icon={<AccountTreeOutlined/>}>

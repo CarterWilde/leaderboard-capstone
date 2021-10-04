@@ -45,6 +45,11 @@ namespace SpeedRunningLeaderboardsWebApi
 				app.UseDeveloperExceptionPage();
 			}
 
+			app.UseCors(policy =>
+			{
+				policy.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod();
+			});
+
 			app.UseRouting();
 
 			app.UseAuthorization();

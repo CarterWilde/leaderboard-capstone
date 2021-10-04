@@ -19,11 +19,12 @@ export * from "./Game";
 export { default as Run } from "./Run";
 export * from "./Run";
 
+export { default as User } from "./Runner";
+export * from "./Runner";
+
 export { default as Server } from "./Server";
 export * from "./Server";
 
-export { default as User } from "./User";
-export * from "./User";
 
 export { default as VOD } from "./VOD";
 export * from "./VOD";
