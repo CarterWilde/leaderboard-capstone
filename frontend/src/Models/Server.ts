@@ -1,11 +1,11 @@
 import Game from "./Game";
-import User from "./User";
+import Runner from "./Runner";
 
 export default interface Server {
     id: string;
     name: string;
     icon: string;
-    owner: User;
-    moderators: User[];
+    owner: Runner;
+    moderators: Runner[];
     games: Game[];
 }

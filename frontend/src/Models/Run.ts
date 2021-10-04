@@ -1,10 +1,10 @@
 import Category from "./Category";
 import ColumnValue from "./ColumnValue";
-import User from "./User";
+import Runner from "./Runner";
 
 export default interface Run {
     id: string;
     categoryId: Category['id'];
-    runner: User
+    runner: Runner
     values: ColumnValue[];
 }
