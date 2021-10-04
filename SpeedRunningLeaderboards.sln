@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpeedRunningLeaderboards", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpeedRunningLeaderboardsTests", "SpeedRunningLeaderboardsTests\SpeedRunningLeaderboardsTests.csproj", "{0CFFB230-7400-4BA7-8831-FA8688336475}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpeedRunningLeaderboardsWebApi", "SpeedRunningLeaderboardsWebApi\SpeedRunningLeaderboardsWebApi.csproj", "{9B8A8A64-5DF2-4B70-A435-DF025520DC3F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{0CFFB230-7400-4BA7-8831-FA8688336475}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0CFFB230-7400-4BA7-8831-FA8688336475}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0CFFB230-7400-4BA7-8831-FA8688336475}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B8A8A64-5DF2-4B70-A435-DF025520DC3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B8A8A64-5DF2-4B70-A435-DF025520DC3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B8A8A64-5DF2-4B70-A435-DF025520DC3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B8A8A64-5DF2-4B70-A435-DF025520DC3F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
