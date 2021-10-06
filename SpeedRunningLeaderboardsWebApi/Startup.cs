@@ -16,6 +16,8 @@ using Microsoft.OpenApi.Models;
 using SpeedRunningLeaderboards;
 using SpeedRunningLeaderboards.Repositories;
 
+using StackExchange.Redis;
+
 namespace SpeedRunningLeaderboardsWebApi
 {
 	public class Startup
@@ -42,6 +44,7 @@ namespace SpeedRunningLeaderboardsWebApi
 			services.AddScoped<GameRepository>();
 			services.AddScoped<RunnerRepository>();
 			services.AddSingleton<SecretsLoader>();
+			services.AddSingleton(ConnectionMultiplexer.Connect("localhost"));
 
 			services.AddControllers();
 		}

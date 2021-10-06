@@ -12,6 +12,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
+using StackExchange.Redis;
+using SpeedRunningLeaderboards.Repositories;
+using SpeedRunningLeaderboards.Models;
+using System.Text.Json.Serialization;
+
 namespace SpeedRunningLeaderboardsWebApi.Controllers
 {
 	public record AccessTokenResponse(string access_token, string token_type, int expires_in, string refresh_token);
@@ -23,12 +28,16 @@ namespace SpeedRunningLeaderboardsWebApi.Controllers
 		private readonly ILogger _logger;
 		private readonly IHttpClientFactory _clientFactory;
 		private readonly IConfiguration _configuration;
+		private readonly ConnectionMultiplexer _redis;
+		private readonly RunnerRepository _runnerRepository;
 		private readonly Secrets secrets;
-		public AuthenticationController(ILogger<AuthenticationController> logger, IHttpClientFactory clientFactory, IConfiguration configuration, SecretsLoader loader)
+		public AuthenticationController(ILogger<AuthenticationController> logger, IHttpClientFactory clientFactory, IConfiguration configuration, SecretsLoader loader, ConnectionMultiplexer redis, RunnerRepository runnerRepository)
 		{
 			_logger = logger;
 			_clientFactory = clientFactory;
 			_configuration = configuration;
+			_redis = redis;
+			_runnerRepository = runnerRepository;
 			secrets = loader.GetSecrets();
 		}
 		private AccessTokenResponse GetAccessToken(string code)
@@ -58,8 +67,44 @@ namespace SpeedRunningLeaderboardsWebApi.Controllers
 		[HttpGet]
 		public RedirectResult OAuthRedirect([FromQuery] string code)
 		{
-			GetAccessToken(code);
+			var token = GetAccessToken(code);
+			var runner = GetRunner(token);
+			var db = _redis.GetDatabase();
+			var expire = new TimeSpan(0, 0, token.expires_in);
+			db.StringSet(runner.RunnerID.ToString(), token.access_token, expire);
+			HttpContext.Response.Cookies.Append("session-id", runner.RunnerID.ToString(), new CookieOptions() {
+				Secure = true,
+				IsEssential = true,
+				HttpOnly = false,
+				MaxAge = expire,
+				SameSite = SameSiteMode.Lax
+			});
 			return Redirect(_configuration.GetSection("APP_REDIRECT_URI").Value);
+		}
+
+		private Runner GetRunner(AccessTokenResponse token)
+		{
+			using(var client = _clientFactory.CreateClient()) {
+				var request = new HttpRequestMessage(HttpMethod.Get, $"{_configuration.GetSection("DISCORD_ENDPOINT").Value}/users/@me");
+				request.Headers.Authorization = new AuthenticationHeaderValue(token.token_type, token.access_token);
+				var response = client.Send(request);
+				if(response.IsSuccessStatusCode) {
+					using var responseStream = new StreamReader(response.Content.ReadAsStream());
+					var discordUser = JsonSerializer.Deserialize<DiscordLogin>(responseStream.ReadToEnd(), new JsonSerializerOptions()
+					{
+						PropertyNameCaseInsensitive = true,
+						NumberHandling = JsonNumberHandling.WriteAsString
+					}); ;
+					try {
+						return _runnerRepository.GetByDiscordLoginID(discordUser.DiscordLoginID);
+					} catch(InvalidOperationException) {
+						var runner = new Runner(discordUser, null, DateTime.Now, new List<Authority>(), new List<Social>());
+						return _runnerRepository.Create(runner);
+					}
+				} else {
+					throw new Exception("Getting Current Discord User Request Failed!");
+				}
+			}
 		}
 	}
 }
