@@ -110,5 +110,15 @@ namespace SpeedRunningLeaderboards.Repositories
 			}
 			return entity;
 		}
+
+		public Runner GetByDiscordLoginID(string discordLoginID)
+		{
+			using(var conn = _context.CreateConnection()) {
+				return conn.Query<Runner, Region, Runner>("SELECT * FROM Runner FULL JOIN DiscordLogin ON Runner.DiscordLoginID = DiscordLogin.DiscordLoginID FULL JOIN Region ON Region.RegionID = Runner.RegionID WHERE DiscordLogin.DiscordLoginID = @discordLoginID;", (runner, region) => {
+					runner.Region = region;
+					return runner;
+				}, new { discordLoginID }, splitOn: "RegionID").First();
+			}
+		}
 	}
 }
