@@ -14,7 +14,7 @@ namespace SpeedRunningLeaderboards.Models
 		public DateTime SignUpDate { get; set; }
 		public ICollection<Authority> RunnerAuthorities { get; set; } = new List<Authority>();
 		public ICollection<Social> Socials { get; set; } = new List<Social>();
-		internal Runner()
+		public Runner()
 		{
 
 		}
@@ -35,7 +35,7 @@ namespace SpeedRunningLeaderboards.Models
 								 , int? flags
 								 , int? premiumType
 								 , string? bannerColor
-								 , string? accentColor
+								 , int? accentColor
 								 , int? publicFlags) 
 					 : base(discordLoginID
 								 , username
@@ -53,6 +53,14 @@ namespace SpeedRunningLeaderboards.Models
 								 , accentColor
 								 , publicFlags
 						)
+		{
+			RegionID = regionId;
+			SignUpDate = signUpDate;
+			RunnerAuthorities = authorities;
+			Socials = socials;
+		}
+
+		public Runner(DiscordLogin discordUser, int? regionId, DateTime signUpDate, ICollection<Authority> authorities, ICollection<Social> socials) : base(discordUser)
 		{
 			RegionID = regionId;
 			SignUpDate = signUpDate;
