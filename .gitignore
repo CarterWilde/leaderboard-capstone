@@ -651,3 +651,4 @@ thumb
 sketch
 
 # End of https://www.toptal.com/developers/gitignore/api/csharp,aspnetcore,react,node
+SpeedRunningLeaderboardsWebApi/secrets.json

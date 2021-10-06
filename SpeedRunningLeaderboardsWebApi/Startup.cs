@@ -41,6 +41,7 @@ namespace SpeedRunningLeaderboardsWebApi
 			services.AddScoped<ServerRepository>();
 			services.AddScoped<GameRepository>();
 			services.AddScoped<RunnerRepository>();
+			services.AddSingleton<SecretsLoader>();
 
 			services.AddControllers();
 		}
