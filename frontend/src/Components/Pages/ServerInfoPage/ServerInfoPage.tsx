@@ -1,7 +1,7 @@
 import { AccountTreeOutlined, Add } from "@material-ui/icons";
 import { Component } from "react";
 import { RouteComponentProps } from "react-router-dom";
-import { Server, User } from "../../../Models";
+import { Server, Runner } from "../../../Models";
 import { Button, Card, Feild, GameCard, Page, UserCard } from "../../UI";
 import "./ServerInfoPage.css"
 
@@ -15,7 +15,7 @@ export type ServerInfoPageState = {
 
 export default class ServerInfoPage extends Component<ServerInfoPageProps, ServerInfoPageState> {
     render() {
-        const members: User[] = [this.props.server.owner];
+        const members: Runner[] = [this.props.server.owner];
         
 				// TODO: Get server members!
         // this.props.server.games.map(game => {

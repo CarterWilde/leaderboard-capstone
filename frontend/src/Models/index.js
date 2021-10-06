@@ -19,7 +19,7 @@ export * from "./Game";
 export { default as Run } from "./Run";
 export * from "./Run";
 
-export { default as User } from "./Runner";
+export { default as Runner } from "./Runner";
 export * from "./Runner";
 
 export { default as Server } from "./Server";
