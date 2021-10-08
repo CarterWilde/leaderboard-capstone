@@ -14,5 +14,8 @@
   <ItemGroup>
     <ProjectReference Include="..\SpeedRunningLeaderboards\SpeedRunningLeaderboards.csproj" />
   </ItemGroup>
+  <PropertyGroup>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
 
 </Project>
