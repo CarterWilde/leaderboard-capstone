@@ -28,7 +28,8 @@ namespace SpeedRunningLeaderboardsWebApi.Controllers
 		[HttpGet("@me")]
 		public IActionResult GetMyServers()
 		{
-			return Ok(_repo.Get());
+			var sessionId = HttpContext.Request.Cookies["session-id"];
+			return Ok(_repo.GetUserServers(Guid.Parse(sessionId)));
 		}
 	}
 }
