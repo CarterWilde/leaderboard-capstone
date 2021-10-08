@@ -1,1 +1,2 @@
 export const API_ENDPOINT = "http://localhost:5000/api";
+export const DISCORD_LOGIN_URL = "https://discord.com/api/oauth2/authorize?client_id=895124412561506314&redirect_uri=http%3A%2F%2Flocalhost%3A5000%2Fapi%2Fauthentication&response_type=code&scope=identify";

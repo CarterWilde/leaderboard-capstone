@@ -1,5 +1,5 @@
-import { createAsyncThunk, createReducer } from "@reduxjs/toolkit";
-import { Server } from "./Models";
+import { createAction, createAsyncThunk, createReducer } from "@reduxjs/toolkit";
+import { Runner, Server } from "./Models";
 import axio from "axios";
 import { API_ENDPOINT } from "./EnviormentVariables";
 
@@ -11,7 +11,7 @@ export const fetchServers = createAsyncThunk("server/fetch", async () => {
 	})).data as Server[]
 });
 
-const initialState: {
+const serverInitialState: {
 	loading: 'loading' | 'done' | 'error',
 	data: Server[]
 } = {
@@ -19,7 +19,7 @@ const initialState: {
 	data: []
 };
 
-export const serverReducer = createReducer(initialState, builder => {
+export const serverReducer = createReducer(serverInitialState, builder => {
 	builder
 		.addCase(fetchServers.rejected, state => {
 			state.loading = 'error';
@@ -28,4 +28,35 @@ export const serverReducer = createReducer(initialState, builder => {
 			state.loading = 'done';
 			state.data = action.payload;
 		});
+});
+
+const authenticationInitialState: {
+	hasLogin: boolean,
+	runner?: Runner
+} = {
+	hasLogin: false,
+	runner: undefined
+};
+
+export const hasLoginAction = createAction<boolean>("hasLogin");
+
+export const setRunnerAction = createAction<Runner>("setRunner");
+
+export const authenticationReducer = createReducer(authenticationInitialState, builder => {
+	builder
+		.addCase(hasLoginAction, (state, action) => {
+			state.hasLogin = action.payload;
+		})
+		.addCase(setRunnerAction, (state, action) => {
+			state.runner = action.payload;
+		});
+});
+
+
+export const setLoading = createAction<boolean>("setLoading");
+
+export const loadingReducer = createReducer({isLoading: true}, builder => {
+	builder.addCase(setLoading, (state, action) => {
+		state.isLoading = action.payload;
+	});
 });

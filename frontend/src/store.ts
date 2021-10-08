@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { serverReducer } from "./reducers";
+import { authenticationReducer, loadingReducer, serverReducer } from "./reducers";
 
 export const store = configureStore({
 	reducer: {
-		servers: serverReducer
+		servers: serverReducer,
+		authentication: authenticationReducer,
+		isLoading: loadingReducer
 	}
 });
 

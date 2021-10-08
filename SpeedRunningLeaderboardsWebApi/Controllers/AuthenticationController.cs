@@ -57,7 +57,16 @@ namespace SpeedRunningLeaderboardsWebApi.Controllers
 			});
 			return Redirect(_configuration.GetSection("APP_REDIRECT_URI").Value);
 		}
-
+		[HttpGet("login")]
+		public IActionResult Login()
+		{
+			if(HttpContext.Request.Cookies["session-id"] != null) {
+				if(HttpContext.Items["RunnerSession"] is SessionRunner session) {
+					return Ok(session.Runner);
+				}
+			}
+			return Ok(new { code = 1, error = "NoSession", message = "Didn't have a session currently logged on!"});
+		}
 		private Runner GetRunner(AccessTokenResponse token)
 		{
 			using(var client = _clientFactory.CreateClient()) {
