@@ -2,11 +2,11 @@ import { Component } from "react";
 import { NavLink, Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import { Server } from "../../../Models";
 import { Feild, PopUp, ServerIcon } from "../../UI";
-import ServerPage from "../ServerPage/ServerPage";
 import { RootState } from '../../../store';
 import { connect } from "react-redux";
 import { Add, GroupAddOutlined } from "@material-ui/icons";
 import { PropsFromRedux } from "../../../App";
+import { ServerPage } from "..";
 
 export interface HomePageProps extends PropsFromRedux {
 }

@@ -1,10 +1,9 @@
 import { AccountTreeOutlined, GamepadOutlined } from "@material-ui/icons";
 import { Component } from "react";
 import { NavLink, Route, RouteComponentProps } from "react-router-dom";
+import { ServerInfoPage, GamePage } from "..";
 import { Server } from "../../../Models";
 import { TextedIcon } from "../../UI";
-import GamePage from "../GamePage/GamePage";
-import ServerInfoPage from "../ServerInfoPage/ServerInfoPage";
 import "./ServerPage.css"
 
 export interface ServerPageProps extends RouteComponentProps {
