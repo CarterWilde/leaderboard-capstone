@@ -40,30 +40,6 @@ namespace SpeedRunningLeaderboardsWebApi.Controllers
 			_runnerRepository = runnerRepository;
 			secrets = loader.GetSecrets();
 		}
-		private AccessTokenResponse GetAccessToken(string code)
-		{
-			using(var client = _clientFactory.CreateClient()) {
-				var request = new HttpRequestMessage(HttpMethod.Post, _configuration.GetSection("OAUTH_TOKEN_URL").Value);
-				IDictionary<string, string> formData = new Dictionary<string, string>
-				{
-					{ "client_id", _configuration.GetSection("CLIENT_ID").Value },
-					{ "client_secret", secrets.CLIENT_SECRET },
-					{ "grant_type", "authorization_code" },
-					{ "code", code },
-					{ "redirect_uri", _configuration.GetSection("REDIRECT_URI").Value }
-				};
-				request.Content = new FormUrlEncodedContent(formData);
-				request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
-				var response = client.Send(request);
-				if(response.IsSuccessStatusCode) {
-					_logger.LogInformation("OAuth Access Request successful!");
-					using var responseStream = new StreamReader(response.Content.ReadAsStream());
-					return JsonSerializer.Deserialize<AccessTokenResponse>(responseStream.ReadToEnd());
-				} else {
-					throw new Exception("OAuth Access Request Failed!");
-				}
-			}
-		}
 		[HttpGet]
 		public RedirectResult OAuthRedirect([FromQuery] string code)
 		{
@@ -94,7 +70,10 @@ namespace SpeedRunningLeaderboardsWebApi.Controllers
 					{
 						PropertyNameCaseInsensitive = true,
 						NumberHandling = JsonNumberHandling.WriteAsString
-					}); ;
+					});
+					if(discordUser == null) {
+						throw new Exception("User wasn't recived!");
+					}
 					try {
 						return _runnerRepository.GetByDiscordLoginID(discordUser.DiscordLoginID);
 					} catch(InvalidOperationException) {
@@ -103,6 +82,35 @@ namespace SpeedRunningLeaderboardsWebApi.Controllers
 					}
 				} else {
 					throw new Exception("Getting Current Discord User Request Failed!");
+				}
+			}
+		}
+		private AccessTokenResponse GetAccessToken(string code)
+		{
+			using(var client = _clientFactory.CreateClient()) {
+				var request = new HttpRequestMessage(HttpMethod.Post, _configuration.GetSection("OAUTH_TOKEN_URL").Value);
+				IDictionary<string, string> formData = new Dictionary<string, string>
+				{
+					{ "client_id", _configuration.GetSection("CLIENT_ID").Value },
+					{ "client_secret", secrets.CLIENT_SECRET },
+					{ "grant_type", "authorization_code" },
+					{ "code", code },
+					{ "redirect_uri", _configuration.GetSection("REDIRECT_URI").Value }
+				};
+				request.Content = new FormUrlEncodedContent(formData);
+				request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
+				var response = client.Send(request);
+				if(response.IsSuccessStatusCode) {
+					_logger.LogInformation("OAuth Access Request successful!");
+					using var responseStream = new StreamReader(response.Content.ReadAsStream());
+					var tokens = JsonSerializer.Deserialize<AccessTokenResponse>(responseStream.ReadToEnd());
+					if(tokens != null) {
+						return tokens;
+					} else {
+						throw new Exception("No  tokens provied!");
+					}
+				} else {
+					throw new Exception("OAuth Access Request Failed!");
 				}
 			}
 		}
