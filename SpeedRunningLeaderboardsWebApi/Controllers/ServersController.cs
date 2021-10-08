@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -28,8 +29,12 @@ namespace SpeedRunningLeaderboardsWebApi.Controllers
 		[HttpGet("@me")]
 		public IActionResult GetMyServers()
 		{
-			var sessionId = HttpContext.Request.Cookies["session-id"];
-			return Ok(_repo.GetUserServers(Guid.Parse(sessionId)));
+			var runner = HttpContext.Items["RunnerSession"] as SessionRunner;
+			if(runner != null && runner.Runner != null) {
+				return Ok(_repo.GetUserServers(runner.Runner.RunnerID));
+			} else {
+				return StatusCode(StatusCodes.Status401Unauthorized);
+			}
 		}
 	}
 }

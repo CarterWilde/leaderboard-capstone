@@ -44,6 +44,7 @@ namespace SpeedRunningLeaderboardsWebApi
 			services.AddScoped<GameRepository>();
 			services.AddScoped<RunnerRepository>();
 			services.AddSingleton<SecretsLoader>();
+			services.AddSingleton<SessionRunner>();
 			services.AddSingleton(ConnectionMultiplexer.Connect("localhost"));
 
 			services.AddControllers();
@@ -64,6 +65,8 @@ namespace SpeedRunningLeaderboardsWebApi
 			app.UseRouting();
 
 			app.UseAuthorization();
+
+			app.UseMiddleware<SessionRunnerMiddleware>();
 
 			app.UseEndpoints(endpoints =>
 			{
