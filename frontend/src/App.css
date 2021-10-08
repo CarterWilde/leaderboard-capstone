@@ -1,4 +1,4 @@
-#app {
+#home {
     display: grid;
     height: 100%;
     grid-template-columns: 90px 340px 1fr;
