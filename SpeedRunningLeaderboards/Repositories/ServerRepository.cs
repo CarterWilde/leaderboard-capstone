@@ -84,7 +84,7 @@ namespace SpeedRunningLeaderboards.Repositories
 		public IEnumerable<Server> GetUserServers(Guid runnerId)
 		{
 			using(var conn = _context.CreateConnection()) {
-				return conn.Query<Server>("SELECT * FROM dbo.Server FULL JOIN dbo.ServerMembers ON dbo.Server.ServerID = dbo.ServerMembers.ServerID WHERE dbo.ServerMembers.RunnerID = @runnerId;", new { runnerId });
+				return conn.Query<Server>("SELECT * FROM dbo.Server FULL JOIN dbo.ServerMembers ON dbo.Server.ServerID = dbo.ServerMembers.ServerID WHERE dbo.ServerMembers.RunnerID = @runnerId OR dbo.Server.Owner = @runnerId;", new { runnerId });
 			}
 		}
 

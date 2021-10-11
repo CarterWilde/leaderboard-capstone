@@ -1,22 +1,52 @@
+import axios from "axios";
+import { Component } from "react";
+import { connect } from "react-redux";
+import { PropsFromRedux } from "../../../App";
+import { API_ENDPOINT } from "../../../EnviormentVariables";
+import { Server } from "../../../Models";
+import { addServer } from "../../../reducers";
+import { RootState } from "../../../store";
 import { Feild, PopUp } from "../../UI";
 
-export type CreateServerProps = {
+export interface CreateServerProps extends PropsFromRedux {
 	open: boolean;
 	onClosed: () => void;
 };
 
-export const CreateServer = (props: CreateServerProps) => {
-	return (
-		<PopUp
-			title="Create Server"
-			progressText="Create Server"
-			width="24%"
-			{...props}
-		>
-			<p style={{ padding: "12px 0" }}>Make this server yours!</p>
-			<Feild style={{ padding: "12px 0px" }} name="Server Name" type="text" />
-		</PopUp>
-	);
+export type CreateServerState = {
+	name: string;
+	icon: string;
+};
+
+class CreateServer extends Component<CreateServerProps, CreateServerState> {
+
+	async onProgress() {
+		var response = await axios.post<{Name: string, Icon: string}, Server>(`${API_ENDPOINT}/servers`, {
+			Name: this.state.name,
+			Icon: this.state.icon
+		});
+		this.props.dispatch(addServer(response));
+	};
+
+	render() {
+		return (
+			<PopUp
+				title="Create Server"
+				progressText="Create Server"
+				width="24%"
+				onProgress={this.onProgress}
+				{...this.props}
+			>
+				<p style={{ padding: "12px 0" }}>Make this server yours!</p>
+				<Feild style={{ padding: "12px 0px" }} name="Name" type="text" onChange={(e) => { this.setState({name: e.currentTarget.value}) }} />
+				<Feild style={{ paddingBottom: "12px" }} name="Icon" type="url" onChange={(e) => { this.setState({icon: e.currentTarget.value}) }} />
+			</PopUp>
+		);
+	}
 }
 
-export default CreateServer;
+const connector = connect(
+	(state: RootState) => ({ ...state })
+);
+
+export default connector(CreateServer);
