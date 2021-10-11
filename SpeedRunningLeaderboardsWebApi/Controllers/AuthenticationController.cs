@@ -19,7 +19,12 @@ using System.Text.Json.Serialization;
 
 namespace SpeedRunningLeaderboardsWebApi.Controllers
 {
-	public record AccessTokenResponse(string access_token, string token_type, int expires_in, string refresh_token);
+	public record AccessTokenResponse(
+		[property:JsonPropertyName("access_token")]string AccessToken,
+		[property: JsonPropertyName("token_type")] string TokenType,
+		[property: JsonPropertyName("expires_in")] int ExpiresIn,
+		[property: JsonPropertyName("refresh_token")] string RefreshToken
+	);
 	[Route("api/[controller]")]
 	[ApiController]
 	public class AuthenticationController : ControllerBase
@@ -46,8 +51,8 @@ namespace SpeedRunningLeaderboardsWebApi.Controllers
 			var token = GetAccessToken(code);
 			var runner = GetRunner(token);
 			var db = _redis.GetDatabase();
-			var expire = new TimeSpan(0, 0, token.expires_in);
-			db.StringSet(runner.RunnerID.ToString(), token.access_token, expire);
+			var expire = new TimeSpan(0, 0, token.ExpiresIn);
+			db.StringSet(runner.RunnerID.ToString(), token.AccessToken, expire);
 			HttpContext.Response.Cookies.Append("session-id", runner.RunnerID.ToString(), new CookieOptions() {
 				Secure = true,
 				IsEssential = true,
@@ -61,7 +66,7 @@ namespace SpeedRunningLeaderboardsWebApi.Controllers
 		public IActionResult Login()
 		{
 			if(HttpContext.Request.Cookies["session-id"] != null) {
-				if(HttpContext.Items["RunnerSession"] is SessionRunner session) {
+				if(HttpContext.Items["RunnerSession"] is SessionRunner session && session.Runner != null) {
 					return Ok(session.Runner);
 				}
 			}
@@ -71,7 +76,7 @@ namespace SpeedRunningLeaderboardsWebApi.Controllers
 		{
 			using(var client = _clientFactory.CreateClient()) {
 				var request = new HttpRequestMessage(HttpMethod.Get, $"{_configuration.GetSection("DISCORD_ENDPOINT").Value}/users/@me");
-				request.Headers.Authorization = new AuthenticationHeaderValue(token.token_type, token.access_token);
+				request.Headers.Authorization = new AuthenticationHeaderValue(token.TokenType, token.AccessToken);
 				var response = client.Send(request);
 				if(response.IsSuccessStatusCode) {
 					using var responseStream = new StreamReader(response.Content.ReadAsStream());
