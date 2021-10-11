@@ -1,0 +1,16 @@
+.no-servers.page .pop-up {
+	width: 40%;
+}
+
+.no-servers.page .pop-up h3{
+	font-weight: lighter;
+	padding: 12px;
+}
+
+.no-servers.page .pop-up section {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 16px;
+	padding-bottom: 18px;
+}
