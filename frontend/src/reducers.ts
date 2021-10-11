@@ -9,6 +9,8 @@ export const fetchServers = createAsyncThunk("server/fetch", async () => {
 	})).data as Server[]
 });
 
+export const addServer = createAction<Server>("addServer");
+
 const serverInitialState: {
 	loading: 'loading' | 'done' | 'error',
 	data: Server[]
@@ -25,6 +27,9 @@ export const serverReducer = createReducer(serverInitialState, builder => {
 		.addCase(fetchServers.fulfilled, (state, action) => {
 			state.loading = 'done';
 			state.data = action.payload;
+		})
+		.addCase(addServer, (state, action) => {
+			state.data.push(action.payload);
 		});
 });
 

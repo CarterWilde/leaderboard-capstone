@@ -19,6 +19,15 @@ export type CreateServerState = {
 };
 
 class CreateServer extends Component<CreateServerProps, CreateServerState> {
+	 constructor(props: CreateServerProps) {
+		 super(props);
+		 this.state = {
+			 name: "",
+			 icon: ""
+		 }
+
+		 this.onProgress = this.onProgress.bind(this);
+	 }
 
 	async onProgress() {
 		var response = await axios.post<{Name: string, Icon: string}, Server>(`${API_ENDPOINT}/servers`, {
