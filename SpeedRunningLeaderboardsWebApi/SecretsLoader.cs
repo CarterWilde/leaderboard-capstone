@@ -13,7 +13,9 @@ namespace SpeedRunningLeaderboardsWebApi
 		public Secrets GetSecrets()
 		{
 			using var stream = new StreamReader(new FileStream("./secrets.json", FileMode.Open, FileAccess.Read));
-			return JsonSerializer.Deserialize<Secrets>(stream.ReadToEnd());
+			var result = JsonSerializer.Deserialize<Secrets>(stream.ReadToEnd());
+			if(result == null) throw new Exception("Couldn't parse secrets!");
+			return result;
 		}
 	}
 }
