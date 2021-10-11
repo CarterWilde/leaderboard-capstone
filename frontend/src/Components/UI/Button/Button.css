@@ -2,6 +2,21 @@
     text-decoration: none;
 }
 
+.btn.inline {
+	display: inline;
+	color: #5cfcac;
+	transition-duration: 250ms;
+	transition-timing-function: ease-in-out;
+	text-decoration: underline;
+	text-decoration-color: rgba(0, 0, 0, 0);
+	cursor: pointer;
+}
+
+.btn.inline:hover {
+	color: #d081f8;
+	text-decoration: underline;
+}
+
 .btn.primary,
 .btn.filled {
     color: white;

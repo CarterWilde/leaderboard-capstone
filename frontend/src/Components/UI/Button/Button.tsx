@@ -4,7 +4,7 @@ import "./Button.css";
 
 type ButtonProps  = {
     children?: ReactNode,
-    variant?: "text" | "outline" | "primary" | "contained" | "filled",
+    variant?: "text" | "outline" | "primary" | "contained" | "filled" | "inline",
     onClick?: React.MouseEventHandler<HTMLDivElement>,
     color?: string
 };
