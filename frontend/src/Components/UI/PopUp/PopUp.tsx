@@ -76,7 +76,7 @@ export default class PopUp extends Component<PopUpProps, PopUpState> {
                         </section>
                         <section className="footer">
                             <Button variant="text" onClick={this.handleCancel}>{this.props.cancelText ? this.props.cancelText : "Back"}</Button>
-                            <Button variant="outline" onClick={this.handleProgress}>{this.props.progressText}</Button>
+                            { this.props.progressText ? <Button variant="outline" onClick={this.handleProgress}>{this.props.progressText}</Button> : null }
                         </section>
                     </Card>
                 </div>
