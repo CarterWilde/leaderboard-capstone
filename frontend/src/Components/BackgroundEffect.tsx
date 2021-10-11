@@ -1,5 +1,11 @@
 import React, { Component } from "react";
 
+enum Directions {
+	North = 1,
+	East = 2,
+	South = 3,
+	West = 4
+}
 
 class Point {
 	x: number;
@@ -48,24 +54,24 @@ export default class BackgroundEffect extends Component<BackgroundEffectProps, B
 		x: number,
 		y: number
 	} = {
-		x: 0,
-		y: 0
-	};
-
-	//Returns 1 = north, 2 = east, 3 = south, 4 = west
-	randomDirection() {
+			x: 0,
+			y: 0
+		};
+	randomDirection(): Directions {
 		let number = randomNumber(0, 100);
 		if (number < 25) {
-			return 1;
+			return Directions.North;
 		}
 		else if (number < 50) {
-			return 2;
+			return Directions.East;
 		}
 		else if (number < 75) {
-			return 3;
+			return Directions.South;
 		}
 		else if (number < 100) {
-			return 4;
+			return Directions.West;
+		} else {
+			throw new Error("Invalid Direction!");
 		}
 	}
 
@@ -125,7 +131,7 @@ export default class BackgroundEffect extends Component<BackgroundEffectProps, B
 			point.vertV *= -1;
 		}
 		//They are really far out sooo we should just respawn them...
-		if (point.x >= this.state.Width + 5 || point.x <= 0 - 5 ) {
+		if (point.x >= this.state.Width + 5 || point.x <= 0 - 5) {
 			point.x = randomNumber(0, this.state.Width);
 			point.y = randomNumber(0, this.state.Height);
 		}
@@ -136,7 +142,7 @@ export default class BackgroundEffect extends Component<BackgroundEffectProps, B
 		}
 	}
 
-	velocityCheck(point: Point) : Point {
+	velocityCheck(point: Point): Point {
 		if (Math.abs(point.horzV) >= MAX_VELOCITY) {
 			point.horzV = MAX_VELOCITY * Math.sign(point.horzV);
 		}
@@ -149,11 +155,21 @@ export default class BackgroundEffect extends Component<BackgroundEffectProps, B
 
 	animateNodes() {
 		this.Points.forEach(point => {
-			let direction = this.randomDirection();
-			if (direction === 1) point.vertV += NODE_MOTION;
-			else if (direction === 2) point.horzV += NODE_MOTION;
-			else if (direction === 3) point.vertV -= NODE_MOTION;
-			else if (direction === 4) point.horzV -= NODE_MOTION;
+			let direction: Directions = this.randomDirection();
+			switch (direction) {
+				case Directions.North:
+					point.vertV += NODE_MOTION;
+					break;
+				case Directions.East:
+					point.horzV += NODE_MOTION;
+					break;
+				case Directions.South:
+					point.vertV -= NODE_MOTION;
+					break;
+				case Directions.West:
+					point.horzV -= NODE_MOTION;
+					break;
+			}
 
 			point.x += point.horzV - FRICTION;
 			point.y += point.vertV - FRICTION;
@@ -164,7 +180,7 @@ export default class BackgroundEffect extends Component<BackgroundEffectProps, B
 	}
 
 	draw(context: CanvasRenderingContext2D) {
-		if(this.state.context != null) {
+		if (this.state.context != null) {
 			this.state.context.clearRect(0, 0, this.state.Width, this.state.Height);
 			this.animateNodes();
 			this.connectNodes(context);
@@ -185,32 +201,34 @@ export default class BackgroundEffect extends Component<BackgroundEffectProps, B
 			Height: 0,
 			context: ctx
 		};
-		
+
 		this.draw = this.draw.bind(this);
-		
+
 		window.onresize = (e) => {
 			this.setState({
 				Width: this.parentRef.current?.clientWidth ? this.parentRef.current.clientWidth : 0,
-				Height: this.parentRef.current?.clientHeight ? this.parentRef.current.clientHeight : 0});
+				Height: this.parentRef.current?.clientHeight ? this.parentRef.current.clientHeight : 0
+			});
 		}
 	}
 
 	componentDidMount() {
-		if(this.canvasElementRef.current) {
+		if (this.canvasElementRef.current) {
 			this.canvasElement = this.canvasElementRef.current;
 		}
 		this.setState({
 			Width: this.parentRef.current?.clientWidth ? this.parentRef.current.clientWidth : 0,
-			Height: this.parentRef.current?.clientHeight ? this.parentRef.current.clientHeight : 0});
-		this.setState({context: this.canvasElement?.getContext("2d")});
+			Height: this.parentRef.current?.clientHeight ? this.parentRef.current.clientHeight : 0
+		});
+		this.setState({ context: this.canvasElement?.getContext("2d") });
 	}
-	
+
 	render() {
-		if(this.state.context) {
+		if (this.state.context) {
 			this.main(this.state.context);
 		}
-		return(
-			<div ref={this.parentRef} style={{height: "100%"}}>
+		return (
+			<div ref={this.parentRef} style={{ height: "100%" }}>
 				<canvas ref={this.canvasElementRef} width={this.state.Width} height={this.state.Height}>
 					{this.props.children}
 				</canvas>
