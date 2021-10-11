@@ -97,13 +97,9 @@ export default class BackgroundEffect extends Component<BackgroundEffectProps, B
 	//This connects all of them while using the connectNode method ot draw them
 	connectNodes(context: CanvasRenderingContext2D) {
 		this.Points.forEach(point => {
-			this.Points.forEach(otherPoint => {
-				if (point !== otherPoint) {
-					if (this.isNear(point, otherPoint, LINE_DISTANCE)) {
-						this.connectNode(context, point, otherPoint);
-					}
-				}
-			});
+			this.Points
+				.filter(otherPoint => this.isNear(point, otherPoint, LINE_DISTANCE) && point !== otherPoint)
+				.forEach(filteredPoints => this.connectNode(context, point, filteredPoints));
 		});
 	}
 
@@ -129,13 +125,14 @@ export default class BackgroundEffect extends Component<BackgroundEffectProps, B
 			point.vertV *= -1;
 		}
 		//They are really far out sooo we should just respawn them...
-		if (point.x >= this.state.Width || point.x <= 0 ) {
+		if (point.x >= this.state.Width + 5 || point.x <= 0 - 5 ) {
 			point.x = randomNumber(0, this.state.Width);
 			point.y = randomNumber(0, this.state.Height);
 		}
 
-		if (point.y >= this.state.Height || point.y <= 0) {
-			point.vertV *= -1;
+		if (point.y >= this.state.Height + 5 || point.y <= 0 - 5) {
+			point.x = randomNumber(0, this.state.Width);
+			point.y = randomNumber(0, this.state.Height);
 		}
 	}
 
