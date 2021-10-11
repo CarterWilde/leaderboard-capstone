@@ -1,12 +1,13 @@
 import { Component } from "react";
 import { NavLink, Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import { Server } from "../../../Models";
-import { Feild, PopUp, ServerIcon } from "../../UI";
+import { ServerIcon } from "../../UI";
 import { RootState } from '../../../store';
 import { connect } from "react-redux";
 import { Add, GroupAddOutlined } from "@material-ui/icons";
 import { PropsFromRedux } from "../../../App";
 import { ServerPage } from "..";
+import { CreateServer, JoinServer } from "../../PopUps";
 
 export interface HomePageProps extends PropsFromRedux {
 }
@@ -44,24 +45,8 @@ class HomePage extends Component<HomePageProps, HomePageState> {
 			case "done":
 				return (
 					<div id="home">
-						<PopUp open={this.state.openCreateServer}
-							title="Create Server"
-							progressText="Create Server"
-							width="24%"
-							onClosed={() => { this.setState({ openCreateServer: false }) }}
-						>
-							<p style={{ padding: "12px 0" }}>Make this server yours!</p>
-							<Feild style={{ padding: "12px 0px" }} name="Server Name" type="text" />
-						</PopUp>
-						<PopUp open={this.state.openJoinServer}
-							title="Join Server"
-							progressText="Join Server"
-							width="24%"
-							onClosed={() => { this.setState({ openJoinServer: false }) }}
-						>
-							<p style={{ padding: "12px 0" }}>Make this server yours!</p>
-							<Feild style={{ padding: "12px 0px" }} name="Invite Code" type="text" />
-						</PopUp>
+						<CreateServer open={this.state.openCreateServer} onClosed={() => {this.setState({openCreateServer: false})}}/>
+						<JoinServer open={this.state.openJoinServer} onClosed={() => {this.setState({ openJoinServer: false })}}/>
 						<Router>
 							<aside id="serverNavigation">
 								{this.mapServersToLink(this.props.servers.data)}
