@@ -3,8 +3,6 @@ import { Runner, Server } from "./Models";
 import axio from "axios";
 import { API_ENDPOINT } from "./EnviormentVariables";
 
-axio.defaults.withCredentials = true;
-
 export const fetchServers = createAsyncThunk("server/fetch", async () => {
 	return (await axio.get(`${API_ENDPOINT}/servers/@me`, {
 		withCredentials: true

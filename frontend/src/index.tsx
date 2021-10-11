@@ -18,6 +18,8 @@ type ApiError = {
 	message: string;
 };
 
+axios.defaults.withCredentials = true;
+
 const onLoading = async () => {
 	let loginData = (await axios.get(`${API_ENDPOINT}/Authentication/login`)).data;
 	if("error" in loginData) {
