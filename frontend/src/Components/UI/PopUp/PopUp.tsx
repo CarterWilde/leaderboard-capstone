@@ -9,6 +9,7 @@ type PopUpProps = {
 	cancelText?: string;
 	progressText?: string;
 	children?: ReactNode;
+	isBlank?: boolean;
 	/**
 	 * Invoked when the user clicks the close button.
 	 */
@@ -66,18 +67,22 @@ export default class PopUp extends Component<PopUpProps, PopUpState> {
 			return (
 				<div className="pop-up-wrapper">
 					<Card className="pop-up" style={{ width: this.props.width }}>
-						<header>
-							<h3>{this.props.title}</h3>
-							<CloseIcon onClick={this.handleClose} htmlColor="#76777c" style={{ cursor: "pointer" }} />
-						</header>
-						<hr />
-						<section className="content">
-							{this.props.children}
-						</section>
-						<section className="footer">
-							<Button variant="text" onClick={this.handleCancel}>{this.props.cancelText ? this.props.cancelText : "Back"}</Button>
-							{this.props.progressText ? <Button variant="outline" onClick={this.handleProgress}>{this.props.progressText}</Button> : null}
-						</section>
+						{this.props.isBlank ? (this.props.children) : (
+							<>
+								<header>
+									<h3>{this.props.title}</h3>
+									<CloseIcon onClick={this.handleClose} htmlColor="#76777c" style={{ cursor: "pointer" }} />
+								</header>
+								<hr />
+								<section className="content">
+									{this.props.children}
+								</section>
+								<section className="footer">
+									<Button variant="text" onClick={this.handleCancel}>{this.props.cancelText ? this.props.cancelText : "Back"}</Button>
+									{this.props.progressText ? <Button variant="outline" onClick={this.handleProgress}>{this.props.progressText}</Button> : null}
+								</section>
+							</>
+						)}
 					</Card>
 				</div>
 			);
