@@ -9,11 +9,11 @@ const NoServersPage = () => {
 				<h3>You're not part of any servers</h3>
 				<hr/>
 				<section>
-					<p>
+					<div>
 						<Button variant="inline">Join a server</Button>
 						&nbsp;or&nbsp;
 						<Button variant="inline">create a server!</Button>
-					</p>
+					</div>
 				</section>
 			</PopUp>
 			<BackgroundEffect/>
