@@ -28,8 +28,8 @@ const FRICTION: number = .025;
 const NODE_THICKNESS: number = 3; // In Pixels
 const LINE_DISTANCE: number = 250;
 const LINE_THICKNESS: number = 2; // In Pixels
-const FILL_COLOR: string = "#fcba03FF"; // In RGB or RGBA hex
-const LINE_COLOR: string = "#fcba0322"; // In RGB or RGBA hex
+const FILL_COLOR: string = "#5cfcacFF"; // In RGB or RGBA hex
+const LINE_COLOR: string = "#5cfcac22"; // In RGB or RGBA hex
 
 const randomNumber = (min: number, max: number): number => {
 	return Math.random() * (max - min) + min;
