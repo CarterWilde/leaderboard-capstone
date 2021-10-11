@@ -7,7 +7,7 @@ import Card from "../Card/Card";
 type PopUpProps = {
     title?: string;
     cancelText?: string;
-    progressText: string;
+    progressText?: string;
     children?: ReactNode;
     /**
      * Invoked when the user clicks the close button.
@@ -20,7 +20,7 @@ type PopUpProps = {
     /**
      * Invoked when ever the PopUp is closed.
      */
-    onClosed: React.MouseEventHandler<SVGElement | HTMLDivElement>;
+    onClosed?: React.MouseEventHandler<SVGElement | HTMLDivElement>;
     onProgress?: React.MouseEventHandler<HTMLDivElement>;
     open: boolean;
     width?: string;
