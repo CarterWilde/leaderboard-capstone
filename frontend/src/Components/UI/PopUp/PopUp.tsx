@@ -1,4 +1,4 @@
-import React, { Component, ReactNode } from "react";
+import React, { Component, CSSProperties, ReactNode } from "react";
 import CloseIcon from '@material-ui/icons/Close';
 import Button from "../Button/Button";
 import "./PopUp.css";
@@ -25,6 +25,8 @@ type PopUpProps = {
 	onProgress?: React.MouseEventHandler<HTMLDivElement>;
 	open: boolean;
 	width?: string;
+	style?: CSSProperties;
+	className?: string;
 };
 
 type PopUpState = {
@@ -66,7 +68,7 @@ export default class PopUp extends Component<PopUpProps, PopUpState> {
 		if (this.props.open) {
 			return (
 				<div className="pop-up-wrapper">
-					<Card className="pop-up" style={{ width: this.props.width }}>
+					<Card className={"pop-up " + (this.props.className ? this.props.className : "")} style={{...this.props.style, width: this.props.width }}>
 						{this.props.isBlank ? (this.props.children) : (
 							<>
 								<header>
