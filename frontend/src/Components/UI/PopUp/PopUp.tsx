@@ -47,6 +47,7 @@ export default class PopUp extends Component<PopUpProps, PopUpState> {
 	}
 
 	handleProgress(e: React.MouseEvent<HTMLDivElement>) {
+		this.props.onProgress?.(e);
 		this.doesClose(e);
 	}
 
