@@ -20,6 +20,7 @@
     padding: 4px 12px;
     font-weight: normal;
     transition-duration: 150ms;
+		padding-right: 0px;
 }
 
 .feild input:focus {
