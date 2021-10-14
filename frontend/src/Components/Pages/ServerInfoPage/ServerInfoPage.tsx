@@ -1,28 +1,58 @@
 import { AccountTreeOutlined, Add } from "@material-ui/icons";
+import axios, { AxiosResponse } from "axios";
 import { Component } from "react";
+import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
+import { PropsFromRedux } from "../../../App";
 import { API_ENDPOINT } from "../../../EnviormentVariables";
 import { Server, Runner } from "../../../Models";
+import { RootState } from "../../../store";
 import { IDTranslator } from "../../../Utlities/IDTranslators";
-import { Button, Card, Feild, GameCard, Page, UserCard } from "../../UI";
+import { Button, Card, Feild, GameCard, Page, PopUp, UserCard } from "../../UI";
 import "./ServerInfoPage.css"
 
-export interface ServerInfoPageProps extends RouteComponentProps {
+export interface ServerInfoPageProps extends PropsFromRedux, RouteComponentProps {
 	server: Server;
+}
+
+type CodeSettings = {
+	expires_in?: number;
+	uses?: number;
 }
 
 export type ServerInfoPageState = {
 	owner?: Runner;
+	code?: string;
+	codeSettings: CodeSettings;
+	openCreateCode: boolean;
+	openCodePreview: boolean;
 }
 
-export default class ServerInfoPage extends Component<ServerInfoPageProps, ServerInfoPageState> {
+class ServerInfoPage extends Component<ServerInfoPageProps, ServerInfoPageState> {
 	constructor(props: ServerInfoPageProps) {
 		super(props);
-		this.state = {};
+		this.state = {
+			codeSettings: {
+				expires_in: 24 * 60 * 60,
+				uses: 5
+			},
+			openCreateCode: false,
+			openCodePreview: false
+		};
+
+		this.OnCreateCode = this.OnCreateCode.bind(this);
+	}
+
+	async OnCreateCode() {
+		let response = await axios.put<CodeSettings, AxiosResponse<string>>(`${API_ENDPOINT}/servers/${this.props.server.serverID}/generate-code`, this.state.codeSettings);
+		this.setState({
+			code: await response.data
+		});
+		this.setState({ openCodePreview: true });
 	}
 
 	async componentDidMount() {
-		this.setState({owner: await IDTranslator<Runner>(this.props.server.owner, `${API_ENDPOINT}/runners/@:`)})
+		this.setState({ owner: await IDTranslator<Runner>(this.props.server.owner, `${API_ENDPOINT}/runners/@:`) })
 	}
 
 	render() {
@@ -42,6 +72,40 @@ export default class ServerInfoPage extends Component<ServerInfoPageProps, Serve
 
 		return (
 			<Page className="info" title="Server Info" icon={<AccountTreeOutlined />}>
+				<PopUp
+					className="create-code"
+					open={this.state.openCreateCode}
+					progressText="Create Code"
+					title="Create Code"
+					onProgress={this.OnCreateCode}
+					onClosed={() => {
+						this.setState({ openCreateCode: false });
+					}}
+				>
+					<Feild name="Uses"
+						type="number"
+						defaultValue={this.state.codeSettings.uses}
+						onChange={(e) => {
+							this.setState({ codeSettings: { ...this.state.codeSettings, uses: e.currentTarget.valueAsNumber } })
+						}} />
+					<Feild name="Expires In"
+						type="number"
+						defaultValue={this.state.codeSettings.expires_in}
+						onChange={(e) => {
+							this.setState({ codeSettings: { ...this.state.codeSettings, expires_in: e.currentTarget.valueAsNumber } })
+						}} />
+				</PopUp>
+				<PopUp
+					className="code-preview"
+					open={this.state.openCodePreview}
+					title="Code"
+					cancelText="Close"
+					onClosed={() => {
+						this.setState({ openCodePreview: false });
+					}}
+				>
+					<b>{this.state.code ? this.state.code : "No code!"}</b>
+				</PopUp>
 				<section className="games">
 					<h3>Games</h3>
 					<section>
@@ -59,7 +123,7 @@ export default class ServerInfoPage extends Component<ServerInfoPageProps, Serve
 				<section className="moderators">
 					<h3>Moderators</h3>
 					<section>
-						{ this.state.owner ? <UserCard user={this.state.owner} isOwner /> : <></> }
+						{this.state.owner ? <UserCard user={this.state.owner} isOwner /> : null}
 						{/* {
 							this.props.server.moderators.map(mod => (
 								<UserCard key={mod.id} user={mod} />
@@ -74,22 +138,35 @@ export default class ServerInfoPage extends Component<ServerInfoPageProps, Serve
 				<section className="members">
 					<h3>Members</h3>
 					<section>
-						{ this.state.owner ? <UserCard user={this.state.owner} isOwner /> : null}
+						{this.state.owner ? <UserCard user={this.state.owner} isOwner /> : null}
 					</section>
 				</section>
 				<hr />
-				<section className="settings">
-					<h3>Settings</h3>
-					<section className="feilds">
-						<Feild name="Server Name" type="text" />
-					</section>
-					<section className="buttons">
-						<Button variant="text" color="white">Cancel</Button>
-						<Button variant="filled">Save Changes</Button>
-					</section>
-				</section>
+				{
+					this.props.authentication.runner?.id === this.state.owner?.id ? (
+						<section className="settings">
+							<h3>Settings</h3>
+							<section className="feilds">
+								<Feild name="Server Name" type="text" />
+							</section>
+							<section className="buttons">
+								<Button variant="text" color="white" onClick={() => {
+									this.setState({ openCreateCode: true })
+								}}>Create Invite Code</Button>
+								<Button variant="filled">Apply</Button>
+							</section>
+						</section>
+					) : null
+				}
 				<hr />
 			</Page>
 		);
 	}
 }
+
+
+const connector = connect(
+	(state: RootState) => ({ ...state })
+);
+
+export default connector(ServerInfoPage);

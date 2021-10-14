@@ -60,3 +60,16 @@
 	max-width: 300px;
 	min-width: 200px;
 }
+
+.create-code.pop-up .content {
+	display: grid;
+	justify-content: center;
+	grid-template-columns: 75px 150px;
+	padding: 16px;
+	gap: 16px;
+}
+
+.code-preview.pop-up .content {
+	text-align: center;
+	padding: 16px;
+}
