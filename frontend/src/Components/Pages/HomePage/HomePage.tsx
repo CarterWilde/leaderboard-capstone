@@ -53,7 +53,7 @@ class HomePage extends Component<HomePageProps, HomePageState> {
 								{this.mapServersToLink(this.props.servers.data)}
 								<ServerIcon key="joinServer" icon={<GroupAddOutlined />} onClick={() => this.setState({ openJoinServer: true })} />
 								<ServerIcon key="createServer" icon={<Add />} onClick={() => this.setState({ openCreateServer: true })} />
-								<ServerIcon key="logout" icon={<ExitToApp />} onClick={() => {
+								<ServerIcon key="logout" style={{color: "#fc5c5c"}} icon={<ExitToApp />} onClick={() => {
 									this.props.dispatch(logout())
 								}}/>
 							</aside>
