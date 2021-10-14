@@ -130,6 +130,31 @@ namespace SpeedRunningLeaderboardsWebApi.Controllers
 			return result;
 		}
 
+		[HttpPut("{serverId}/games/add/{gameId}")]
+		public IActionResult AddGame(Guid serverId, Guid gameId)
+		{
+			var userResult = this.GetUser(out Runner? runner);
+			if(runner is Runner && userResult is null) {
+				if(runner.RunnerID == _repo.Get(serverId).Owner) {
+					_repo.AddGame(serverId, gameId);
+					return Ok();
+				}
+			}
+			return userResult ?? throw new Exception("Result expected!");
+		}
+		[HttpPut("{serverId}/games/remove/{gameId}")]
+		public IActionResult RemoveGame(Guid serverId, Guid gameId)
+		{
+			var userResult = this.GetUser(out Runner? runner);
+			if(runner is Runner && userResult is null) {
+				if(runner.RunnerID == _repo.Get(serverId).Owner) {
+					_repo.RemoveGame(serverId, gameId);
+					return Ok();
+				}
+			}
+			return userResult ?? throw new Exception("Result expected!");
+		}
+
 		[HttpPost]
 		public IActionResult CreateServer([FromBody] CreateServerDTO serverDto)
 		{

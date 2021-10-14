@@ -77,7 +77,7 @@ namespace SpeedRunningLeaderboards.Repositories
 		public override IEnumerable<Server> Get()
 		{
 			using(var conn = _context.CreateConnection()) {
-				return conn.Query<Server>("SELECT * FROM dbo.Server");
+				return conn.Query<Server>("SELECT * FROM dbo.Server;");
 			}
 		}
 
@@ -94,6 +94,19 @@ namespace SpeedRunningLeaderboards.Repositories
 				conn.Execute("UPDATE dbo.Server SET Name = @Name, Icon = @Icon, Owner = @Owner", entity);
 			}
 			return entity;
+		}
+
+		public void AddGame(Guid serverId, Guid gameId) {
+			using(var conn = _context.CreateConnection()) {
+				conn.Execute("INSERT INTO ServerGames VALUES (@serverId, @gameId);", new {serverId, gameId});
+			}
+		}
+
+		public void RemoveGame(Guid serverId, Guid gameId)
+		{
+			using(var conn = _context.CreateConnection()) {
+				conn.Execute("DELET FROM ServerGames WHERE ServerID=@serverId AND GameID=@gameId;", new {serverId, gameId});
+			}
 		}
 	}
 }

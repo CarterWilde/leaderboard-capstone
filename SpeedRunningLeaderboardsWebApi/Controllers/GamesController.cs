@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
+using SpeedRunningLeaderboards.Models;
 using SpeedRunningLeaderboards.Repositories;
 
 namespace SpeedRunningLeaderboardsWebApi.Controllers
@@ -28,6 +29,16 @@ namespace SpeedRunningLeaderboardsWebApi.Controllers
 		public IActionResult GetGame(Guid gameId)
 		{
 			return Ok(_repo.Get(gameId));
+		}
+		[HttpPost]
+		public IActionResult CreateGame([FromBody] Game game)
+		{
+			return Ok(_repo.Create(game));
+		}
+		[HttpDelete("{gameId}")]
+		public IActionResult DeleteGame(Guid gameId) {
+			_repo.Delete(gameId);
+			return Ok();
 		}
 	}
 }
