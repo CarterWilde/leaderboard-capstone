@@ -56,19 +56,6 @@ class ServerInfoPage extends Component<ServerInfoPageProps, ServerInfoPageState>
 	}
 
 	render() {
-		// const members: Runner[] = [];
-
-		// TODO: Get server members!
-		// this.props.server.games.map(game => {
-		//     return game.categories.map(category => {
-		//         return category.runs.map(run => {
-		//             const {runner} = run;
-		//             if(!members.find(member => member.id === runner.id)) {
-		//                 members.push(runner);
-		//             }
-		//         })
-		//     })
-		// })
 
 		return (
 			<Page className="info" title="Server Info" icon={<AccountTreeOutlined />}>
@@ -139,6 +126,9 @@ class ServerInfoPage extends Component<ServerInfoPageProps, ServerInfoPageState>
 					<h3>Members</h3>
 					<section>
 						{this.state.owner ? <UserCard user={this.state.owner} isOwner /> : null}
+						{this.props.server.members.filter(runner => runner.id !== this.props.server.owner).map(member => (
+							<UserCard user={member}/>
+						))}
 					</section>
 				</section>
 				<hr />
