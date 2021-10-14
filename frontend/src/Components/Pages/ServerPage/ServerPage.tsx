@@ -4,6 +4,7 @@ import { NavLink, Route, RouteComponentProps } from "react-router-dom";
 import { ServerInfoPage, GamePage } from "..";
 import { Server } from "../../../Models";
 import { TextedIcon } from "../../UI";
+import AddGamePage from "../AddGamePage/AddGamePage";
 import "./ServerPage.css"
 
 export interface ServerPageProps extends RouteComponentProps {
@@ -27,7 +28,7 @@ export default class ServerPage extends Component<ServerPageProps, ServerPageSta
 					<hr />
 					{this.props.server.games.map(game => {
 						return (
-							<NavLink to={`/${this.props.server.serverID}/${game.id}/${game.categories[0].id}`} key={game.id} isActive={(match, location) => {
+							<NavLink to={`/${this.props.server.serverID}/${game.id}/${game.rulesets[0].id}`} key={game.id} isActive={(match, location) => {
 								return location.pathname.startsWith(`/${this.props.server.serverID}/${game.id}/`);
 							}}>
 								<TextedIcon icon={<GamepadOutlined />}>{game.name}</TextedIcon>
@@ -39,10 +40,13 @@ export default class ServerPage extends Component<ServerPageProps, ServerPageSta
 					<Route exact path={`/${this.props.server.serverID}/info`} render={props => (
 						<ServerInfoPage {...props} server={this.props.server} />
 					)} />
+					<Route exact path={`/${this.props.server.serverID}/add-game`} render={props => (
+						<AddGamePage {...props} server={this.props.server} />
+					)} />
 					{this.props.server.games.map(game => (
-						game.categories.map(category => (
-							<Route key={this.props.server.serverID + game.id + category.id} path={`/${this.props.server.serverID}/${game.id}/${category.id}`} render={props => (
-								<GamePage {...props} server={this.props.server} game={game} category={category} />
+						game.rulesets.map(ruleset => (
+							<Route key={this.props.server.serverID + game.id + ruleset.id} path={`/${this.props.server.serverID}/${game.id}/${ruleset.id}`} render={props => (
+								<GamePage {...props} server={this.props.server} game={game} ruleset={ruleset} />
 							)} />
 						))
 					))}

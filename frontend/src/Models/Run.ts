@@ -1,10 +1,10 @@
-import Category from "./Category";
+import Ruleset from "./Ruleset";
 import ColumnValue from "./ColumnValue";
 import Runner from "./Runner";
 
 export default interface Run {
     id: string;
-    categoryId: Category['id'];
+    categoryId: Ruleset['id'];
     runner: Runner
     values: ColumnValue[];
 }

@@ -1,4 +1,4 @@
-import Category from "./Category";
+import Ruleset from "./Ruleset";
 
 export default interface Game {
     id: string;
@@ -6,5 +6,5 @@ export default interface Game {
     isPreset: boolean;
     rules: string;
     image: string;
-    categories: Category[]
+    rulesets: Ruleset[]
 }

@@ -1,5 +1,5 @@
 import { Component } from "react";
-import { Category, Column, Duration, Run, VOD } from "../../../Models";
+import { Ruleset, Column, Duration, Run, VOD } from "../../../Models";
 import data from "../../../dummy-data.json";
 import ColumnConverter from "../../../Utlities/ColumnConverter";
 import { Videocam } from "@material-ui/icons";
@@ -7,7 +7,7 @@ import { Videocam } from "@material-ui/icons";
 import "./Leaderboard.css"
 
 export type LeaderboardProps = {
-    category: Category;
+    ruleset: Ruleset;
     runs: Run[];
     sorter?: (a: Run, b: Run) => number;
 }
@@ -19,7 +19,7 @@ type LeaderboardState = {
 export default class Leaderboard extends Component<LeaderboardProps, LeaderboardState> {
     constructor(props: LeaderboardProps) {
         super(props);
-        this.state = {columns: ((data.columns as unknown[]) as Column[]).filter(column => column.category === this.props.category.id || column.category === null)};
+        this.state = {columns: ((data.columns as unknown[]) as Column[]).filter(column => column.category === this.props.ruleset.id || column.category === null)};
     }
 
     render() {
@@ -36,7 +36,7 @@ export default class Leaderboard extends Component<LeaderboardProps, Leaderboard
                 </thead>
                 <tbody>
                     {this.props.runs
-                    .filter(run => run.categoryId === this.props.category.id)
+                    .filter(run => run.categoryId === this.props.ruleset.id)
                     .sort(this.props.sorter ? this.props.sorter : (run1, run2) => {
                         const a = run1.values.find(value => ColumnConverter.Resolve(this.state.columns, value) instanceof Duration)?.value;
                         const b = run2.values.find(value => ColumnConverter.Resolve(this.state.columns, value) instanceof Duration)?.value;

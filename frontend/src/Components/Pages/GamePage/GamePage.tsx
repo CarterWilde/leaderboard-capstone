@@ -1,14 +1,14 @@
 import { GamepadOutlined } from "@material-ui/icons";
 import { Component } from "react";
 import { NavLink, RouteComponentProps } from "react-router-dom";
-import { Server, Game, Category } from "../../../Models";
+import { Server, Game, Ruleset } from "../../../Models";
 import { Accordion, AccordionItem, Button, ButtonGroup, GameCard, Leaderboard, Page } from "../../UI";
 import "./GamePage.css"
 
 export interface GamePageProps extends RouteComponentProps {
     server: Server;
     game: Game;
-    category: Category;
+    ruleset: Ruleset;
 }
 
 export type GamePageState = {
@@ -22,7 +22,7 @@ export default class GamePage extends Component<GamePageProps, GamePageState> {
                     <GameCard image={this.props.game.image} title={this.props.game.name} />
                     <section>
                             <ButtonGroup style={{fontWeight: "lighter"}}>
-                                {this.props.game.categories.map(category => {
+                                {this.props.game.rulesets.map(category => {
                                     return <NavLink key={category.id} to={`/${this.props.server.serverID}/${this.props.game.id}/${category.id}`} className="category-button-parent"><Button>{category.name}</Button></NavLink>
                                 })}
                             </ButtonGroup>
@@ -31,12 +31,12 @@ export default class GamePage extends Component<GamePageProps, GamePageState> {
                                     {this.props.game.rules}
                                 </AccordionItem>
                                 <AccordionItem title="Category Rules">
-                                    {this.props.category.rules}
+                                    {this.props.ruleset.rules}
                                 </AccordionItem>
                             </Accordion>
                     </section>
                 </header>
-                <Leaderboard category={this.props.category} runs={this.props.category.runs}/>
+                <Leaderboard ruleset={this.props.ruleset} runs={this.props.ruleset.runs}/>
             </Page>
         );
     }
