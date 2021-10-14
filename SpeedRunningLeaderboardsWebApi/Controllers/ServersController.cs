@@ -75,30 +75,42 @@ namespace SpeedRunningLeaderboardsWebApi.Controllers
 		[HttpPut("join/{code}")]
 		public IActionResult JoinWithCode(string code)
 		{
-			var db = _redis.GetDatabase();
-			if(db.KeyExists(code)) {
-				RedisValue uses = db.HashGet(code, "uses");
-				if(uses.HasValue) {
-					if(uses.IsInteger) {
-						DecrementUses(db, code, (int)uses);
-					} else {
-						DecrementUses(db, code, int.Parse(uses));
+
+			var userResult = this.GetUser(out Runner? runner);
+			if(runner is Runner && userResult is null) {
+				var db = _redis.GetDatabase();
+				if(db.KeyExists(code)) {
+					var serverId = db.HashGet(code, "serverId");
+					if(serverId.IsNull) {
+						return StatusCode(StatusCodes.Status500InternalServerError);
 					}
+					var serverGuid = Guid.Parse(serverId);
+					var server = _repo.Get(serverGuid);
+					if(!server.Members.Contains(runner) && server.Owner != runner.RunnerID) {
+						_repo.AddMember(serverGuid, runner.RunnerID);
+						RedisValue uses = db.HashGet(code, "uses");
+						if(uses.HasValue) {
+							if(uses.IsInteger) {
+								DecrementUses(db, code, (int)uses);
+							} else {
+								DecrementUses(db, code, int.Parse(uses));
+							}
+						}
+					}
+					return Ok((string)serverId);
 				}
-				var result = db.HashGet(code, "serverId");
-				if(result.IsNull) {
-					return StatusCode(StatusCodes.Status500InternalServerError);
-				}
-				return Ok((string)result);
+				return StatusCode(StatusCodes.Status404NotFound);
 			}
-			return StatusCode(StatusCodes.Status404NotFound);
+			return userResult ?? throw new Exception("Result expected!");
 		}
 
 		public static void DecrementUses(IDatabase db, string code, int uses)
 		{
-			db.HashSet(code, "uses", uses - 1);
-			if(uses - 1 <= 0) {
-				db.KeyDelete(code);
+			if(uses != -1) {
+				db.HashSet(code, "uses", uses - 1);
+				if(uses - 1 <= 0) {
+					db.KeyDelete(code);
+				}
 			}
 		}
 

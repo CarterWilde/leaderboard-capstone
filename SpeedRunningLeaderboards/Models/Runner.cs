@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SpeedRunningLeaderboards.Models
 {
-	public class Runner : DiscordLogin
+	public class Runner : DiscordLogin, IEquatable<Runner>
 	{
 		public Guid RunnerID { get; set; }
 		public int? RegionID { get; set; }
@@ -66,6 +66,14 @@ namespace SpeedRunningLeaderboards.Models
 			SignUpDate = signUpDate;
 			RunnerAuthorities = authorities;
 			Socials = socials;
+		}
+
+		public bool Equals(Runner? other)
+		{
+			if(other is Runner) {
+				return other.RunnerID == this.RunnerID;
+			}
+			return false;
 		}
 	}
 }

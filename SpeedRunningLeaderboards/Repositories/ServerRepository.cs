@@ -54,10 +54,10 @@ namespace SpeedRunningLeaderboards.Repositories
 				conn.Execute("INSERT INTO dbo.ServerGames VALUES (@serverId, @gameId);", new {serverId, gameId}, transaction);
 			}
 		}
-		internal void AddMember(Guid serverId, Guid runnerId, IDbTransaction? transaction = null)
+		public void AddMember(Guid serverId, Guid runnerId, IDbTransaction? transaction = null)
 		{
 			using(var conn = _context.CreateConnection()) {
-				conn.Execute("INSERT INTO dbo.ServerMembers VALUES (@serverId, @gameId);", new { serverId, runnerId }, transaction);
+				conn.Execute("INSERT INTO dbo.ServerMembers VALUES (@serverId, @runnerId);", new { serverId, runnerId }, transaction);
 			}
 		}
 		public override void Delete(Guid id)
