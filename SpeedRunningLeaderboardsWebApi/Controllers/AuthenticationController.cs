@@ -62,6 +62,16 @@ namespace SpeedRunningLeaderboardsWebApi.Controllers
 			});
 			return Redirect(_configuration.GetSection("APP_REDIRECT_URI").Value);
 		}
+		[HttpGet("logout")]
+		public IActionResult Logout()
+		{
+			if(HttpContext.Request.Cookies["session-id"] != null) {
+				var db = _redis.GetDatabase();
+				db.KeyDelete(HttpContext.Request.Cookies["session-id"]);
+			}
+			HttpContext.Response.Cookies.Delete("session-id");
+			return Ok();
+		}
 		[HttpGet("login")]
 		public IActionResult Login()
 		{

@@ -2,6 +2,9 @@ import { createAction, createAsyncThunk, createReducer } from "@reduxjs/toolkit"
 import { Runner, Server } from "./Models";
 import axio from "axios";
 import { API_ENDPOINT } from "./EnviormentVariables";
+import axios from "axios";
+
+export const logout = createAction("logout");
 
 export const fetchServers = createAsyncThunk("server/fetch", async () => {
 	return (await axio.get(`${API_ENDPOINT}/servers/@me`, {
@@ -30,6 +33,9 @@ export const serverReducer = createReducer(serverInitialState, builder => {
 		})
 		.addCase(addServer, (state, action) => {
 			state.data.push(action.payload);
+		})
+		.addCase(logout, (state, action) => {
+			state.data = [];
 		});
 });
 
@@ -41,9 +47,10 @@ const authenticationInitialState: {
 	runner: undefined
 };
 
+
 export const hasLoginAction = createAction<boolean>("hasLogin");
 
-export const setRunnerAction = createAction<Runner>("setRunner");
+export const setRunnerAction = createAction<Runner | undefined>("setRunner");
 
 export const authenticationReducer = createReducer(authenticationInitialState, builder => {
 	builder
@@ -52,6 +59,13 @@ export const authenticationReducer = createReducer(authenticationInitialState, b
 		})
 		.addCase(setRunnerAction, (state, action) => {
 			state.runner = action.payload;
+		})
+		.addCase(logout, (state, action) => {
+			state.hasLogin = false;
+			state.runner = undefined;
+			axios.get(`${API_ENDPOINT}/authentication/logout`).then(res => {
+				window.location.href = '/';
+			});
 		});
 });
 

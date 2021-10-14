@@ -4,10 +4,11 @@ import { Server } from "../../../Models";
 import { ServerIcon } from "../../UI";
 import { RootState } from '../../../store';
 import { connect } from "react-redux";
-import { Add, GroupAddOutlined } from "@material-ui/icons";
+import { Add, GroupAddOutlined, ExitToApp } from "@material-ui/icons";
 import { PropsFromRedux } from "../../../App";
 import { ServerPage } from "..";
 import { CreateServer, JoinServer } from "../../PopUps";
+import { logout } from "../../../reducers";
 
 export interface HomePageProps extends PropsFromRedux {
 }
@@ -52,6 +53,9 @@ class HomePage extends Component<HomePageProps, HomePageState> {
 								{this.mapServersToLink(this.props.servers.data)}
 								<ServerIcon key="joinServer" icon={<GroupAddOutlined />} onClick={() => this.setState({ openJoinServer: true })} />
 								<ServerIcon key="createServer" icon={<Add />} onClick={() => this.setState({ openCreateServer: true })} />
+								<ServerIcon key="logout" icon={<ExitToApp />} onClick={() => {
+									this.props.dispatch(logout())
+								}}/>
 							</aside>
 							<Switch>
 								{this.props.servers.data.map(server => {
