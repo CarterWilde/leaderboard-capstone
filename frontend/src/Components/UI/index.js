@@ -4,6 +4,9 @@ export * from "./Accordion";
 export { default as AccordionItem } from "./AccordionItem";
 export * from "./AccordionItem";
 
+export { default as AddCard } from "./AddCard";
+export * from "./AddCard";
+
 export { default as Button } from "./Button";
 export * from "./Button";
 

@@ -8,7 +8,7 @@ import { API_ENDPOINT } from "../../../EnviormentVariables";
 import { Server, Runner } from "../../../Models";
 import { RootState } from "../../../store";
 import { IDTranslator } from "../../../Utlities/IDTranslators";
-import { Button, Card, Feild, GameCard, Page, PopUp, UserCard } from "../../UI";
+import { AddCard, Button, Feild, GameCard, Page, PopUp, UserCard } from "../../UI";
 import "./ServerInfoPage.css"
 
 export interface ServerInfoPageProps extends PropsFromRedux, RouteComponentProps {
@@ -101,9 +101,7 @@ class ServerInfoPage extends Component<ServerInfoPageProps, ServerInfoPageState>
 								<GameCard key={game.id} title={game.name} image={game.image} />
 							))
 						}
-						<Card className="add flair-hover">
-							<Add />
-						</Card>
+						<AddCard/>
 					</section>
 				</section>
 				<hr />
@@ -116,9 +114,7 @@ class ServerInfoPage extends Component<ServerInfoPageProps, ServerInfoPageState>
 								<UserCard key={mod.id} user={mod} />
 							))
 						} */}
-						<Card className="add flair-hover">
-							<Add />
-						</Card>
+						<AddCard/>
 					</section>
 				</section>
 				<hr />

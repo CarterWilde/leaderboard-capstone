@@ -1,0 +1,13 @@
+.add.card {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: #5cfcac;
+	cursor: pointer;
+}
+
+.add.card>svg {
+	--size: 2em;
+	width: var(--size);
+	height: var(--size);
+}

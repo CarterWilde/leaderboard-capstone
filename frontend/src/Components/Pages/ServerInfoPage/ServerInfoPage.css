@@ -41,20 +41,6 @@
 	gap: 16px;
 }
 
-.info.page .add.card {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	color: #5cfcac;
-	cursor: pointer;
-}
-
-.info.page .add.card>svg {
-	--size: 2em;
-	width: var(--size);
-	height: var(--size);
-}
-
 .info.page .card.user,
 .info.page .add.card {
 	max-width: 300px;
