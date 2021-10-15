@@ -6,38 +6,38 @@ import { Accordion, AccordionItem, Button, ButtonGroup, GameCard, Leaderboard, P
 import "./GamePage.css"
 
 export interface GamePageProps extends RouteComponentProps {
-    server: Server;
-    game: Game;
-    ruleset: Ruleset;
+	server: Server;
+	game: Game;
+	ruleset: Ruleset;
 }
 
 export type GamePageState = {
 }
 
 export default class GamePage extends Component<GamePageProps, GamePageState> {
-    render() {
-        return(
-            <Page className="game" title={this.props.game.title} icon={<GamepadOutlined/>}>
-                <header>
-                    <GameCard image={this.props.game.image} title={this.props.game.title} />
-                    <section>
-                            <ButtonGroup style={{fontWeight: "lighter"}}>
-                                {this.props.game.rulesets.map(category => {
-                                    return <NavLink key={category.rulesetID} to={`/${this.props.server.serverID}/${this.props.game.gameID}/${category.rulesetID}`} className="category-button-parent"><Button>{category.name}</Button></NavLink>
-                                })}
-                            </ButtonGroup>
-                            <Accordion style={{marginTop: "16px"}}>
-                                <AccordionItem title="Game Rules">
-                                    {this.props.game.rules}
-                                </AccordionItem>
-                                <AccordionItem title="Category Rules">
-                                    {this.props.ruleset.rules}
-                                </AccordionItem>
-                            </Accordion>
-                    </section>
-                </header>
-                <Leaderboard ruleset={this.props.ruleset} runs={this.props.ruleset.runs}/>
-            </Page>
-        );
-    }
+	render() {
+		return (
+			<Page className="game" title={this.props.game.title} icon={<GamepadOutlined />}>
+				<header>
+					<GameCard image={this.props.game.image} title={this.props.game.title} />
+					<section>
+						<ButtonGroup style={{ fontWeight: "lighter" }}>
+							{this.props.game.rulesets.map(ruleset => {
+								return <NavLink key={ruleset.rulesetID} to={`/${this.props.server.serverID}/${this.props.game.gameID}/${ruleset.rulesetID}`} className="category-button-parent"><Button>{ruleset.title}</Button></NavLink>
+							})}
+						</ButtonGroup>
+						<Accordion style={{ marginTop: "16px" }}>
+							<AccordionItem title="Game Rules">
+								{this.props.game.rules}
+							</AccordionItem>
+							<AccordionItem title="Category Rules">
+								{this.props.ruleset.rules}
+							</AccordionItem>
+						</Accordion>
+					</section>
+				</header>
+				<Leaderboard ruleset={this.props.ruleset} runs={[]} />
+			</Page>
+		);
+	}
 }
