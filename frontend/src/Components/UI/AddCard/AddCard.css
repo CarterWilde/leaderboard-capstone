@@ -4,6 +4,7 @@
 	align-items: center;
 	color: #5cfcac;
 	cursor: pointer;
+	height: min-content;
 }
 
 .add.card>svg {
