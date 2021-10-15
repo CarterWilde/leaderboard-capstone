@@ -28,10 +28,10 @@ export default class ServerPage extends Component<ServerPageProps, ServerPageSta
 					<hr />
 					{this.props.server.games.map(game => {
 						return (
-							<NavLink to={`/${this.props.server.serverID}/${game.id}/${game.rulesets[0].id}`} key={game.id} isActive={(match, location) => {
-								return location.pathname.startsWith(`/${this.props.server.serverID}/${game.id}/`);
+							<NavLink to={`/${this.props.server.serverID}/${game.gameID}/${game.rulesets[0].rulesetID}`} key={this.props.server.serverID + game.gameID + game.rulesets[0].rulesetID} isActive={(match, location) => {
+								return location.pathname.startsWith(`/${this.props.server.serverID}/${game.gameID}/`);
 							}}>
-								<TextedIcon icon={<GamepadOutlined />}>{game.name}</TextedIcon>
+								<TextedIcon icon={<GamepadOutlined />}>{game.title}</TextedIcon>
 							</NavLink>
 						);
 					})}
@@ -45,7 +45,7 @@ export default class ServerPage extends Component<ServerPageProps, ServerPageSta
 					)} />
 					{this.props.server.games.map(game => (
 						game.rulesets.map(ruleset => (
-							<Route key={this.props.server.serverID + game.id + ruleset.id} path={`/${this.props.server.serverID}/${game.id}/${ruleset.id}`} render={props => (
+							<Route key={this.props.server.serverID + game.gameID + ruleset.rulesetID} path={`/${this.props.server.serverID}/${game.gameID}/${ruleset.rulesetID}`} render={props => (
 								<GamePage {...props} server={this.props.server} game={game} ruleset={ruleset} />
 							)} />
 						))

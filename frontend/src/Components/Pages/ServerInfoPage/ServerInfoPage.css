@@ -7,7 +7,6 @@
 	margin-bottom: 12px;
 }
 
-.info.page>.content>section.games>section> :nth-child(n),
 .info.page>.content>section.moderators>section> :nth-child(n),
 .info.page>.content>section.members>section> :nth-child(n) {
 	flex-grow: 1;

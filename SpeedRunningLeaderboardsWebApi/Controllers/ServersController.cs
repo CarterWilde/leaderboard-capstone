@@ -23,10 +23,12 @@ namespace SpeedRunningLeaderboardsWebApi.Controllers
 	public class ServersController : ControllerBase
 	{
 		private readonly ServerRepository _repo;
+		private readonly GameRepository _gameRepo;
 		private readonly ConnectionMultiplexer _redis;
-		public ServersController(ServerRepository repo, ConnectionMultiplexer redis)
+		public ServersController(ServerRepository repo, ConnectionMultiplexer redis, GameRepository gameRepo)
 		{
 			_repo = repo;
+			_gameRepo = gameRepo;
 			_redis = redis;
 		}
 
@@ -40,7 +42,11 @@ namespace SpeedRunningLeaderboardsWebApi.Controllers
 		{
 			var userResult = this.GetUser(out Runner? runner);
 			if(runner is Runner && userResult is null) {
-				return Ok(_repo.GetUserServers(runner.RunnerID));
+				var servers = _repo.GetUserServers(runner.RunnerID);
+				foreach(var server in servers) {
+					server.Games = _gameRepo.GetServerGames(server.ServerID);
+				}
+				return Ok(servers);
 			}
 			return userResult ?? throw new Exception("Result expected!");
 		}

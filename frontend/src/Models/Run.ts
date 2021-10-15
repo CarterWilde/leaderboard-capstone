@@ -4,7 +4,7 @@ import Runner from "./Runner";
 
 export default interface Run {
     id: string;
-    categoryId: Ruleset['id'];
+    categoryId: Ruleset['rulesetID'];
     runner: Runner
     values: ColumnValue[];
 }

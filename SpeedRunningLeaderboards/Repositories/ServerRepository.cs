@@ -98,14 +98,14 @@ namespace SpeedRunningLeaderboards.Repositories
 
 		public void AddGame(Guid serverId, Guid gameId) {
 			using(var conn = _context.CreateConnection()) {
-				conn.Execute("INSERT INTO ServerGames VALUES (@serverId, @gameId);", new {serverId, gameId});
+				conn.Execute("INSERT INTO dbo.ServerGames VALUES (@id, @serverId, @gameId);", new {id=Guid.NewGuid(), serverId, gameId});
 			}
 		}
 
 		public void RemoveGame(Guid serverId, Guid gameId)
 		{
 			using(var conn = _context.CreateConnection()) {
-				conn.Execute("DELET FROM ServerGames WHERE ServerID=@serverId AND GameID=@gameId;", new {serverId, gameId});
+				conn.Execute("DELETE FROM dbo.ServerGames WHERE ServerID=@serverId AND GameID=@gameId;", new {serverId, gameId});
 			}
 		}
 	}

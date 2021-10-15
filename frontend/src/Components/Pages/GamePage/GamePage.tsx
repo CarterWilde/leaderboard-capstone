@@ -17,13 +17,13 @@ export type GamePageState = {
 export default class GamePage extends Component<GamePageProps, GamePageState> {
     render() {
         return(
-            <Page className="game" title={this.props.game.name} icon={<GamepadOutlined/>}>
+            <Page className="game" title={this.props.game.title} icon={<GamepadOutlined/>}>
                 <header>
-                    <GameCard image={this.props.game.image} title={this.props.game.name} />
+                    <GameCard image={this.props.game.image} title={this.props.game.title} />
                     <section>
                             <ButtonGroup style={{fontWeight: "lighter"}}>
                                 {this.props.game.rulesets.map(category => {
-                                    return <NavLink key={category.id} to={`/${this.props.server.serverID}/${this.props.game.id}/${category.id}`} className="category-button-parent"><Button>{category.name}</Button></NavLink>
+                                    return <NavLink key={category.rulesetID} to={`/${this.props.server.serverID}/${this.props.game.gameID}/${category.rulesetID}`} className="category-button-parent"><Button>{category.name}</Button></NavLink>
                                 })}
                             </ButtonGroup>
                             <Accordion style={{marginTop: "16px"}}>

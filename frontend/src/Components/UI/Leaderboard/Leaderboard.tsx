@@ -19,7 +19,7 @@ type LeaderboardState = {
 export default class Leaderboard extends Component<LeaderboardProps, LeaderboardState> {
     constructor(props: LeaderboardProps) {
         super(props);
-        this.state = {columns: ((data.columns as unknown[]) as Column[]).filter(column => column.category === this.props.ruleset.id || column.category === null)};
+        this.state = {columns: ((data.columns as unknown[]) as Column[]).filter(column => column.category === this.props.ruleset.rulesetID || column.category === null)};
     }
 
     render() {
@@ -36,7 +36,7 @@ export default class Leaderboard extends Component<LeaderboardProps, Leaderboard
                 </thead>
                 <tbody>
                     {this.props.runs
-                    .filter(run => run.categoryId === this.props.ruleset.id)
+                    .filter(run => run.categoryId === this.props.ruleset.rulesetID)
                     .sort(this.props.sorter ? this.props.sorter : (run1, run2) => {
                         const a = run1.values.find(value => ColumnConverter.Resolve(this.state.columns, value) instanceof Duration)?.value;
                         const b = run2.values.find(value => ColumnConverter.Resolve(this.state.columns, value) instanceof Duration)?.value;

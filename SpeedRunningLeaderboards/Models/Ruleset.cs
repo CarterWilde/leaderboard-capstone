@@ -19,5 +19,12 @@ namespace SpeedRunningLeaderboards.Models
 			Title = title;
 			Rules = rules;
 		}
+		public Ruleset(Guid gameID, string title, string rules)
+		{
+			RulesetID = Guid.NewGuid();
+			GameID = gameID;
+			Title = title;
+			Rules = rules;
+		}
 	}
 }

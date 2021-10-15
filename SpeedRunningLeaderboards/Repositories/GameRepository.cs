@@ -19,13 +19,25 @@ namespace SpeedRunningLeaderboards.Repositories
 		public GameRepository(DapperContext context) : base(context) {
 			using(var conn = _context.CreateConnection()) {
 				ExecuteNonQueryFromFile("./SQL/Creations/Game.sql", conn);
+				ExecuteNonQueryFromFile("./SQL/Creations/Ruleset.sql", conn);
 			}
 		}
 		public override Game Create(Game entity)
 		{
 			using(var conn = _context.CreateConnection()) {
-				entity.GameID = Guid.NewGuid();
-				conn.Execute("INSERT INTO dbo.Game VALUES (@GameID, @Title, @Rules, @Image)", entity);
+				conn.Open();
+				using(var transaction = conn.BeginTransaction()) {
+					entity.GameID = Guid.NewGuid();
+					conn.Execute("INSERT INTO dbo.Game VALUES (@GameID, @Title, @Rules, @Image)", entity, transaction);
+					if(entity.Rulesets != null) {
+						foreach(var ruleset in entity.Rulesets) {
+							ruleset.GameID = entity.GameID;
+							ruleset.RulesetID = Guid.NewGuid();
+							conn.Execute("INSERT INTO dbo.Ruleset VALUES (@RulesetID, @GameID, @Title, @Rules)", ruleset, transaction);
+						}
+					}
+					transaction.Commit();
+				}
 			}
 			return entity;
 		}
@@ -45,7 +57,33 @@ namespace SpeedRunningLeaderboards.Repositories
 		public override IEnumerable<Game> Get()
 		{
 			using(var conn = _context.CreateConnection()) {
-				return conn.Query<Game>("SELECT * FROM dbo.Game");
+				IDictionary<Guid, Game> cache = new Dictionary<Guid, Game>();
+				return conn.Query<Game, Ruleset, Game>("SELECT * FROM dbo.Game LEFT JOIN dbo.Ruleset ON Ruleset.GameID = Game.GameID;", (game, ruleset) => {
+					Game? gameEntry;
+					if(!cache.TryGetValue(game.GameID, out gameEntry)) {
+						gameEntry = game;
+						cache.Add(gameEntry.GameID, gameEntry);
+					}
+
+					gameEntry.Rulesets.Add(ruleset);
+					return gameEntry;
+				}, splitOn: "RulesetID").Distinct();
+			}
+		}
+		public IEnumerable<Game> GetServerGames(Guid serverId)
+		{
+			using(var conn = _context.CreateConnection()) {
+				IDictionary<Guid, Game> cache = new Dictionary<Guid, Game>();
+				return conn.Query<Game, Ruleset, Game>("WITH ServerGamesCTE (GameID) AS (SELECT ServerGames.GameID FROM dbo.ServerGames WHERE ServerGames.ServerID = @serverId) SELECT * FROM dbo.Game JOIN ServerGamesCTE ON ServerGamesCTE.GameID = dbo.Game.GameID LEFT JOIN dbo.Ruleset ON Ruleset.GameID = Game.GameID;", (game, ruleset) => {
+					Game? gameEntry;
+					if(!cache.TryGetValue(game.GameID, out gameEntry)) {
+						gameEntry = game;
+						cache.Add(gameEntry.GameID, gameEntry);
+					}
+
+					gameEntry.Rulesets.Add(ruleset);
+					return gameEntry;
+				}, splitOn: "RulesetID", param: new { serverId }).Distinct();
 			}
 		}
 		public override Game Update(Game entity)

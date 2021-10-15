@@ -1,0 +1,46 @@
+.page.add-game .content header,
+.page.add-game .content footer {
+	padding: 16px 32px;
+}
+
+.page.add-game .content h2 {
+	padding-bottom: 12px;
+	font-size: 1.25em;
+	font-weight: normal;
+}
+
+.page.add-game .content footer {
+	display: flex;
+	justify-content: flex-end;
+}
+
+.page.add-game .content .ruleset-feild {
+	padding: 16px 32px;
+	border-bottom: 2px solid #25282e;
+}
+
+.page.add-game .content .ruleset-feild:nth-of-type(1) {
+	border-top: 2px solid #25282e;
+}
+
+.page.add-game .content .ruleset-feild footer {
+	padding: initial;
+}
+
+.page.add-game .content .feild {
+	margin: 0 0 16px 0px;
+}
+
+.page.add-game .content .split {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 32px;
+}
+
+.page.add-game .content .search footer {
+	flex-wrap: wrap;
+	align-items: flex-start;
+	align-content: flex-start;
+	justify-content: flex-start;
+	gap: 16px;
+}

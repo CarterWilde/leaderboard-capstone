@@ -12,12 +12,17 @@ namespace SpeedRunningLeaderboards.Models
 		public string Title { get; set; }
 		public string Rules { get; set; }
 		public string Image { get; set; }
-		public Game(Guid gameID, string title, string rules, string image)
+		public IList<Ruleset> Rulesets { get; set; } = new List<Ruleset>();
+		public Game()
+		{
+		}
+		public Game(Guid gameID, string title, string rules, string image, IList<Ruleset> rulesets)
 		{
 			GameID = gameID;
 			Title = title;
 			Rules = rules;
 			Image = image;
+			Rulesets = rulesets;
 		}
 	}
 }

@@ -1,8 +1,8 @@
-import { AccountTreeOutlined, Add } from "@material-ui/icons";
+import { AccountTreeOutlined } from "@material-ui/icons";
 import axios, { AxiosResponse } from "axios";
 import { Component } from "react";
 import { connect } from "react-redux";
-import { RouteComponentProps } from "react-router-dom";
+import { Link, RouteComponentProps } from "react-router-dom";
 import { PropsFromRedux } from "../../../App";
 import { API_ENDPOINT } from "../../../EnviormentVariables";
 import { Server, Runner } from "../../../Models";
@@ -98,10 +98,12 @@ class ServerInfoPage extends Component<ServerInfoPageProps, ServerInfoPageState>
 					<section>
 						{
 							this.props.server.games.map(game => (
-								<GameCard key={game.id} title={game.name} image={game.image} />
+								<GameCard key={game.gameID} title={game.title} image={game.image} style={{width: "200px"}}/>
 							))
 						}
-						<AddCard/>
+						<Link to={`/${this.props.server.serverID}/add-game`}>
+							<AddCard/>
+						</Link>
 					</section>
 				</section>
 				<hr />
