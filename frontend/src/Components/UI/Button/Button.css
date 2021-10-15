@@ -36,6 +36,8 @@
 }
 
 .btn.primary {
+		display: flex;
+		align-items: center;
     background-color: #31343d;
     padding: 10px 8px;
 }
