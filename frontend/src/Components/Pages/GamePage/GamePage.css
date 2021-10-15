@@ -5,3 +5,7 @@
 .page.game > .content > header {
     margin: 36px;
 }
+
+.page.game .category-button-parent.active > .btn {
+	color: #5cfcac;
+}
