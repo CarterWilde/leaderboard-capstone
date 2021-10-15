@@ -7,7 +7,7 @@ enum Directions {
 	West = 4
 }
 
-class Point {
+export class Point {
 	x: number;
 	y: number;
 	vertV: number;
@@ -42,14 +42,14 @@ type BackgroundEffectState = {
 };
 
 type BackgroundEffectProps = {
-
+	points?: Point[]
 };
 
 export default class BackgroundEffect extends Component<BackgroundEffectProps, BackgroundEffectState> {
 	canvasElement?: HTMLCanvasElement;
 	canvasElementRef;
 	parentRef;
-	Points: Point[] = [];
+	Points: Point[] = this.props.points ? this.props.points : [];
 	Mouse: {
 		x: number,
 		y: number
@@ -81,11 +81,13 @@ export default class BackgroundEffect extends Component<BackgroundEffectProps, B
 
 	main(context: CanvasRenderingContext2D) {
 		//First create a '2d'array for points
-		this.Points = [];
-		for (let i = 0; i < NODE_AMOUNT; i++) {
-			//Generate random points within the canvas 
-			//Then store them in the array
-			this.Points.push(new Point(randomNumber(0, this.state.Width), randomNumber(0, this.state.Height), 0, 0));
+		this.Points = this.props.points ? this.props.points : [];
+		if((this.props.points && this.props.points?.length < NODE_AMOUNT) || this.Points.length === 0) {
+			for (let i = 0; i < NODE_AMOUNT; i++) {
+				//Generate random points within the canvas 
+				//Then store them in the array
+				this.Points.push(new Point(randomNumber(0, this.state.Width), randomNumber(0, this.state.Height), 0, 0));
+			}
 		}
 		//Render the points & lines
 		this.draw(context);
