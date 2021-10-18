@@ -2,11 +2,13 @@
 
 FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS base
 WORKDIR /app
+COPY ./SpeedRunningLeaderboards/SQL/ SQL/
 EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
 COPY ["SpeedRunningLeaderboardsWebApi/SpeedRunningLeaderboardsWebApi.csproj", "SpeedRunningLeaderboardsWebApi/"]
+COPY ["SpeedRunningLeaderboards/SpeedRunningLeaderboards.csproj", "SpeedRunningLeaderboards/"]
 RUN dotnet restore "SpeedRunningLeaderboardsWebApi/SpeedRunningLeaderboardsWebApi.csproj"
 COPY . .
 WORKDIR "/src/SpeedRunningLeaderboardsWebApi"

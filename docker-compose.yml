@@ -1,0 +1,18 @@
+version: '3.4'
+
+services:
+  speedrunningleaderboardswebapi:
+    build:
+      context: .
+      dockerfile: SpeedRunningLeaderboardsWebApi/Dockerfile
+    ports:
+      - 8080:80
+    depends_on:
+      - sql
+  redis:
+    image: "redis:alpine"
+  sql:
+      image: "mcr.microsoft.com/mssql/server"
+      environment:
+          SA_PASSWORD: "Password123!"
+          ACCEPT_EULA: "Y"

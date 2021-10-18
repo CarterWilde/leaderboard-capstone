@@ -45,7 +45,7 @@ namespace SpeedRunningLeaderboardsWebApi
 			services.AddScoped<RunnerRepository>();
 			services.AddSingleton<SecretsLoader>();
 			services.AddSingleton<SessionRunner>();
-			services.AddSingleton(ConnectionMultiplexer.Connect("localhost"));
+			services.AddSingleton(ConnectionMultiplexer.Connect("redis"));
 
 			services.AddControllers();
 		}

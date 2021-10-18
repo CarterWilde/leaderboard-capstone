@@ -7,6 +7,7 @@ import { Server } from "../../../Models";
 import { addServer } from "../../../reducers";
 import { RootState } from "../../../store";
 import { Feild, PopUp } from "../../UI";
+import '@brainhubeu/react-carousel/lib/style.css';
 
 export interface CreateServerProps extends PropsFromRedux {
 	open: boolean;

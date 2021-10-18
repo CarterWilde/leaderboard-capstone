@@ -16,6 +16,7 @@
   </ItemGroup>
   <PropertyGroup>
     <Nullable>enable</Nullable>
+    <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
 </Project>
