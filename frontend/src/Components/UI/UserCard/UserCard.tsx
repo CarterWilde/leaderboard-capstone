@@ -17,10 +17,10 @@ const GameCard = (props: UserCardProps) => {
 		<Card className={`user ${props.isOwner ? 'owner' : ''}` + (props.className ? ' ' + props.className : '')} onClick={props.onClick} style={props.style}>
 			{props.isOwner ? (
 				<div className="profile">
-					<div className="child" style={{ backgroundImage: `url(https://cdn.discordapp.com/avatars/${props.user.id}/${props.user.avatar}.png?size=128)` }} />
+					<div className="child" style={{ backgroundImage: `url(https://cdn.discordapp.com/avatars/${props.user.discordloginid}/${props.user.avatar}.png?size=128)` }} />
 				</div>
 			) : (
-				<div className="profile" style={{ backgroundImage: `url(https://cdn.discordapp.com/avatars/${props.user.id}/${props.user.avatar}.png?size=128)` }} />
+				<div className="profile" style={{ backgroundImage: `url(https://cdn.discordapp.com/avatars/${props.user.discordloginid}/${props.user.avatar}.png?size=128)` }} />
 			)}
 			<section className="name">
 				<p>{props.user.username}</p>
