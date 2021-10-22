@@ -34,7 +34,11 @@ namespace SpeedRunningLeaderboardsWebApi
 		{
 			var discordId = httpContext.Request.Cookies["session-id"];
 			if(discordId != null) {
-				session.Runner = repo.Get(Guid.Parse(discordId));
+				try {
+					session.Runner = repo.Get(Guid.Parse(discordId));
+				} catch(InvalidOperationException) {
+					session.Runner = null;
+				}
 			} else {
 				session.Runner = null;
 			}

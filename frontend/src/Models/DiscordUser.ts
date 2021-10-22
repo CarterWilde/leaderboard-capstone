@@ -1,5 +1,5 @@
 export default interface DiscordUser {
-    discordloginid: string,
+    id: string,
     username: string,
     discriminator: string,
     avatar: string,

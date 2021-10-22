@@ -59,7 +59,7 @@ namespace SpeedRunningLeaderboardsWebApi
 
 			app.UseCors(policy =>
 			{
-				policy.WithOrigins(Configuration.GetSection("Origins").Get<string[]>()).AllowAnyHeader().AllowCredentials().AllowAnyMethod();
+				policy.AllowAnyHeader().AllowCredentials().AllowAnyMethod();
 			});
 
 			app.UseRouting();

@@ -24,7 +24,11 @@ namespace SpeedRunningLeaderboardsWebApi.Controllers
 		[HttpGet("{id}")]
 		public IActionResult Get(string id)
 		{
-			return Ok(_repo.Get(Guid.Parse(id)));
+			try {
+				return Ok(_repo.Get(Guid.Parse(id)));
+			} catch(InvalidOperationException) {
+				return NotFound();
+			}
 		}
 	}
 }

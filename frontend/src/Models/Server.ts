@@ -5,7 +5,7 @@ export default interface Server {
     serverID: string;
     name: string;
     icon: string;
-    owner: Runner['runnerId'];
+    owner: Runner['runnerID'];
     moderators: Runner[];
 		members: Runner[];
     games: Game[];

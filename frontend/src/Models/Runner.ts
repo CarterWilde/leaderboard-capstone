@@ -1,7 +1,7 @@
 import DiscordUser from "./DiscordUser";
 
 export default class Runner implements DiscordUser {
-	discordloginid: string;
+	id: string;
 	username: string;
 	discriminator: string;
 	avatar: string;
@@ -16,8 +16,8 @@ export default class Runner implements DiscordUser {
 	public_flags?: number;
 	banner_color?: string;
 	accent_color?: string;
-	runnerId: string;
-	regionId?: number;
+	runnerID: string;
+	regionID?: number;
 	signUpDate: Date;
 	constructor(discordloginid: string, 
 							username: string,
@@ -38,7 +38,7 @@ export default class Runner implements DiscordUser {
 							accent_color?: string,
 							regionId?: number
 	) {
-		this.discordloginid = discordloginid;
+		this.id = discordloginid;
 		this.username = username;
 		this.discriminator = discriminator;
 		this.avatar = avatar;
@@ -53,8 +53,8 @@ export default class Runner implements DiscordUser {
 		this.public_flags = public_flags;
 		this.banner_color = banner_color;
 		this.accent_color = accent_color;
-		this.runnerId = runnerId;
-		this.regionId = regionId;
+		this.runnerID = runnerId;
+		this.regionID = regionId;
 		this.signUpDate = signUpDate;
 	}
 }

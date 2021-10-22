@@ -35,6 +35,7 @@ class CreateServer extends Component<CreateServerProps, CreateServerState> {
 			Name: this.state.name,
 			Icon: this.state.icon
 		});
+		response.games = response.games ? response.games : []
 		this.props.dispatch(addServer(response));
 	};
 

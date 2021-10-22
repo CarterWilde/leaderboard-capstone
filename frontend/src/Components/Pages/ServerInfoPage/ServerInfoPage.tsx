@@ -124,14 +124,14 @@ class ServerInfoPage extends Component<ServerInfoPageProps, ServerInfoPageState>
 					<h3>Members</h3>
 					<section>
 						{this.state.owner ? <UserCard user={this.state.owner} isOwner /> : null}
-						{this.props.server.members.filter(runner => runner.discordloginid !== this.props.server.owner).map(member => (
+						{this.props.server.members.filter(runner => runner.id !== this.props.server.owner).map(member => (
 							<UserCard user={member}/>
 						))}
 					</section>
 				</section>
 				<hr />
 				{
-					this.props.authentication.runner?.discordloginid === this.state.owner?.discordloginid ? (
+					this.props.authentication.runner?.id === this.state.owner?.id ? (
 						<section className="settings">
 							<h3>Settings</h3>
 							<section className="feilds">

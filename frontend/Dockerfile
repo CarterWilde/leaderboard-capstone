@@ -13,8 +13,8 @@ RUN npm run build
 
 RUN rm /etc/nginx/conf.d/default.conf
 
-# RUN mkdir -p /srv/front-end
-# RUN cp -r build/* /srv/front-end
+RUN mkdir -p /srv/frontend
+RUN cp -r build/* /srv/frontend/
 RUN mkdir -p /var/www/html
 RUN cp -r build/* /var/www/html
 

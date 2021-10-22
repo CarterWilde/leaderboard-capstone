@@ -1,14 +1,26 @@
 version: '3.4'
 
 services:
-  speedrunningleaderboardswebapi:
+  backend:
     build:
       context: .
       dockerfile: SpeedRunningLeaderboardsWebApi/Dockerfile
-    ports:
-      - 8080:80
     depends_on:
       - sql
+  frontend:
+    build:
+      context: ./frontend
+    depends_on:
+      - backend
+  api-gateway:
+      build:
+        context: .
+        dockerfile: nginx.Dockerfile
+      depends_on:
+        - frontend
+        - backend
+      ports:
+        - 8080:9090
   redis:
     image: "redis:alpine"
   sql:

@@ -5,7 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import { store } from './store';
-import axios, { AxiosRequestConfig } from 'axios';
+import axios from 'axios';
 import { API_ENDPOINT, DISCORD_LOGIN_URL } from './EnviormentVariables';
 import { fetchServers, hasLoginAction, setLoading, setRunnerAction } from './reducers';
 import { Runner } from './Models';
@@ -23,6 +23,8 @@ class ApiError {
 	}
 };
 
+axios.defaults.withCredentials = true;
+
 const onLoading = async () => {
 	let loginData = (await axios.get(`${API_ENDPOINT}/Authentication/login`)).data;
 	if ("error" in loginData) {
@@ -33,15 +35,9 @@ const onLoading = async () => {
 		} else {
 			throw new Error(`Api threw error! ${error.error}(${error.code}) - ${error.message}`);
 		}
-	} else if("runnerId" in loginData) {
+	} else if("runnerID" in loginData) {
 		store.dispatch(hasLoginAction(true));
 		store.dispatch(setRunnerAction((loginData as Runner)));
-		axios.interceptors.request.use((config: AxiosRequestConfig) => {
-			if(config.headers) {
-				config.headers['Authorization'] = `Bearer ${(loginData as Runner).runnerId}`;
-			}
-			return config;
-		});
 		await store.dispatch(fetchServers());
 	}
 }
