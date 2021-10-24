@@ -15,6 +15,7 @@ using StackExchange.Redis;
 
 namespace SpeedRunningLeaderboardsWebApi.Controllers
 {
+	public record RunDTO(int RunTime, string VideoUrl);
 	public record CreateServerDTO(string Name, string Icon, IEnumerable<Runner>? Members, IEnumerable<Game>? Games);
 	public record CodeOptions([property:JsonPropertyName("expires_in")]int? ExpiresIn, int? Uses);
 
@@ -157,6 +158,15 @@ namespace SpeedRunningLeaderboardsWebApi.Controllers
 					_repo.RemoveGame(serverId, gameId);
 					return Ok();
 				}
+			}
+			return userResult ?? throw new Exception("Result expected!");
+		}
+		[HttpPut("{serverId}/{gameId}/{rulesetId}/runs/add")]
+		public IActionResult AddRun(Guid serverId, Guid gameId, Guid rulesetId, [FromBody] RunDTO data)
+		{
+			var userResult = this.GetUser(out Runner? runner);
+			if(runner is Runner && userResult is null) {
+				_repo.AddRun(runner.RunnerID, serverId, gameId, rulesetId, data.RunTime, data.VideoUrl);
 			}
 			return userResult ?? throw new Exception("Result expected!");
 		}

@@ -18,10 +18,11 @@ namespace SpeedRunningLeaderboards.Repositories
 	{
 		public ServerRepository(DapperContext context) : base(context) {
 			using(var conn = _context.CreateConnection()) {
-				ExecuteNonQueryFromFile("./SQL/Creations/Server.sql", conn);
 				ExecuteNonQueryFromFile("./SQL/Creations/Runner.sql", conn);
-				ExecuteNonQueryFromFile("./SQL/Creations/Run.sql", conn);
+				ExecuteNonQueryFromFile("./SQL/Creations/Server.sql", conn);
 				ExecuteNonQueryFromFile("./SQL/Creations/Game.sql", conn);
+				ExecuteNonQueryFromFile("./SQL/Creations/Ruleset.sql", conn);
+				ExecuteNonQueryFromFile("./SQL/Creations/Run.sql", conn);
 				ExecuteNonQueryFromFile("./SQL/Creations/ServerGames.sql", conn);
 				ExecuteNonQueryFromFile("./SQL/Creations/ServerMembers.sql", conn);
 			}
@@ -57,7 +58,7 @@ namespace SpeedRunningLeaderboards.Repositories
 		public void AddMember(Guid serverId, Guid runnerId, IDbTransaction? transaction = null)
 		{
 			using(var conn = _context.CreateConnection()) {
-				conn.Execute("INSERT INTO dbo.ServerMembers VALUES (@serverId, @runnerId);", new { serverId, runnerId }, transaction);
+				conn.Execute("INSERT INTO dbo.ServerMembers VALUES (@id, @runnerId, @serverId);", new { id=Guid.NewGuid(), serverId, runnerId }, transaction);
 			}
 		}
 		public override void Delete(Guid id)
@@ -106,6 +107,12 @@ namespace SpeedRunningLeaderboards.Repositories
 		{
 			using(var conn = _context.CreateConnection()) {
 				conn.Execute("DELETE FROM dbo.ServerGames WHERE ServerID=@serverId AND GameID=@gameId;", new {serverId, gameId});
+			}
+		}
+		public void AddRun(Guid runnerId, Guid serverId, Guid gameId, Guid rulesetId, int runTime, string videoUrl)
+		{
+			using(var conn = _context.CreateConnection()) {
+				conn.Execute("INSERT INTO dbo.Run VALUES (@id, @runnerId, @serverId, @rulesetId, @publishDate, @runTime, @videoUrl);", new { id=Guid.NewGuid(), runnerId, serverId, gameId, rulesetId, publishDate = DateTime.Now, runTime, videoUrl});
 			}
 		}
 	}

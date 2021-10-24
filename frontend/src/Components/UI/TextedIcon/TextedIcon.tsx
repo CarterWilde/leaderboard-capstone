@@ -10,11 +10,12 @@ export type TextedIconProps = {
     children: string;
     style?: CSSProperties;
     size?: string;
+		onClick?: React.MouseEventHandler<HTMLDivElement>;
 }
 
 const TextedIcon = (props: TextedIconProps) => {
     return(
-        <div className={"texted-icon" + (props.className ? ` ${props.className}` : '')} style={{height: `calc(${props.size} + .5em)`, fontSize: props.size, ...props.style}}>
+        <div className={"texted-icon" + (props.className ? ` ${props.className}` : '')} style={{height: `calc(${props.size} + .5em)`, fontSize: props.size, ...props.style}} onClick={props.onClick}>
             {props.icon}
             <p>{props.children}</p>
         </div>
