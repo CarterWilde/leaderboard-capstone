@@ -39,7 +39,7 @@ namespace SpeedRunningLeaderboardsWebApi.Controllers
 			foreach(var ruleset in game.Rulesets) {
 				rulesets.Add(new Ruleset(Guid.NewGuid(), ruleset.Title, ruleset.Rules));
 			}
-			return Ok(_repo.Create(new Game(Guid.NewGuid(), game.Title, game.Rules, game.Image, rulesets)));
+			return Ok(_repo.Create(new Game(Guid.NewGuid(), game.Title, game.Rules, game.Image, rulesets, new List<Run>())));
 		}
 		[HttpDelete("{gameId}")]
 		public IActionResult DeleteGame(Guid gameId) {

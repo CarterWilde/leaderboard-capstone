@@ -167,6 +167,7 @@ namespace SpeedRunningLeaderboardsWebApi.Controllers
 			var userResult = this.GetUser(out Runner? runner);
 			if(runner is Runner && userResult is null) {
 				_repo.AddRun(runner.RunnerID, serverId, gameId, rulesetId, data.RunTime, data.VideoUrl);
+				return Ok();
 			}
 			return userResult ?? throw new Exception("Result expected!");
 		}

@@ -1,3 +1,4 @@
+import { Run } from ".";
 import Ruleset from "./Ruleset";
 
 export default interface Game {
@@ -5,5 +6,6 @@ export default interface Game {
     title: string;
     rules: string;
     image: string;
-    rulesets: Ruleset[]
+    rulesets: Ruleset[];
+		runs: Run[];
 }

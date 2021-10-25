@@ -1,9 +1,8 @@
 import { Add, GamepadOutlined } from "@material-ui/icons";
-import axios from "axios";
 import { Component } from "react";
 import { NavLink, RouteComponentProps } from "react-router-dom";
-import { API_ENDPOINT } from "../../../EnviormentVariables";
 import { Server, Game, Ruleset } from "../../../Models";
+import { SubmitRun } from "../../PopUps";
 import { Accordion, AccordionItem, Button, ButtonGroup, GameCard, Leaderboard, Page, TextedIcon } from "../../UI";
 import "./GamePage.css"
 
@@ -14,22 +13,23 @@ export interface GamePageProps extends RouteComponentProps {
 }
 
 export type GamePageState = {
+	submitRunOpen: boolean;
 }
 
 export default class GamePage extends Component<GamePageProps, GamePageState> {
+	constructor(props: GamePageProps) {
+		super(props);
+
+		this.state = {
+			submitRunOpen: false
+		}
+	}
+
 	render() {
-		const aside = <TextedIcon style={{fontWeight: "lighter", fontSize: "24px", color: "#5cfcac", cursor: "pointer"}} icon={<Add/>} onClick={
-			() => {
-				axios.put(`${API_ENDPOINT}/servers/${this.props.server.serverID}/${this.props.game.gameID}/${this.props.ruleset.rulesetID}/runs/add`, {
-					RunTime: (40*60000) + (19*1000) + 690,
-					VideoUrl: "https://youtu.be/nbhgyr9mcec"
-				}).then(() => {
-					window.location.reload();
-				})
-			}
-		}>Submit Run</TextedIcon>;
+		const aside = <TextedIcon style={{fontWeight: "lighter", fontSize: "24px", color: "#5cfcac", cursor: "pointer"}} icon={<Add/>} onClick={() => {this.setState({submitRunOpen: true})}}>Submit Run</TextedIcon>;
 		return (
 			<Page className="game" title={this.props.game.title} icon={<GamepadOutlined />} aside={aside}>
+				<SubmitRun serverID={this.props.server.serverID} gameID={this.props.game.gameID} rulesetID={this.props.ruleset.rulesetID} open={this.state.submitRunOpen} onClosed={() => {this.setState({submitRunOpen: false})}}/>
 				<header>
 					<GameCard image={this.props.game.image} title={this.props.game.title} />
 					<section>
@@ -48,7 +48,7 @@ export default class GamePage extends Component<GamePageProps, GamePageState> {
 						</Accordion>
 					</section>
 				</header>
-				<Leaderboard ruleset={this.props.ruleset} runs={[]} />
+				<Leaderboard ruleset={this.props.ruleset} runs={this.props.game.runs} />
 			</Page>
 		);
 	}

@@ -80,7 +80,7 @@ namespace SpeedRunningLeaderboardsTests.RepositoriesTests
 
 		private Game GetGameObject()
 		{
-			return new Game(Guid.NewGuid(), "Portal", "Complete the game with autosaves and quick loads.", "https://www.speedrun.com/gameasset/4pd0n31e/cover", new List<Ruleset>());
+			return new Game(Guid.NewGuid(), "Portal", "Complete the game with autosaves and quick loads.", "https://www.speedrun.com/gameasset/4pd0n31e/cover", new List<Ruleset>(), new List<Run>());
 		}
 	}
 }

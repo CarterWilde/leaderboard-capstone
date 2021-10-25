@@ -74,7 +74,7 @@ namespace SpeedRunningLeaderboards.Repositories
 		{
 			using(var conn = _context.CreateConnection()) {
 				IDictionary<Guid, Game> cache = new Dictionary<Guid, Game>();
-				return conn.Query<Game, Ruleset, Game>("WITH ServerGamesCTE (GameID) AS (SELECT ServerGames.GameID FROM dbo.ServerGames WHERE ServerGames.ServerID = @serverId) SELECT * FROM dbo.Game JOIN ServerGamesCTE ON ServerGamesCTE.GameID = dbo.Game.GameID LEFT JOIN dbo.Ruleset ON Ruleset.GameID = Game.GameID;", (game, ruleset) => {
+				var games = conn.Query<Game, Ruleset, Game>("WITH ServerGamesCTE (GameID) AS (SELECT ServerGames.GameID FROM dbo.ServerGames WHERE ServerGames.ServerID = @serverId) SELECT * FROM dbo.Game JOIN ServerGamesCTE ON ServerGamesCTE.GameID = dbo.Game.GameID LEFT JOIN dbo.Ruleset ON Ruleset.GameID = Game.GameID;", (game, ruleset) => {
 					Game? gameEntry;
 					if(!cache.TryGetValue(game.GameID, out gameEntry)) {
 						gameEntry = game;
@@ -84,6 +84,11 @@ namespace SpeedRunningLeaderboards.Repositories
 					gameEntry.Rulesets.Add(ruleset);
 					return gameEntry;
 				}, splitOn: "RulesetID", param: new { serverId }).Distinct();
+				foreach (var game in games)
+				{
+					game.Runs = conn.Query<Run>("SELECT * FROM dbo.Run WHERE ServerID = @serverId;", new {serverId}).ToList();
+				}
+				return games;
 			}
 		}
 		public override Game Update(Game entity)

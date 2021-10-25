@@ -12,12 +12,14 @@ namespace SpeedRunningLeaderboards.Models
 		public Guid GameID { get; set; }
 		public string Title { get; set; }
 		public string Rules { get; set; }
+		public IList<Column> Columns { get; set; }
 		public Ruleset(Guid rulesetID, Guid gameID, string title, string rules)
 		{
 			RulesetID = rulesetID;
 			GameID = gameID;
 			Title = title;
 			Rules = rules;
+			Columns = new List<Column>();
 		}
 		public Ruleset(Guid gameID, string title, string rules)
 		{
@@ -25,6 +27,7 @@ namespace SpeedRunningLeaderboards.Models
 			GameID = gameID;
 			Title = title;
 			Rules = rules;
+			Columns = new List<Column>();
 		}
 	}
 }
