@@ -1,3 +1,4 @@
+import { Column } from ".";
 import Run from "./Run";
 
 export default interface Ruleset {
@@ -5,5 +6,6 @@ export default interface Ruleset {
     gameId: string;
     title: string;
     rules: string;
-    runs: Run[]
+    runs: Run[];
+		columns: Column[];
 }

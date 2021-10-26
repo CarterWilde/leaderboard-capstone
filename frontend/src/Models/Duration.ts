@@ -29,15 +29,17 @@ export default class Duration {
         }
     }
 
-    toDurationString(seconds: number) : string {
-        const minutes = Math.trunc(seconds / 60);
-        const secs = seconds % 60;
-        const addSecondsPrefix = (secs < 10);
-        const addMinutesPrefix = (minutes < 10);
-        return `${addMinutesPrefix ? "0"+(minutes):(minutes)}:${addSecondsPrefix ? "0"+(secs.toFixed(2)):(secs.toFixed(2))}`;
+    toDurationString() : string {
+			const [HourConversion, MinuteConversion, SecondsConversion] = [60 * 60 * 1000, 60 * 1000, 1000];
+			const [HH, MM, SS] = [
+				this.value / HourConversion,
+				(this.value % HourConversion) / MinuteConversion,
+				((this.value % HourConversion) % MinuteConversion) / SecondsConversion
+			];
+			return `${Math.trunc(HH).toString().padStart(2, '0')}:${Math.trunc(MM).toString().padStart(4, '0')}:${SS}`;
     }
 
     public toString() {
-        return this.toDurationString(this.value);
+        return this.toDurationString();
     }
 }

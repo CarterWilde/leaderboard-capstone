@@ -20,6 +20,7 @@ namespace SpeedRunningLeaderboards.Repositories
 			using(var conn = _context.CreateConnection()) {
 				ExecuteNonQueryFromFile("./SQL/Creations/Game.sql", conn);
 				ExecuteNonQueryFromFile("./SQL/Creations/Ruleset.sql", conn);
+				ExecuteNonQueryFromFile("./SQL/Creations/Column.sql", conn);
 			}
 		}
 		public override Game Create(Game entity)
@@ -34,6 +35,9 @@ namespace SpeedRunningLeaderboards.Repositories
 							ruleset.GameID = entity.GameID;
 							ruleset.RulesetID = Guid.NewGuid();
 							conn.Execute("INSERT INTO dbo.Ruleset VALUES (@RulesetID, @GameID, @Title, @Rules)", ruleset, transaction);
+							foreach(var column in ruleset.Columns) {
+								AddColumn(ruleset.RulesetID, column, transaction);
+							}
 						}
 					}
 					transaction.Commit();
@@ -87,6 +91,9 @@ namespace SpeedRunningLeaderboards.Repositories
 				foreach (var game in games)
 				{
 					game.Runs = conn.Query<Run>("SELECT * FROM dbo.Run WHERE ServerID = @serverId;", new {serverId}).ToList();
+					foreach(var ruleset in game.Rulesets) {
+						ruleset.Columns = GetColumns(ruleset.RulesetID).ToList();
+					}
 				}
 				return games;
 			}
@@ -98,17 +105,25 @@ namespace SpeedRunningLeaderboards.Repositories
 			}
 			return entity;
 		}
-		public Ruleset AddRuleset(Guid gameId, Ruleset ruleset)
+		public Column AddColumn(Guid rulesetID, Column column, IDbTransaction? transaction = null)
 		{
 			using(var conn = _context.CreateConnection()) {
-				conn.Execute("INSERT INTO dbo.Ruleset VALUES (@gameId, @Title, @Rules);", ruleset);
+				conn.Execute("INSERT INTO dbo.Column VALUES (@id, @rulesetID, @Name, @Type)", new { id = Guid.NewGuid(), rulesetID, column.Name, column.Type}, transaction);
 			}
-			return ruleset;
+			column.RulesetID = rulesetID;
+			return column;
 		}
-		public void RemoveRuleset(Guid rulesetId)
+
+		public IEnumerable<Column> GetColumns(Guid rulesetId)
 		{
 			using(var conn = _context.CreateConnection()) {
-				conn.Execute("DELETE FROM dbo.Ruleset WHERE dbo.Ruleset.RulesetID = @rulesetId", new { rulesetId });
+				return conn.Query<Column>("SELECT * FROM dbo.[Column] WHERE dbo.[Column].RulesetID = @rulesetId", new { rulesetId });
+			}
+		}
+		public void RemoveColumn(Guid columnId)
+		{
+			using(var conn = _context.CreateConnection()) {
+				conn.Execute("DELETE FROM dbo.Column WHERE dbo.Column.ColumnID = @columnId", new { columnId });
 			}
 		}
 	}
