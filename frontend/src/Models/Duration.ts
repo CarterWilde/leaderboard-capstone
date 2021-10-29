@@ -36,7 +36,7 @@ export default class Duration {
 				(this.value % HourConversion) / MinuteConversion,
 				((this.value % HourConversion) % MinuteConversion) / SecondsConversion
 			];
-			return `${Math.trunc(HH).toString().padStart(2, '0')}:${Math.trunc(MM).toString().padStart(4, '0')}:${SS}`;
+			return `${Math.trunc(HH).toString().padStart(2, '0')}:${Math.trunc(MM).toString().padStart(2, '0')}:${SS.toString().padStart(2, '0')}`;
     }
 
     public toString() {
