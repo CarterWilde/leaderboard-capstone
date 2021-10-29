@@ -21,6 +21,7 @@ namespace SpeedRunningLeaderboards.Repositories
 				ExecuteNonQueryFromFile("./SQL/Creations/Game.sql", conn);
 				ExecuteNonQueryFromFile("./SQL/Creations/Ruleset.sql", conn);
 				ExecuteNonQueryFromFile("./SQL/Creations/Column.sql", conn);
+				ExecuteNonQueryFromFile("./SQL/Creations/Run.sql", conn);
 			}
 		}
 		public override Game Create(Game entity)
@@ -36,7 +37,7 @@ namespace SpeedRunningLeaderboards.Repositories
 							ruleset.RulesetID = Guid.NewGuid();
 							conn.Execute("INSERT INTO dbo.Ruleset VALUES (@RulesetID, @GameID, @Title, @Rules)", ruleset, transaction);
 							foreach(var column in ruleset.Columns) {
-								AddColumn(ruleset.RulesetID, column, transaction);
+								AddColumn(ruleset.RulesetID, column, conn, transaction);
 							}
 						}
 					}
@@ -55,6 +56,13 @@ namespace SpeedRunningLeaderboards.Repositories
 		{
 			using(var conn = _context.CreateConnection()) {
 				return conn.QuerySingle<Game>("SELECT * FROM dbo.Game WHERE Game.GameID = @id", new { id });
+			}
+		}
+
+		public IEnumerable<Run> GetVerficationRuns(Guid serverId)
+		{
+			using(var conn = _context.CreateConnection()) {
+				return conn.Query<Run>("SELECT * FROM dbo.Run WHERE dbo.Run.ServerID = @serverId AND dbo.Run.VerifiedBy = NULL;", new { serverId });
 			}
 		}
 
@@ -91,6 +99,9 @@ namespace SpeedRunningLeaderboards.Repositories
 				foreach (var game in games)
 				{
 					game.Runs = conn.Query<Run>("SELECT * FROM dbo.Run WHERE ServerID = @serverId;", new {serverId}).ToList();
+					foreach(var run in game.Runs) {
+						run.Values = conn.Query<ColumnValue>("SELECT * FROM dbo.ColumnValue WHERE ColumnValue.RunID = @RunID;", new { run.RunID }).ToList();
+					}
 					foreach(var ruleset in game.Rulesets) {
 						ruleset.Columns = GetColumns(ruleset.RulesetID).ToList();
 					}
@@ -111,13 +122,11 @@ namespace SpeedRunningLeaderboards.Repositories
 				return conn.Query<Column>("SELECT * FROM dbo.[Column] WHERE dbo.[Column].RulesetID = @rulesetId", new { rulesetId });
 			}
 		}
-		public Column AddColumn(Guid rulesetID, Column column, IDbTransaction? transaction = null)
+		public Column AddColumn(Guid rulesetID, Column column, SqlConnection conn, IDbTransaction transaction)
 		{
-			using(var conn = _context.CreateConnection()) {
-				var id = Guid.NewGuid();
-				conn.Execute("INSERT INTO dbo.[Column] VALUES (@id, @rulesetID, @Name, @Type)", new { id, rulesetID, column.Name, column.Type}, transaction);
-				column.ColumnID = id;
-			}
+			var id = Guid.NewGuid();
+			conn.Execute("INSERT INTO dbo.[Column] VALUES (@id, @rulesetID, @Name, @Type)", new { id, rulesetID, column.Name, column.Type}, transaction);
+			column.ColumnID = id;
 			column.RulesetID = rulesetID;
 			return column;
 		}

@@ -11,7 +11,7 @@ using SpeedRunningLeaderboards.Repositories;
 
 namespace SpeedRunningLeaderboardsWebApi.Controllers
 {
-	public record RulesetDTO(string Title, string Rules);
+	public record RulesetDTO(string Title, string Rules, IList<Column> Columns);
 	public record GameDTO(string Title, string Rules, string Image, IList<RulesetDTO> Rulesets);
 	[Route("api/[controller]")]
 	[ApiController]
@@ -36,10 +36,11 @@ namespace SpeedRunningLeaderboardsWebApi.Controllers
 		public IActionResult CreateGame([FromBody] GameDTO game)
 		{
 			IList<Ruleset> rulesets = new List<Ruleset>();
+			var gameId = Guid.NewGuid();
 			foreach(var ruleset in game.Rulesets) {
-				rulesets.Add(new Ruleset(Guid.NewGuid(), ruleset.Title, ruleset.Rules));
+				rulesets.Add(new Ruleset(Guid.NewGuid(), ruleset.Title, ruleset.Rules, ruleset.Columns));
 			}
-			return Ok(_repo.Create(new Game(Guid.NewGuid(), game.Title, game.Rules, game.Image, rulesets, new List<Run>())));
+			return Ok(_repo.Create(new Game(gameId, game.Title, game.Rules, game.Image, rulesets, new List<Run>())));
 		}
 		[HttpDelete("{gameId}")]
 		public IActionResult DeleteGame(Guid gameId) {

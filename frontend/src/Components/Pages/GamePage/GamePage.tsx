@@ -29,7 +29,7 @@ export default class GamePage extends Component<GamePageProps, GamePageState> {
 		const aside = <TextedIcon style={{fontWeight: "lighter", fontSize: "24px", color: "#5cfcac", cursor: "pointer"}} icon={<Add/>} onClick={() => {this.setState({submitRunOpen: true})}}>Submit Run</TextedIcon>;
 		return (
 			<Page className="game" title={this.props.game.title} icon={<GamepadOutlined />} aside={aside}>
-				<SubmitRun serverID={this.props.server.serverID} gameID={this.props.game.gameID} rulesetID={this.props.ruleset.rulesetID} open={this.state.submitRunOpen} onClosed={() => {this.setState({submitRunOpen: false})}}/>
+				<SubmitRun serverID={this.props.server.serverID} game={this.props.game} ruleset={this.props.ruleset} open={this.state.submitRunOpen} onClosed={() => {this.setState({submitRunOpen: false})}}/>
 				<header>
 					<GameCard image={this.props.game.image} title={this.props.game.title} />
 					<section>

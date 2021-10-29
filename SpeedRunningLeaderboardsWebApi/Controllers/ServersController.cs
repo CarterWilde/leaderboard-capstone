@@ -15,7 +15,7 @@ using StackExchange.Redis;
 
 namespace SpeedRunningLeaderboardsWebApi.Controllers
 {
-	public record RunDTO(int RunTime, string VideoUrl);
+	public record RunDTO(int RunTime, string VideoUrl, IList<(Guid columnId, string value)> values);
 	public record CreateServerDTO(string Name, string Icon, IEnumerable<Runner>? Members, IEnumerable<Game>? Games);
 	public record CodeOptions([property:JsonPropertyName("expires_in")]int? ExpiresIn, int? Uses);
 
@@ -50,6 +50,11 @@ namespace SpeedRunningLeaderboardsWebApi.Controllers
 				return Ok(servers);
 			}
 			return userResult ?? throw new Exception("Result expected!");
+		}
+		[HttpGet("{serverId}/runs/verification")]
+		public IActionResult GetVerificationRuns(Guid serverId)
+		{
+			return Ok(_gameRepo.GetVerficationRuns(serverId));
 		}
 		[HttpPut("{serverId}/generate-code")]
 		public IActionResult GetInviteCode(Guid serverId, [FromBody] CodeOptions options)
@@ -166,7 +171,7 @@ namespace SpeedRunningLeaderboardsWebApi.Controllers
 		{
 			var userResult = this.GetUser(out Runner? runner);
 			if(runner is Runner && userResult is null) {
-				_repo.AddRun(runner.RunnerID, serverId, gameId, rulesetId, data.RunTime, data.VideoUrl);
+				_repo.AddRun(runner.RunnerID, serverId, gameId, rulesetId, data.RunTime, data.VideoUrl, data.values.ToArray());
 				return Ok();
 			}
 			return userResult ?? throw new Exception("Result expected!");

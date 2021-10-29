@@ -48,13 +48,11 @@ onLoading().then(() => {
 });
 
 ReactDOM.render(
-	<React.StrictMode>
 		<Provider store={store}>
 			<div id="app">
 				<App />
 			</div>
-		</Provider>
-	</React.StrictMode>,
+		</Provider>,
 	document.getElementById('root')
 );
 

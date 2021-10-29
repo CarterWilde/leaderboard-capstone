@@ -48,10 +48,10 @@ export default class Leaderboard extends Component<LeaderboardProps, Leaderboard
 						<th>Runner</th>
 						<th>Run Time</th>
 						<th>Publish Date</th>
-						<th>VOD</th>
 						{this.props.ruleset.columns.map(column => (
-							<th key={column.id}>{column.name}</th>
+							<th key={column.id + this.props.ruleset.rulesetID}>{column.name}</th>
 						))}
+						<th>VOD</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -75,7 +75,6 @@ export default class Leaderboard extends Component<LeaderboardProps, Leaderboard
 								</td>
 								<td>{run.runTime.toDurationString()}</td>
 								<td>{`${run.publishDate.getMonth() + 1}/${run.publishDate.getDate()}/${run.publishDate.getFullYear()}`}</td>
-								<td><a href={run.videoURL} style={{ color: "white" }} target="_blank" rel="noreferrer"><Videocam /></a></td>
 								{
 									run.values.map(valueColumn => {
 										return { key: valueColumn.id, value: ColumnConverter.Resolve(this.props.ruleset.columns, valueColumn) }
@@ -91,10 +90,11 @@ export default class Leaderboard extends Component<LeaderboardProps, Leaderboard
 											display = converted.value.toString();
 										}
 										return (
-											<td key={converted.key}>{display}</td>
-										);
-									})
-								}
+											<td key={converted.key + this.props.ruleset.rulesetID}>{display}</td>
+											);
+										})
+									}
+									<td><a href={run.videoURL} style={{ color: "white" }} target="_blank" rel="noreferrer"><Videocam /></a></td>
 							</tr>
 						))}
 				</tbody>

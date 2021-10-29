@@ -118,18 +118,14 @@ export default class AddGamePage extends Component<AddGamePageProps, AddGamePage
 										}} />
 										<section className="columns">
 											{
-												ruleset.columns.map(column => {
+												ruleset.columns.map((column, ci) => {
 													return (
-														<div className="column-feild" key={column.id + Date.now()}>
-															<Feild name="Column Name" type="text" onChange={(e) => {
+														<div key={column.id} className="column-feild">
+															<Feild name="Column Name" type="text" defaultValue={column.name} onChange={(e) => {
 																this.setState(prevState => {
 																	let rulesets = Object.assign([] as RulesetDTO[], prevState.rulesets);
-																	let newCol = rulesets[i].columns.find(col => col.id === column.id);
-																	if(newCol) {
-																		newCol.name = e.target.value;
-																		return { rulesets: rulesets };
-																	}
-																	return {...prevState};
+																	rulesets[i].columns[ci].name = e.target.value;
+																	return { rulesets: rulesets }
 																});
 															}}/>
 															<label htmlFor={column.id}>Type</label>
@@ -155,12 +151,14 @@ export default class AddGamePage extends Component<AddGamePageProps, AddGamePage
 											}
 										</section>
 										<footer>
-											<Button variant="text" onClick={() => {
+											<Button variant="text" onClick={(e) => {
 												this.setState(prevState => {
 													let rulesets = Object.assign([] as RulesetDTO[], prevState.rulesets);
-													console.log(prevState);
-													rulesets.find(rule => rule.key === ruleset.key)?.columns.push({id: Date.now().toString(), name: "", type: "string", ruleset: ruleset.key});
-													return { rulesets: rulesets }
+													let rule = rulesets.find(r => r.key === ruleset.key);
+													if(rule) {
+														rule.columns.push({id: (rule.key + (rule.columns.length + 1)), name: "", type: "string", ruleset: ""})
+														return {...prevState, rulesets: rulesets};
+													}
 												});
 											}}>Add Column</Button>
 											<Button variant="text" color="rgb(252, 92, 92)" onClick={() => {
@@ -168,7 +166,6 @@ export default class AddGamePage extends Component<AddGamePageProps, AddGamePage
 													let rulesets = Object.assign([] as RulesetDTO[], prevState.rulesets);
 													return { rulesets: rulesets.filter(rule => rule.key !== ruleset.key) }
 												});
-												this.forceUpdate();
 											}}>Remove Ruleset</Button>
 										</footer>
 									</section>

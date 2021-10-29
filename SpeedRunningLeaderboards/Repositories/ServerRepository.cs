@@ -25,6 +25,7 @@ namespace SpeedRunningLeaderboards.Repositories
 				ExecuteNonQueryFromFile("./SQL/Creations/Run.sql", conn);
 				ExecuteNonQueryFromFile("./SQL/Creations/ServerGames.sql", conn);
 				ExecuteNonQueryFromFile("./SQL/Creations/ServerMembers.sql", conn);
+				ExecuteNonQueryFromFile("./SQL/Creations/ColumnValue.sql", conn);
 			}
 		}
 		public override Server Create(Server entity)
@@ -75,7 +76,7 @@ namespace SpeedRunningLeaderboards.Repositories
 					var columns = conn.Query<Column>("SELECT * FROM dbo.[Column] WHERE dbo.[Column].RulesetID = @rulesetId", new { rulesetId }, transaction);
 					if(values.Length != columns.Count()) throw new Exception("Missing a value or too many!");
 					var runId = Guid.NewGuid();
-					conn.Execute("INSERT INTO dbo.Run VALUES (@id, @runnerId, @serverId, @rulesetId, @publishDate, @runTime, @videoUrl);", new { id = runId, runnerId, serverId, gameId, rulesetId, publishDate = DateTime.Now, runTime, videoUrl }, transaction);
+					conn.Execute("INSERT INTO dbo.Run VALUES (@id, @runnerId, @serverId, @rulesetId, @publishDate, @runTime, @videoUrl, NULL);", new { id = runId, runnerId, serverId, gameId, rulesetId, publishDate = DateTime.Now, runTime, videoUrl }, transaction);
 					for(int i = 0; i < values.Length; i++) {
 						var value = values[i];
 						conn.Execute("INSERT INTO dbo.ColumnValue VALUES (@id, @runId, @columnId, @value);", new { id = Guid.NewGuid(), runId, columnId = columns.ElementAt(i).ColumnID, value.value }, transaction);

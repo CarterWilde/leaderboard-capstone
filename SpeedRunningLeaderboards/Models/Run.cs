@@ -17,7 +17,7 @@ namespace SpeedRunningLeaderboards.Models
 		public string VideoURL { get; set; }
 		public Guid? VerifiedBy { get; set; }
 		public IEnumerable<ColumnValue> Values { get; set; }
-		public Run(Guid runID, Guid runnerID, Guid serverID, Guid rulesetID, DateTime publishDate, Decimal runTime, string videoURL)
+		public Run(Guid runID, Guid runnerID, Guid serverID, Guid rulesetID, DateTime publishDate, Decimal runTime, string videoURL, Guid verifiedBy)
 		{
 			RunID = runID;
 			RunnerID = runnerID;
@@ -26,19 +26,8 @@ namespace SpeedRunningLeaderboards.Models
 			PublishDate = publishDate;
 			RunTime = (int)runTime;
 			VideoURL = videoURL;
-			Values = new List<ColumnValue>();
-		}
-		public Run(Guid runID, Guid runnerID, Guid serverID, Guid rulesetID, DateTime publishDate, int runTime, string videoURL, Guid verifiedBy, IEnumerable<ColumnValue> values)
-		{
-			RunID = runID;
-			RunnerID = runnerID;
-			ServerID = serverID;
-			RulesetID = rulesetID;
-			PublishDate = publishDate;
-			RunTime = runTime;
-			VideoURL = videoURL;
 			VerifiedBy = verifiedBy;
-			Values = values;
+			Values = new List<ColumnValue>();
 		}
 	}
 }
