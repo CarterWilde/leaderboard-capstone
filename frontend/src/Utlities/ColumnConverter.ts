@@ -44,7 +44,7 @@ export default class ColumnConverter {
 	}
 
 	static Resolve(columns: Column[], valueColumn: ColumnValue): ConvertableTypes {
-		const type = columns.find(column => column.id === valueColumn.columnId)?.type;
+		const type = columns.find(column => column.columnID === valueColumn.columnID)?.type;
 		if (type) {
 			return ColumnConverter.Convert(valueColumn.value, type);
 		}

@@ -120,7 +120,7 @@ export default class AddGamePage extends Component<AddGamePageProps, AddGamePage
 											{
 												ruleset.columns.map((column, ci) => {
 													return (
-														<div key={column.id} className="column-feild">
+														<div key={column.columnID} className="column-feild">
 															<Feild name="Column Name" type="text" defaultValue={column.name} onChange={(e) => {
 																this.setState(prevState => {
 																	let rulesets = Object.assign([] as RulesetDTO[], prevState.rulesets);
@@ -128,11 +128,11 @@ export default class AddGamePage extends Component<AddGamePageProps, AddGamePage
 																	return { rulesets: rulesets }
 																});
 															}}/>
-															<label htmlFor={column.id}>Type</label>
-															<select id={column.id} name="type" defaultValue={column.type}  onChange={(e) => {
+															<label htmlFor={column.columnID}>Type</label>
+															<select id={column.columnID} name="type" defaultValue={column.type}  onChange={(e) => {
 																this.setState(prevState => {
 																	let rulesets = Object.assign([] as RulesetDTO[], prevState.rulesets);
-																	let newCol = rulesets[i].columns.find(col => col.id === column.id);
+																	let newCol = rulesets[i].columns.find(col => col.columnID === column.columnID);
 																	if(newCol) {
 																		newCol.type = (e.target.value as unknown) as Column['type'];
 																		return { rulesets: rulesets };
@@ -156,7 +156,7 @@ export default class AddGamePage extends Component<AddGamePageProps, AddGamePage
 													let rulesets = Object.assign([] as RulesetDTO[], prevState.rulesets);
 													let rule = rulesets.find(r => r.key === ruleset.key);
 													if(rule) {
-														rule.columns.push({id: (rule.key + (rule.columns.length + 1)), name: "", type: "string", ruleset: ""})
+														rule.columns.push({columnID: (rule.key + (rule.columns.length + 1)), name: "", type: "string", ruleset: ""})
 														return {...prevState, rulesets: rulesets};
 													}
 												});

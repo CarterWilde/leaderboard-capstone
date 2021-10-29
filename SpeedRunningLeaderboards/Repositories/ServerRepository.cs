@@ -14,6 +14,7 @@ using System.Data;
 
 namespace SpeedRunningLeaderboards.Repositories
 {
+	public record ColumnValueDTO(Guid columnID, string value);
 	public class ServerRepository : Repository<Server, Guid>
 	{
 		public ServerRepository(DapperContext context) : base(context) {
@@ -68,7 +69,7 @@ namespace SpeedRunningLeaderboards.Repositories
 				conn.Execute("INSERT INTO dbo.ServerMembers VALUES (@id, @runnerId, @serverId);", new { id=Guid.NewGuid(), serverId, runnerId }, transaction);
 			}
 		}
-		public void AddRun(Guid runnerId, Guid serverId, Guid gameId, Guid rulesetId, int runTime, string videoUrl, params (Guid columnId, string value)[] values)
+		public void AddRun(Guid runnerId, Guid serverId, Guid gameId, Guid rulesetId, int runTime, string videoUrl, params ColumnValueDTO[] values)
 		{
 			using(var conn = _context.CreateConnection()) {
 				conn.Open();
@@ -82,6 +83,21 @@ namespace SpeedRunningLeaderboards.Repositories
 						conn.Execute("INSERT INTO dbo.ColumnValue VALUES (@id, @runId, @columnId, @value);", new { id = Guid.NewGuid(), runId, columnId = columns.ElementAt(i).ColumnID, value.value }, transaction);
 					}
 					transaction.Commit();
+				}
+			}
+		}
+		public void VerifyRun(Guid verifiedBy, Guid runId, bool isAccepted)
+		{
+			using(var conn = _context.CreateConnection()) {
+				if(isAccepted) {
+					conn.Execute("UPDATE dbo.Run SET Run.VerifiedBy = @verifiedBy WHERE Run.RunID = @runId;", new { verifiedBy, runId });
+				} else {
+					conn.Open();
+					using(IDbTransaction transaction = conn.BeginTransaction()) {
+						conn.Execute("DELETE dbo.ColumnValue WHERE dbo.ColumnValue.RunID = @runId", new { runId }, transaction);
+						conn.Execute("DELETE dbo.Run WHERE Run.RunID = @runId", new { runId }, transaction);
+						transaction.Commit();
+					}
 				}
 			}
 		}

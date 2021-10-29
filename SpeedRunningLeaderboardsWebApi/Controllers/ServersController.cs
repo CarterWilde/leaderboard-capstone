@@ -15,9 +15,10 @@ using StackExchange.Redis;
 
 namespace SpeedRunningLeaderboardsWebApi.Controllers
 {
-	public record RunDTO(int RunTime, string VideoUrl, IList<(Guid columnId, string value)> values);
+	public record RunDTO(int RunTime, string VideoUrl, IList<ColumnValueDTO> Values);
 	public record CreateServerDTO(string Name, string Icon, IEnumerable<Runner>? Members, IEnumerable<Game>? Games);
 	public record CodeOptions([property:JsonPropertyName("expires_in")]int? ExpiresIn, int? Uses);
+	public record VerificationBody(bool isAccepted);
 
 	[Route("api/[controller]")]
 	[ApiController]
@@ -32,7 +33,16 @@ namespace SpeedRunningLeaderboardsWebApi.Controllers
 			_gameRepo = gameRepo;
 			_redis = redis;
 		}
-
+		[HttpPut("/api/verify-run/{runId}")]
+		public IActionResult VerifyRun(Guid runId, [FromBody]VerificationBody body)
+		{
+			var userResult = this.GetUser(out Runner? runner);
+			if(runner is Runner && userResult is null) {
+				_repo.VerifyRun(runner.RunnerID, runId, body.isAccepted);
+				return Ok();
+			}
+			return userResult ?? throw new Exception("Result expected!");
+		}
 		[HttpGet]
 		public IActionResult GetServers()
 		{
@@ -171,7 +181,7 @@ namespace SpeedRunningLeaderboardsWebApi.Controllers
 		{
 			var userResult = this.GetUser(out Runner? runner);
 			if(runner is Runner && userResult is null) {
-				_repo.AddRun(runner.RunnerID, serverId, gameId, rulesetId, data.RunTime, data.VideoUrl, data.values.ToArray());
+				_repo.AddRun(runner.RunnerID, serverId, gameId, rulesetId, data.RunTime, data.VideoUrl, data.Values.ToArray());
 				return Ok();
 			}
 			return userResult ?? throw new Exception("Result expected!");

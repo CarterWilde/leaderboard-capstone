@@ -7,7 +7,7 @@ import { PropsFromRedux } from "../../../App";
 import { API_ENDPOINT } from "../../../EnviormentVariables";
 import { Server, Runner } from "../../../Models";
 import { RootState } from "../../../store";
-import { IDTranslator } from "../../../Utlities/IDTranslators";
+import { IDBTranslator } from "../../../Utlities/IDBTranslators";
 import { AddCard, Button, Feild, GameCard, Page, PopUp, UserCard } from "../../UI";
 import "./ServerInfoPage.css"
 
@@ -52,7 +52,7 @@ class ServerInfoPage extends Component<ServerInfoPageProps, ServerInfoPageState>
 	}
 
 	async componentDidMount() {
-		this.setState({ owner: await IDTranslator<Runner>(this.props.server.owner, `${API_ENDPOINT}/runners/@:`) })
+		this.setState({ owner: await IDBTranslator<Runner>(this.props.server.owner, `${API_ENDPOINT}/runners/@:`) })
 	}
 
 	render() {

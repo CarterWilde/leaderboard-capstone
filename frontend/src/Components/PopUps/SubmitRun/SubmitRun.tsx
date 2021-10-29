@@ -29,7 +29,7 @@ class SubmitRun extends Component<SubmitRunProps, SubmitRunState> {
 			runTime: 0,
 			videoUrl: "",
 			values: this.props.ruleset.columns.map(c => {
-				return {id: "", columnId: c.id, value: ""}
+				return {id: "", columnID: c.columnID, value: ""}
 			})
 		}
 
@@ -63,10 +63,10 @@ class SubmitRun extends Component<SubmitRunProps, SubmitRunState> {
 				{
 					this.props.ruleset.columns.map(column => {
 						return (
-							<Feild key={column.id + this.props.ruleset.rulesetID} style={{padding: "12px 0px"}} name={column.name} type={ColumnConverter.ToHTMLInputType(column)} defaultValue={this.state.values.find(s => s.columnId === column.id)?.value} onChange={(e) => {
+							<Feild key={column.columnID + this.props.ruleset.rulesetID} style={{padding: "12px 0px"}} name={column.name} type={ColumnConverter.ToHTMLInputType(column)} defaultValue={this.state.values.find(s => s.columnID === column.columnID)?.value} onChange={(e) => {
 								this.setState(prevState => {
 									let values = Object.assign([], prevState.values) as ColumnValue[];
-									let val = values.find(val => val.columnId === column.id);
+									let val = values.find(val => val.columnID === column.columnID);
 									if(val) {
 										val.value = e.target.value;
 									}

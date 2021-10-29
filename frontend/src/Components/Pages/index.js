@@ -12,3 +12,6 @@ export * from "./ServerInfoPage/ServerInfoPage";
 
 export { default as ServerPage } from "./ServerPage/ServerPage";
 export * from "./ServerPage/ServerPage";
+
+export { default as VerificationPage } from "./VerificationPage/VerificationPage";
+export * from "./VerificationPage/VerificationPage";

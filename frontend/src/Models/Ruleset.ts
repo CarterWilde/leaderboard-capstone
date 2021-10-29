@@ -3,7 +3,7 @@ import Run from "./Run";
 
 export default interface Ruleset {
     rulesetID: string;
-    gameId: string;
+    gameID: string;
     title: string;
     rules: string;
     runs: Run[];

@@ -62,7 +62,7 @@ namespace SpeedRunningLeaderboards.Repositories
 		public IEnumerable<Run> GetVerficationRuns(Guid serverId)
 		{
 			using(var conn = _context.CreateConnection()) {
-				return conn.Query<Run>("SELECT * FROM dbo.Run WHERE dbo.Run.ServerID = @serverId AND dbo.Run.VerifiedBy = NULL;", new { serverId });
+				return conn.Query<Run>("SELECT * FROM dbo.Run WHERE dbo.Run.ServerID = @serverId AND dbo.Run.VerifiedBy IS NULL;", new { serverId });
 			}
 		}
 
@@ -98,7 +98,7 @@ namespace SpeedRunningLeaderboards.Repositories
 				}, splitOn: "RulesetID", param: new { serverId }).Distinct();
 				foreach (var game in games)
 				{
-					game.Runs = conn.Query<Run>("SELECT * FROM dbo.Run WHERE ServerID = @serverId;", new {serverId}).ToList();
+					game.Runs = conn.Query<Run>("SELECT * FROM dbo.Run WHERE ServerID = @serverId AND dbo.Run.VerifiedBy IS NOT NULL;", new {serverId}).ToList();
 					foreach(var run in game.Runs) {
 						run.Values = conn.Query<ColumnValue>("SELECT * FROM dbo.ColumnValue WHERE ColumnValue.RunID = @RunID;", new { run.RunID }).ToList();
 					}

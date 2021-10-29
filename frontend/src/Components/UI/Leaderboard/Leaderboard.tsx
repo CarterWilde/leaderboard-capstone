@@ -1,7 +1,7 @@
 import { Component } from "react";
 import { Ruleset, Duration, Run, VOD, Runner } from "../../../Models";
 import ColumnConverter from "../../../Utlities/ColumnConverter";
-import Translator from "../../../Utlities/IDTranslators";
+import Translator from "../../../Utlities/IDBTranslators";
 import { Videocam } from "@material-ui/icons";
 
 import "./Leaderboard.css"
@@ -49,7 +49,7 @@ export default class Leaderboard extends Component<LeaderboardProps, Leaderboard
 						<th>Run Time</th>
 						<th>Publish Date</th>
 						{this.props.ruleset.columns.map(column => (
-							<th key={column.id + this.props.ruleset.rulesetID}>{column.name}</th>
+							<th key={column.columnID + this.props.ruleset.rulesetID}>{column.name}</th>
 						))}
 						<th>VOD</th>
 					</tr>

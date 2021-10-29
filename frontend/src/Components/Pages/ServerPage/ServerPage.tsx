@@ -1,7 +1,7 @@
-import { AccountTreeOutlined, GamepadOutlined } from "@material-ui/icons";
+import { AccountTreeOutlined, GamepadOutlined, VerifiedUserOutlined } from "@material-ui/icons";
 import { Component } from "react";
 import { NavLink, Route, RouteComponentProps } from "react-router-dom";
-import { ServerInfoPage, GamePage } from "..";
+import { ServerInfoPage, GamePage, VerificationPage } from "..";
 import { Server } from "../../../Models";
 import { TextedIcon } from "../../UI";
 import AddGamePage from "../AddGamePage/AddGamePage";
@@ -25,6 +25,9 @@ export default class ServerPage extends Component<ServerPageProps, ServerPageSta
 					<NavLink to={`/${this.props.server.serverID}/info`}>
 						<TextedIcon icon={<AccountTreeOutlined />}>Server Info</TextedIcon>
 					</NavLink>
+					<NavLink to={`/${this.props.server.serverID}/verification`}>
+						<TextedIcon icon={<VerifiedUserOutlined />}>Verification</TextedIcon>
+					</NavLink>
 					<hr />
 					{this.props.server.games.map(game => {
 						return (
@@ -43,11 +46,14 @@ export default class ServerPage extends Component<ServerPageProps, ServerPageSta
 					<Route exact path={`/${this.props.server.serverID}/add-game`} render={props => (
 						<AddGamePage {...props} server={this.props.server} />
 					)} />
+					<Route exact path={`/${this.props.server.serverID}/verification`} render={props => (
+						<VerificationPage {...props} server={this.props.server} />
+					)} />
 					{this.props.server.games.map(game => (
 						game.rulesets.map(ruleset => (
 							<Route key={this.props.server.serverID + game.gameID + ruleset.rulesetID} path={`/${this.props.server.serverID}/${game.gameID}/${ruleset.rulesetID}`} render={props => (
 								<GamePage {...props} server={this.props.server} game={game} ruleset={ruleset} />
-							)} />
+								)} />
 						))
 					))}
 				</section>

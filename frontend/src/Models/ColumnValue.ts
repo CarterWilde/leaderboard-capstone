@@ -2,6 +2,6 @@ import Column from "./Column";
 
 export default interface ColumnValue {
     id: string;
-    columnId: Column['id'];
+    columnID: Column['columnID'];
     value: any;
 }
