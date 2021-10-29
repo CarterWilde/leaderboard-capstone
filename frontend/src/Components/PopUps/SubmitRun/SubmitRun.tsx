@@ -3,7 +3,7 @@ import { Component } from "react";
 import { connect } from "react-redux";
 import { PropsFromRedux } from "../../../App";
 import { API_ENDPOINT } from "../../../EnviormentVariables";
-import { Column, ColumnValue, Game, Ruleset, Server } from "../../../Models";
+import { ColumnValue, Game, Ruleset, Server } from "../../../Models";
 import { RootState } from "../../../store";
 import ColumnConverter from "../../../Utlities/ColumnConverter";
 import { Feild, PopUp } from "../../UI";
