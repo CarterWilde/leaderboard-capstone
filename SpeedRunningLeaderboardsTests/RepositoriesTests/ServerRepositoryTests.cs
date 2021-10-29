@@ -21,7 +21,7 @@ namespace SpeedRunningLeaderboardsTests.RepositoriesTests
 		public void Setup()
 		{
 			var config = new Dictionary<string, string> {
-				{"ConnectionStrings:DefaultConnection", @"Data Source=CARTERS-LAPTOP\CAPSTONEEXPRESS;Database=CapstoneLeaderboards;User ID=test;Password=1234;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"}
+				{"ConnectionStrings:DefaultConnection", @"Data Source=CARTERS-LAPTOP\CAPSTONEEXPRESS;Database=CapstoneLeaderboardsTests;User ID=test;Password=1234;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"}
 			};
 
 			_configuration = new ConfigurationBuilder().AddInMemoryCollection(config).Build();
@@ -56,6 +56,14 @@ namespace SpeedRunningLeaderboardsTests.RepositoriesTests
 		{
 			var repo = new ServerRepository(_context);
 			repo.Create(GetServerObject());
+		}
+		[Test]
+		public void CanAddMember()
+		{
+			var repo = new ServerRepository(_context);
+			var server = repo.Create(GetServerObject());
+			var runnerGuid = Guid.NewGuid();
+			repo.AddMember(server.ServerID, runnerGuid);
 		}
 
 		[Test]

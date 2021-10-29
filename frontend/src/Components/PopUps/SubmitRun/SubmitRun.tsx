@@ -3,8 +3,9 @@ import { Component } from "react";
 import { connect } from "react-redux";
 import { PropsFromRedux } from "../../../App";
 import { API_ENDPOINT } from "../../../EnviormentVariables";
-import { Game, Ruleset, Server } from "../../../Models";
+import { Column, Game, Ruleset, Server } from "../../../Models";
 import { RootState } from "../../../store";
+import ColumnConverter from "../../../Utlities/ColumnConverter";
 import { Feild, PopUp } from "../../UI";
 
 export interface SubmitRunProps extends PropsFromRedux {
@@ -18,6 +19,7 @@ export interface SubmitRunProps extends PropsFromRedux {
 export type SubmitRunState = {
 	runTime: number;
 	videoUrl: string;
+	columns: Column[];
 };
 
 class SubmitRun extends Component<SubmitRunProps, SubmitRunState> {
@@ -25,7 +27,8 @@ class SubmitRun extends Component<SubmitRunProps, SubmitRunState> {
 		super(props);
 		this.state = {
 			runTime: 0,
-			videoUrl: ""
+			videoUrl: "",
+			columns: []
 		}
 
 		this.onProgress = this.onProgress.bind(this);
@@ -50,7 +53,14 @@ class SubmitRun extends Component<SubmitRunProps, SubmitRunState> {
 			>
 				<p style={{ padding: "12px 0" }}>Make this server yours!</p>
 				<Feild style={{ padding: "12px 0px" }} name="Run Length" type="number" onChange={(e) => { this.setState({ runTime: e.currentTarget.valueAsNumber }) }} />
-				<Feild style={{ paddingBottom: "12px" }} name="Video URL" type="url" onChange={(e) => { this.setState({ videoUrl: e.currentTarget.value }) }} />
+				{
+					this.state.columns.map(column => {
+						return (
+							<Feild style={{padding: "12px 0px"}} name={column.name} type={ColumnConverter.ToHTMLInputType(column)}/>
+							);
+						})
+					}
+					<Feild style={{ paddingBottom: "12px" }} name="Video URL" type="url" onChange={(e) => { this.setState({ videoUrl: e.currentTarget.value }) }} />
 			</PopUp>
 		);
 	}

@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+		"removeComments": true,
+		"importHelpers": true,
     "target": "es5",
     "lib": [
       "dom",

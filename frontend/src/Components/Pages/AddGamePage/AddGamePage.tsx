@@ -3,7 +3,7 @@ import axios, { AxiosResponse } from "axios";
 import { Component } from "react";
 import { RouteComponentProps } from "react-router-dom";
 import { API_ENDPOINT } from "../../../EnviormentVariables";
-import { Game, Server } from "../../../Models";
+import { Column, Game, Server } from "../../../Models";
 import { Button, Feild, Page, ButtonGroup, GameCard } from "../../UI";
 import "./AddGamePage.css";
 
@@ -21,6 +21,7 @@ type RulesetDTO = {
 	key: string;
 	title: string;
 	rules: string;
+	columns: Column[];
 };
 
 interface GameRequestDTO extends GameDTO {
@@ -115,7 +116,53 @@ export default class AddGamePage extends Component<AddGamePageProps, AddGamePage
 												return { rulesets: rulesets }
 											});
 										}} />
+										<section className="columns">
+											{
+												ruleset.columns.map(column => {
+													return (
+														<div className="column-feild" key={column.id + Date.now()}>
+															<Feild name="Column Name" type="text" onChange={(e) => {
+																this.setState(prevState => {
+																	let rulesets = Object.assign([] as RulesetDTO[], prevState.rulesets);
+																	let newCol = rulesets[i].columns.find(col => col.id === column.id);
+																	if(newCol) {
+																		newCol.name = e.target.value;
+																		return { rulesets: rulesets };
+																	}
+																	return {...prevState};
+																});
+															}}/>
+															<label htmlFor={column.id}>Type</label>
+															<select id={column.id} name="type" defaultValue={column.type}  onChange={(e) => {
+																this.setState(prevState => {
+																	let rulesets = Object.assign([] as RulesetDTO[], prevState.rulesets);
+																	let newCol = rulesets[i].columns.find(col => col.id === column.id);
+																	if(newCol) {
+																		newCol.type = (e.target.value as unknown) as Column['type'];
+																		return { rulesets: rulesets };
+																	}
+																	return {...prevState};
+																});
+															}}>
+																<option value="number">Number</option>
+																<option value="string">String</option>
+																<option value="vod">VOD</option>
+																<option value="boolean">Boolean</option>
+															</select>
+														</div>
+													);
+												})
+											}
+										</section>
 										<footer>
+											<Button variant="text" onClick={() => {
+												this.setState(prevState => {
+													let rulesets = Object.assign([] as RulesetDTO[], prevState.rulesets);
+													console.log(prevState);
+													rulesets.find(rule => rule.key === ruleset.key)?.columns.push({id: Date.now().toString(), name: "", type: "string", ruleset: ruleset.key});
+													return { rulesets: rulesets }
+												});
+											}}>Add Column</Button>
 											<Button variant="text" color="rgb(252, 92, 92)" onClick={() => {
 												this.setState(prevState => {
 													let rulesets = Object.assign([] as RulesetDTO[], prevState.rulesets);
@@ -134,7 +181,7 @@ export default class AddGamePage extends Component<AddGamePageProps, AddGamePage
 							<Button variant="primary" onClick={() => {
 								this.setState(prevState => {
 									let rulesets = Object.assign([] as RulesetDTO[], prevState.rulesets);
-									rulesets.push({key: Date.now().toString(), title: "", rules: "" });
+									rulesets.push({key: Date.now().toString(), title: "", rules: "", columns: [] });
 									return { rulesets: rulesets };
 								});
 							}}>Add Ruleset</Button>

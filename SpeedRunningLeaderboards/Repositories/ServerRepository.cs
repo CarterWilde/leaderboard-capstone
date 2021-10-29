@@ -52,13 +52,36 @@ namespace SpeedRunningLeaderboards.Repositories
 		public void AddGame(Guid serverId, Guid gameId, IDbTransaction? transaction = null)
 		{
 			using(var conn = _context.CreateConnection()) {
-				conn.Execute("INSERT INTO dbo.ServerGames VALUES (@serverId, @gameId);", new {serverId, gameId}, transaction);
+				conn.Execute("INSERT INTO dbo.ServerGames VALUES (@id, @serverId, @gameId);", new {id=Guid.NewGuid(), serverId, gameId}, transaction);
+			}
+		}
+		public void RemoveGame(Guid serverId, Guid gameId)
+		{
+			using(var conn = _context.CreateConnection()) {
+				conn.Execute("DELETE FROM dbo.ServerGames WHERE ServerID=@serverId AND GameID=@gameId;", new { serverId, gameId });
 			}
 		}
 		public void AddMember(Guid serverId, Guid runnerId, IDbTransaction? transaction = null)
 		{
 			using(var conn = _context.CreateConnection()) {
 				conn.Execute("INSERT INTO dbo.ServerMembers VALUES (@id, @runnerId, @serverId);", new { id=Guid.NewGuid(), serverId, runnerId }, transaction);
+			}
+		}
+		public void AddRun(Guid runnerId, Guid serverId, Guid gameId, Guid rulesetId, int runTime, string videoUrl, params (Guid columnId, string value)[] values)
+		{
+			using(var conn = _context.CreateConnection()) {
+				conn.Open();
+				using(var transaction = conn.BeginTransaction()) {
+					var columns = conn.Query<Column>("SELECT * FROM dbo.[Column] WHERE dbo.[Column].RulesetID = @rulesetId", new { rulesetId }, transaction);
+					if(values.Length != columns.Count()) throw new Exception("Missing a value or too many!");
+					var runId = Guid.NewGuid();
+					conn.Execute("INSERT INTO dbo.Run VALUES (@id, @runnerId, @serverId, @rulesetId, @publishDate, @runTime, @videoUrl);", new { id = runId, runnerId, serverId, gameId, rulesetId, publishDate = DateTime.Now, runTime, videoUrl }, transaction);
+					for(int i = 0; i < values.Length; i++) {
+						var value = values[i];
+						conn.Execute("INSERT INTO dbo.ColumnValue VALUES (@id, @runId, @columnId, @value);", new { id = Guid.NewGuid(), runId, columnId = columns.ElementAt(i).ColumnID, value.value }, transaction);
+					}
+					transaction.Commit();
+				}
 			}
 		}
 		public override void Delete(Guid id)
@@ -100,25 +123,6 @@ namespace SpeedRunningLeaderboards.Repositories
 				conn.Execute("UPDATE dbo.Server SET Name = @Name, Icon = @Icon, Owner = @Owner", entity);
 			}
 			return entity;
-		}
-
-		public void AddGame(Guid serverId, Guid gameId) {
-			using(var conn = _context.CreateConnection()) {
-				conn.Execute("INSERT INTO dbo.ServerGames VALUES (@id, @serverId, @gameId);", new {id=Guid.NewGuid(), serverId, gameId});
-			}
-		}
-
-		public void RemoveGame(Guid serverId, Guid gameId)
-		{
-			using(var conn = _context.CreateConnection()) {
-				conn.Execute("DELETE FROM dbo.ServerGames WHERE ServerID=@serverId AND GameID=@gameId;", new {serverId, gameId});
-			}
-		}
-		public void AddRun(Guid runnerId, Guid serverId, Guid gameId, Guid rulesetId, int runTime, string videoUrl)
-		{
-			using(var conn = _context.CreateConnection()) {
-				conn.Execute("INSERT INTO dbo.Run VALUES (@id, @runnerId, @serverId, @rulesetId, @publishDate, @runTime, @videoUrl);", new { id=Guid.NewGuid(), runnerId, serverId, gameId, rulesetId, publishDate = DateTime.Now, runTime, videoUrl});
-			}
 		}
 	}
 }

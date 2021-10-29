@@ -15,6 +15,7 @@ export default class ColumnConverter {
             case "short":
             case "ushort":
             case "byte":
+						case "number":
             case "sbyte":
                 try {
                     return Number(value);
@@ -49,4 +50,35 @@ export default class ColumnConverter {
         }
         throw new Error(`No type found for value ${valueColumn.value}`);
     }
+
+		static ToHTMLInputType(column: Column): string {
+			switch (column.type.toLowerCase()) {
+				case "int":
+				case "double":
+				case "float":
+				case "decimal":
+				case "uint":
+				case "long":
+				case "ulong":
+				case "short":
+				case "ushort":
+				case "byte":
+				case "sbyte":
+				case "number":
+					return "number";
+				case "char":
+				case "string":
+					return "text";
+				case "boolean":
+					return "checkbox";
+				case "duration":
+					return "number";
+				case "date":
+					return "date";
+				case "vod":
+					return "url";
+				default:
+					throw new Error(`No Input Type for ${column.type.toLowerCase()}`)
+			}
+		}
 }

@@ -30,6 +30,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+		"proxy": "lcp --proxyUrl http://localhost:5000/ --credentials --port 8080 --origin http://localhost:3000",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

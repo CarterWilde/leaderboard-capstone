@@ -1,2 +1,3 @@
-export const API_ENDPOINT = "/api";
-export const DISCORD_LOGIN_URL = "https://discord.com/api/oauth2/authorize?client_id=895124412561506314&redirect_uri=http%3A%2F%2F192.168.1.10%3A8080%2Fapi%2Fauthentication&response_type=code&scope=identify";
+console.log(process.env.NODE_ENV);
+export const API_ENDPOINT = process.env.NODE_ENV === "development" ? "http://localhost:8080/proxy/api" : "/api";
+export const DISCORD_LOGIN_URL =  process.env.NODE_ENV === "development" ? "https://discord.com/api/oauth2/authorize?client_id=895124412561506314&redirect_uri=http%3A%2F%2Flocalhost%3A5000%2Fapi%2Fauthentication&response_type=code&scope=identify":  "https://discord.com/api/oauth2/authorize?client_id=895124412561506314&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fapi%2Fauthentication&response_type=code&scope=identify";

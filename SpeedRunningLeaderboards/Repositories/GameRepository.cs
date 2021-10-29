@@ -105,25 +105,27 @@ namespace SpeedRunningLeaderboards.Repositories
 			}
 			return entity;
 		}
-		public Column AddColumn(Guid rulesetID, Column column, IDbTransaction? transaction = null)
-		{
-			using(var conn = _context.CreateConnection()) {
-				conn.Execute("INSERT INTO dbo.Column VALUES (@id, @rulesetID, @Name, @Type)", new { id = Guid.NewGuid(), rulesetID, column.Name, column.Type}, transaction);
-			}
-			column.RulesetID = rulesetID;
-			return column;
-		}
-
 		public IEnumerable<Column> GetColumns(Guid rulesetId)
 		{
 			using(var conn = _context.CreateConnection()) {
 				return conn.Query<Column>("SELECT * FROM dbo.[Column] WHERE dbo.[Column].RulesetID = @rulesetId", new { rulesetId });
 			}
 		}
+		public Column AddColumn(Guid rulesetID, Column column, IDbTransaction? transaction = null)
+		{
+			using(var conn = _context.CreateConnection()) {
+				var id = Guid.NewGuid();
+				conn.Execute("INSERT INTO dbo.[Column] VALUES (@id, @rulesetID, @Name, @Type)", new { id, rulesetID, column.Name, column.Type}, transaction);
+				column.ColumnID = id;
+			}
+			column.RulesetID = rulesetID;
+			return column;
+		}
+
 		public void RemoveColumn(Guid columnId)
 		{
 			using(var conn = _context.CreateConnection()) {
-				conn.Execute("DELETE FROM dbo.Column WHERE dbo.Column.ColumnID = @columnId", new { columnId });
+				conn.Execute("DELETE FROM dbo.[Column] WHERE dbo.[Column].ColumnID = @columnId", new { columnId });
 			}
 		}
 	}

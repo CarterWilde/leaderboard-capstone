@@ -40,7 +40,10 @@
     },
     "SpeedRunningLeaderboardsWebApiExecutable": {
       "commandName": "Executable",
-      "executablePath": "C:\\Users\\CarterWilde\\Documents\\code-projects\\leaderboard-capstone\\SpeedRunningLeaderboardsWebApi\\bin\\Debug\\net5.0\\SpeedRunningLeaderboardsWebApi.exe"
+      "executablePath": "C:\\Users\\CarterWilde\\Documents\\code-projects\\leaderboard-capstone\\SpeedRunningLeaderboardsWebApi\\bin\\Debug\\net5.0\\SpeedRunningLeaderboardsWebApi.exe",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
     }
   }
 }
