@@ -25,6 +25,9 @@ export * from "./GameCard";
 export { default as Leaderboard } from "./Leaderboard";
 export * from "./Leaderboard";
 
+export { default as Message } from "./Message";
+export * from "./Message";
+
 export { default as Page } from "./Page";
 export * from "./Page";
 

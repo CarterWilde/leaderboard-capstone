@@ -5,6 +5,7 @@ import { ServerInfoPage, GamePage, VerificationPage } from "..";
 import { Server } from "../../../Models";
 import { TextedIcon } from "../../UI";
 import AddGamePage from "../AddGamePage/AddGamePage";
+import ChatPage from "../ChatPage/ChatPage";
 import "./ServerPage.css"
 
 export interface ServerPageProps extends RouteComponentProps {
@@ -48,6 +49,9 @@ export default class ServerPage extends Component<ServerPageProps, ServerPageSta
 					)} />
 					<Route exact path={`/${this.props.server.serverID}/verification`} render={props => (
 						<VerificationPage {...props} server={this.props.server} />
+					)} />
+					<Route exact path={`/${this.props.server.serverID}/chat`} render={props => (
+						<ChatPage {...props} chatId="" server={this.props.server}/>
 					)} />
 					{this.props.server.games.map(game => (
 						game.rulesets.map(ruleset => (

@@ -1,3 +1,6 @@
+export { default as Chat } from "./Chat";
+export * from "./Chat";
+
 export { default as Column } from "./Column";
 export * from "./Column";
 
@@ -13,6 +16,9 @@ export * from "./Duration";
 export { default as Game } from "./Game";
 export * from "./Game";
 
+export { default as Message } from "./Message";
+export * from "./Message";
+
 export { default as Ruleset } from "./Ruleset";
 export * from "./Ruleset";
 
@@ -24,7 +30,6 @@ export * from "./Runner";
 
 export { default as Server } from "./Server";
 export * from "./Server";
-
 
 export { default as VOD } from "./VOD";
 export * from "./VOD";

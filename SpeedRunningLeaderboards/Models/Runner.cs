@@ -68,6 +68,14 @@ namespace SpeedRunningLeaderboards.Models
 			Socials = socials;
 		}
 
+		public Runner(Runner runner) : base(runner)
+		{
+			RegionID = runner.RegionID;
+			SignUpDate = runner.SignUpDate;
+			RunnerAuthorities = runner.RunnerAuthorities;
+			Socials = runner.Socials;
+		}
+
 		public bool Equals(Runner? other)
 		{
 			if(other is Runner) {

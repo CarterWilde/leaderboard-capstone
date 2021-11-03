@@ -45,6 +45,7 @@ namespace SpeedRunningLeaderboardsWebApi
 			services.AddScoped<RunnerRepository>();
 			services.AddScoped<RulesetRepository>();
 			services.AddSingleton<SecretsLoader>();
+			services.AddSingleton<ChatServices>();
 			services.AddSingleton<SessionRunner>();
 			services.AddSingleton(ConnectionMultiplexer.Connect("redis,localhost:6379"));
 
@@ -57,6 +58,8 @@ namespace SpeedRunningLeaderboardsWebApi
 			if(env.IsDevelopment()) {
 				app.UseDeveloperExceptionPage();
 			}
+
+			app.UseWebSockets(new WebSocketOptions());
 
 			app.UseCors(policy =>
 			{

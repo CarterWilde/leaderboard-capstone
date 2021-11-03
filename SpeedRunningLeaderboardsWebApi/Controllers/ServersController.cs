@@ -17,7 +17,7 @@ namespace SpeedRunningLeaderboardsWebApi.Controllers
 {
 	public record RunDTO(int RunTime, string VideoUrl, IList<ColumnValueDTO> Values);
 	public record CreateServerDTO(string Name, string Icon, IEnumerable<Runner>? Members, IEnumerable<Game>? Games);
-	public record CodeOptions([property:JsonPropertyName("expires_in")]int? ExpiresIn, int? Uses);
+	public record CodeOptions([property: JsonPropertyName("expires_in")] int? ExpiresIn, int? Uses);
 	public record VerificationBody(bool isAccepted);
 
 	[Route("api/[controller]")]
@@ -27,14 +27,28 @@ namespace SpeedRunningLeaderboardsWebApi.Controllers
 		private readonly ServerRepository _repo;
 		private readonly GameRepository _gameRepo;
 		private readonly ConnectionMultiplexer _redis;
-		public ServersController(ServerRepository repo, ConnectionMultiplexer redis, GameRepository gameRepo)
+		private readonly ChatServices _chatServices;
+		public ServersController(ServerRepository repo, ConnectionMultiplexer redis, GameRepository gameRepo, ChatServices chatServices)
 		{
 			_repo = repo;
 			_gameRepo = gameRepo;
 			_redis = redis;
+			_chatServices = chatServices;
+		}
+		[HttpGet("/chat/test")]
+		public async Task<IActionResult> SocketTest()
+		{
+			var userResult = this.GetUser(out Runner? runner);
+			if(runner is Runner && userResult is null) {
+				using(
+					var socket = await HttpContext.WebSockets.AcceptWebSocketAsync()) {
+					await _chatServices.AddSocket(Guid.Parse("c41504c3-35a0-4cc8-95f5-57daa0d001cf"), runner, socket);
+				}
+			}
+			return userResult ?? throw new Exception("Result expected!");
 		}
 		[HttpPut("/api/verify-run/{runId}")]
-		public IActionResult VerifyRun(Guid runId, [FromBody]VerificationBody body)
+		public IActionResult VerifyRun(Guid runId, [FromBody] VerificationBody body)
 		{
 			var userResult = this.GetUser(out Runner? runner);
 			if(runner is Runner && userResult is null) {
@@ -71,26 +85,26 @@ namespace SpeedRunningLeaderboardsWebApi.Controllers
 		{
 			var userResult = this.GetUser(out Runner? runner);
 			if(runner is Runner && userResult is null) {
-					if(runner.RunnerID == _repo.Get(serverId).Owner) {
-						var db = _redis.GetDatabase();
-						string code = GenerateCode(serverId);
-						while(db.KeyExists(code)) {
-							code = GenerateCode(serverId);
-						}
-						var entries = new List<HashEntry> { new HashEntry("serverId", serverId.ToString()) };
-						if(options.Uses is int uses) {
-							entries.Add(new HashEntry("uses", uses));
-						}
-						db.HashSet(code, entries.ToArray());
-						if(options.ExpiresIn is int expires) {
-							var expire = new TimeSpan(0, 0, expires);
-							db.KeyExpire(code, expire);
-
-						}
-						return Ok(code);
-					} else {
-						return StatusCode(StatusCodes.Status403Forbidden);
+				if(runner.RunnerID == _repo.Get(serverId).Owner) {
+					var db = _redis.GetDatabase();
+					string code = GenerateCode(serverId);
+					while(db.KeyExists(code)) {
+						code = GenerateCode(serverId);
 					}
+					var entries = new List<HashEntry> { new HashEntry("serverId", serverId.ToString()) };
+					if(options.Uses is int uses) {
+						entries.Add(new HashEntry("uses", uses));
+					}
+					db.HashSet(code, entries.ToArray());
+					if(options.ExpiresIn is int expires) {
+						var expire = new TimeSpan(0, 0, expires);
+						db.KeyExpire(code, expire);
+
+					}
+					return Ok(code);
+				} else {
+					return StatusCode(StatusCodes.Status403Forbidden);
+				}
 			}
 			return userResult ?? throw new Exception("Result expected!");
 		}
