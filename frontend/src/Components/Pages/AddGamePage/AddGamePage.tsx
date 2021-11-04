@@ -93,7 +93,7 @@ export default class AddGamePage extends Component<AddGamePageProps, AddGamePage
 							this.setState({game: {...this.state.game, image: e.currentTarget.value}});
 						}}/>
 						</div>
-						<Feild name="General Rules" type="text" defaultValue={this.state.game.rules} onChange={(e) => {
+						<Feild name="General Rules" type="text" defaultValue={this.state.game.rules} isTextarea onChange={(e) => {
 							this.setState({game: {...this.state.game, rules: e.currentTarget.value}});
 						}}/>
 					</header>
