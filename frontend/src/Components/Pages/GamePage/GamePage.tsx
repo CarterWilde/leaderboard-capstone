@@ -4,6 +4,9 @@ import { NavLink, RouteComponentProps } from "react-router-dom";
 import { Server, Game, Ruleset } from "../../../Models";
 import { SubmitRun } from "../../PopUps";
 import { Accordion, AccordionItem, Button, ButtonGroup, GameCard, Leaderboard, Page, TextedIcon } from "../../UI";
+import ReactMarkdown from "react-markdown"
+import rehypeHighlight from "rehype-highlight"
+import remarkGfm from "remark-gfm";
 import "./GamePage.css"
 
 export interface GamePageProps extends RouteComponentProps {
@@ -40,10 +43,10 @@ export default class GamePage extends Component<GamePageProps, GamePageState> {
 						</ButtonGroup>
 						<Accordion style={{ marginTop: "16px" }}>
 							<AccordionItem title="Game Rules">
-								{this.props.game.rules}
+								<ReactMarkdown rehypePlugins={[rehypeHighlight]} remarkPlugins={[remarkGfm]}>{this.props.game.rules}</ReactMarkdown>
 							</AccordionItem>
 							<AccordionItem title="Category Rules">
-								{this.props.ruleset.rules}
+								<ReactMarkdown rehypePlugins={[rehypeHighlight]} remarkPlugins={[remarkGfm]}>{this.props.ruleset.rules}</ReactMarkdown>
 							</AccordionItem>
 						</Accordion>
 					</section>
