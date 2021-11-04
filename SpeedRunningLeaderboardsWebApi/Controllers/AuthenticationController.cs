@@ -99,7 +99,9 @@ namespace SpeedRunningLeaderboardsWebApi.Controllers
 						throw new Exception("User wasn't recived!");
 					}
 					try {
-						return _runnerRepository.GetByDiscordLoginID(discordUser.DiscordLoginID);
+						var runner = _runnerRepository.GetByDiscordLoginID(discordUser.DiscordLoginID);
+						_runnerRepository.UpdateDiscordUser(discordUser);
+						return runner;
 					} catch(InvalidOperationException) {
 						var runner = new Runner(discordUser, null, DateTime.Now, new List<Authority>(), new List<Social>());
 						return _runnerRepository.Create(runner);
