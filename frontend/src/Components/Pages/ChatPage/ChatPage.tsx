@@ -44,6 +44,7 @@ export default class ChatPage extends Component<ChatPageProps, ChatPageState> {
 							);
 						})
 					}
+					{this.state.messages.length === 0 ? "No Messages" : null}
 				</section>
 				<div>
 					<input type="text" defaultValue={this.state.content} onChange={(e) => {

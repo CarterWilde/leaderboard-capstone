@@ -71,6 +71,7 @@ export default class VerificationPage extends Component<VerificationPageProps, V
 							</section>
 						);
 					})}
+					{this.state.runs.length === 0 ? "No pending verifications." : null}
 			</Page>
 		);
 	}
