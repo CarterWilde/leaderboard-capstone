@@ -4,7 +4,7 @@ import { Component } from "react";
 import { RouteComponentProps } from "react-router-dom";
 import { API_ENDPOINT } from "../../../EnviormentVariables";
 import { Column, Game, Server } from "../../../Models";
-import { Button, Feild, Page, ButtonGroup, GameCard } from "../../UI";
+import { Button, Feild, Page, ButtonGroup, GameCard, AddCard } from "../../UI";
 import "./AddGamePage.css";
 
 export interface AddGamePageProps extends RouteComponentProps {
@@ -109,7 +109,7 @@ export default class AddGamePage extends Component<AddGamePageProps, AddGamePage
 												return { rulesets: rulesets }
 											});
 										}} />
-										<Feild name="Ruleset Rules" type="text" defaultValue={ruleset.rules} onChange={(e) => {
+										<Feild name="Ruleset Rules" type="text" defaultValue={ruleset.rules} isTextarea onChange={(e) => {
 											this.setState(prevState => {
 												let rulesets = Object.assign([] as RulesetDTO[], prevState.rulesets);
 												rulesets[i].rules = e.target.value;
@@ -117,6 +117,7 @@ export default class AddGamePage extends Component<AddGamePageProps, AddGamePage
 											});
 										}} />
 										<section className="columns">
+											<h4>Columns</h4>
 											{
 												ruleset.columns.map((column, ci) => {
 													return (
@@ -129,7 +130,7 @@ export default class AddGamePage extends Component<AddGamePageProps, AddGamePage
 																});
 															}}/>
 															<label htmlFor={column.columnID}>Type</label>
-															<select id={column.columnID} name="type" defaultValue={column.type}  onChange={(e) => {
+															<select id={column.columnID} name="type" defaultValue={column.type} onChange={(e) => {
 																this.setState(prevState => {
 																	let rulesets = Object.assign([] as RulesetDTO[], prevState.rulesets);
 																	let newCol = rulesets[i].columns.find(col => col.columnID === column.columnID);
@@ -149,9 +150,7 @@ export default class AddGamePage extends Component<AddGamePageProps, AddGamePage
 													);
 												})
 											}
-										</section>
-										<footer>
-											<Button variant="text" onClick={(e) => {
+											<AddCard onClick={(e) => {
 												this.setState(prevState => {
 													let rulesets = Object.assign([] as RulesetDTO[], prevState.rulesets);
 													let rule = rulesets.find(r => r.key === ruleset.key);
@@ -160,7 +159,9 @@ export default class AddGamePage extends Component<AddGamePageProps, AddGamePage
 														return {...prevState, rulesets: rulesets};
 													}
 												});
-											}}>Add Column</Button>
+											}}/>
+										</section>
+										<footer>
 											<Button variant="text" color="rgb(252, 92, 92)" onClick={() => {
 												this.setState(prevState => {
 													let rulesets = Object.assign([] as RulesetDTO[], prevState.rulesets);
