@@ -58,7 +58,6 @@ class SubmitRun extends Component<SubmitRunProps, SubmitRunState> {
 				onProgress={this.onProgress}
 				{...this.props}
 			>
-				<p style={{ padding: "12px 0" }}>Make this server yours!</p>
 				<Feild style={{ padding: "12px 0px" }} name="Run Length" type="number" onChange={(e) => { this.setState({ runTime: e.currentTarget.valueAsNumber }) }} />
 				{
 					this.props.ruleset.columns.map(column => {
