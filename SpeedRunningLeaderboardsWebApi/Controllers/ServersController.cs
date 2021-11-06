@@ -26,26 +26,14 @@ namespace SpeedRunningLeaderboardsWebApi.Controllers
 	{
 		private readonly ServerRepository _repo;
 		private readonly GameRepository _gameRepo;
+		private readonly ChatRepository _chatRepo;
 		private readonly ConnectionMultiplexer _redis;
-		private readonly ChatServices _chatServices;
-		public ServersController(ServerRepository repo, ConnectionMultiplexer redis, GameRepository gameRepo, ChatServices chatServices)
+		public ServersController(ServerRepository repo, ConnectionMultiplexer redis, GameRepository gameRepo, ChatRepository chatRepository)
 		{
 			_repo = repo;
 			_gameRepo = gameRepo;
+			_chatRepo = chatRepository;
 			_redis = redis;
-			_chatServices = chatServices;
-		}
-		[HttpGet("/chat/test")]
-		public async Task<IActionResult> SocketTest()
-		{
-			var userResult = this.GetUser(out Runner? runner);
-			if(runner is Runner && userResult is null) {
-				using(
-					var socket = await HttpContext.WebSockets.AcceptWebSocketAsync()) {
-					await _chatServices.AddSocket(Guid.Parse("c41504c3-35a0-4cc8-95f5-57daa0d001cf"), runner, socket);
-				}
-			}
-			return userResult ?? throw new Exception("Result expected!");
 		}
 		[HttpPut("/api/verify-run/{runId}")]
 		public IActionResult VerifyRun(Guid runId, [FromBody] VerificationBody body)
@@ -70,6 +58,7 @@ namespace SpeedRunningLeaderboardsWebApi.Controllers
 				var servers = _repo.GetUserServers(runner.RunnerID);
 				foreach(var server in servers) {
 					server.Games = _gameRepo.GetServerGames(server.ServerID);
+					server.Chats = _chatRepo.GetServerChats(server.ServerID);
 				}
 				return Ok(servers);
 			}

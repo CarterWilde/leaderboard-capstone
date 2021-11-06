@@ -7,12 +7,14 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
+using SpeedRunningLeaderboards.Models;
+
 namespace SpeedRunningLeaderboards
 {
 	public delegate void OnMessage(MemoryStream ms, WebSocketReceiveResult result);
 	public class EventWebSocket : WebSocket {
 		private readonly WebSocket socket;
-		private ArraySegment<byte> buffer = new(new byte[256]);
+		private ArraySegment<byte> buffer = new(new byte[1]);
 		private readonly Encoding encoding;
 		public event OnMessage? OnMessage;
 		public EventWebSocket(WebSocket socket, Encoding? encoding = null)
@@ -48,7 +50,6 @@ namespace SpeedRunningLeaderboards
 				return result;
 			}
 		}
-
 		public void Send(string message, CancellationToken token)
 		{
 			lock(socket)

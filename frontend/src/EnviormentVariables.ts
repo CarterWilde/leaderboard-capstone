@@ -1,3 +1,18 @@
 console.log(process.env.NODE_ENV);
-export const API_ENDPOINT = process.env.NODE_ENV === "development" ? "http://localhost:8080/proxy/api" : "/api";
-export const DISCORD_LOGIN_URL =  process.env.NODE_ENV === "development" ? "https://discord.com/api/oauth2/authorize?client_id=895124412561506314&redirect_uri=http%3A%2F%2Flocalhost%3A5000%2Fapi%2Fauthentication&response_type=code&scope=identify":  "https://discord.com/api/oauth2/authorize?client_id=895124412561506314&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fapi%2Fauthentication&response_type=code&scope=identify";
+
+export let API_ENDPOINT: string;
+export let DISCORD_LOGIN_URL: string;
+export let WEBSOCKET_ENDPOINT: string;
+
+switch (process.env.NODE_ENV) {
+	case "development":
+		API_ENDPOINT = "http://localhost:8080/proxy/api";
+		DISCORD_LOGIN_URL = "https://discord.com/api/oauth2/authorize?client_id=895124412561506314&redirect_uri=http%3A%2F%2Flocalhost%3A5000%2Fapi%2Fauthentication&response_type=code&scope=identify";
+		WEBSOCKET_ENDPOINT = "ws://localhost:5000/api"
+		break;
+	default:
+		API_ENDPOINT = "/api";
+		DISCORD_LOGIN_URL = "https://discord.com/api/oauth2/authorize?client_id=895124412561506314&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fapi%2Fauthentication&response_type=code&scope=identify";
+		WEBSOCKET_ENDPOINT = window.location.hostname;
+		break;
+}

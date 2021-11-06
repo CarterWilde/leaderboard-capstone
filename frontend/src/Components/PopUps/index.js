@@ -1,3 +1,6 @@
+export { default as AddChat } from "./AddChat/AddChat";
+export * from "./AddChat/AddChat";
+
 export { default as CreateServer } from "./CreateServer/CreateServer";
 export * from "./CreateServer/CreateServer";
 

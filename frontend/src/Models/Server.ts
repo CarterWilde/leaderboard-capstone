@@ -1,3 +1,4 @@
+import { Chat } from ".";
 import Game from "./Game";
 import Runner from "./Runner";
 
@@ -9,4 +10,5 @@ export default interface Server {
     moderators: Runner[];
 		members: Runner[];
     games: Game[];
+		chats: Chat[];
 }

@@ -14,6 +14,8 @@ namespace SpeedRunningLeaderboards.Models
 		public Guid Owner { get; set; }
 		public IEnumerable<Runner> Members { get; set; } = new List<Runner>();
 		public IEnumerable<Game> Games { get; set; } = new List<Game>();
+		public IEnumerable<Chat> Chats { get; set; } = new List<Chat>();
+
 		public Server()
 		{
 		}
