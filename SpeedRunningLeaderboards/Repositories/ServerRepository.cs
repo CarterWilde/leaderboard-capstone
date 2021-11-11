@@ -27,6 +27,7 @@ namespace SpeedRunningLeaderboards.Repositories
 				ExecuteNonQueryFromFile("./SQL/Creations/ServerGames.sql", conn);
 				ExecuteNonQueryFromFile("./SQL/Creations/ServerMembers.sql", conn);
 				ExecuteNonQueryFromFile("./SQL/Creations/ColumnValue.sql", conn);
+				ExecuteNonQueryFromFile("./SQL/Creations/Moderator.sql", conn);
 			}
 		}
 		public override Server Create(Server entity)
@@ -67,6 +68,31 @@ namespace SpeedRunningLeaderboards.Repositories
 		{
 			using(var conn = _context.CreateConnection()) {
 				conn.Execute("INSERT INTO dbo.ServerMembers VALUES (@id, @runnerId, @serverId);", new { id=Guid.NewGuid(), serverId, runnerId }, transaction);
+			}
+		}
+		public void RemoveMember(Guid serverId, Guid runnerId, IDbTransaction? transaction = null)
+		{
+			using (var conn = _context.CreateConnection())
+			{
+				conn.Execute("DELETE FROM dbo.ServerMembers WHERE ServerMembers.RunnerID = @runnerId AND ServerMembers.ServerID = @serverId;", new { runnerId, serverId }, transaction);
+			}
+		}
+		public IEnumerable<Moderator> GetModerators(Guid serverId)
+		{
+			using(var conn = _context.CreateConnection()) {
+				return conn.Query<Moderator>("SELECT * FROM dbo.Moderator WHERE Moderator.ServerID = @serverId", new { serverId });
+			}
+		}
+		public void AddModerator(Guid serverId, Guid runnerId, Guid gameId, bool isLead = false, IDbTransaction? transaction = null)
+		{
+			using(var conn = _context.CreateConnection()) {
+				conn.Execute("INSTER INTO dbo.Moderator VALUES (@id, @runnerId, @gameId, @serverId, @isLead);", new { id = Guid.NewGuid(), serverId, runnerId, gameId, isLead }, transaction);
+			}
+		}
+		public void RemoveModerator(Guid serverId, Guid runnerId, Guid gameId, IDbTransaction? transaction = null)
+		{
+			using(var conn = _context.CreateConnection()) {
+				conn.Execute("DELETE dbo.Moderator WHERE Moderator.RunnerID = @runnerId AND Moderator.GameID = @gameId AND Moderator.ServerID = @serverId", new { serverId, runnerId, gameId }, transaction);
 			}
 		}
 		public void AddRun(Guid runnerId, Guid serverId, Guid gameId, Guid rulesetId, int runTime, string videoUrl, params ColumnValueDTO[] values)
@@ -130,6 +156,9 @@ namespace SpeedRunningLeaderboards.Repositories
 				{
 					server.Members = conn.Query<Runner>("SELECT * FROM dbo.ServerMembers JOIN Runner ON Runner.RunnerID = ServerMembers.RunnerID JOIN DiscordLogin ON DiscordLogin.DiscordLoginID = Runner.DiscordLoginID WHERE ServerMembers.ServerID = @id;", new {id = server.ServerID});
 				}
+				foreach(var server in servers) {
+					server.Moderators = GetModerators(server.ServerID);
+				}
 				return servers;
 			}
 		}
@@ -137,7 +166,7 @@ namespace SpeedRunningLeaderboards.Repositories
 		public override Server Update(Server entity)
 		{
 			using(var conn = _context.CreateConnection()) {
-				conn.Execute("UPDATE dbo.Server SET Name = @Name, Icon = @Icon, Owner = @Owner", entity);
+				conn.Execute("UPDATE dbo.Server SET Name = @Name, Icon = @Icon, Owner = @Owner WHERE dbo.Server.ServerID = @ServerID;", entity);
 			}
 			return entity;
 		}

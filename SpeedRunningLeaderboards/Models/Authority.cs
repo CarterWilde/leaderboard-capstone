@@ -8,12 +8,12 @@ namespace SpeedRunningLeaderboards.Models
 		public Guid RunnerID { get; set; }
 		public Guid ServerID { get; set; }
 		public string Value { get; set; }
-		public Authority(Guid authorityID, Guid runnerID, Guid serverID, string value)
+		public Authority(Guid AuthorityID, Guid RunnerID, Guid ServerID, string Authority)
 		{
-			AuthorityID = authorityID;
-			RunnerID = runnerID;
-			ServerID = serverID;
-			Value = value;
+			this.AuthorityID = AuthorityID;
+			this.RunnerID = RunnerID;
+			this.ServerID = ServerID;
+			Value = Authority;
 		}
 	}
 }

@@ -7,6 +7,7 @@ import { PropsFromRedux } from "../../../App";
 import { API_ENDPOINT } from "../../../EnviormentVariables";
 import { Server, Runner } from "../../../Models";
 import { RootState } from "../../../store";
+import { isServerOwner } from "../../../Utlities/AuthenticationChecks";
 import { IDBTranslator } from "../../../Utlities/IDBTranslators";
 import { AddCard, Button, Feild, GameCard, Page, PopUp, UserCard } from "../../UI";
 import "./ServerInfoPage.css"
@@ -26,6 +27,8 @@ export type ServerInfoPageState = {
 	codeSettings: CodeSettings;
 	openCreateCode: boolean;
 	openCodePreview: boolean;
+	serverName: string;
+	serverIcon: string;
 }
 
 class ServerInfoPage extends Component<ServerInfoPageProps, ServerInfoPageState> {
@@ -37,7 +40,9 @@ class ServerInfoPage extends Component<ServerInfoPageProps, ServerInfoPageState>
 				uses: 5
 			},
 			openCreateCode: false,
-			openCodePreview: false
+			openCodePreview: false,
+			serverName: this.props.server.name,
+			serverIcon: this.props.server.icon
 		};
 
 		this.OnCreateCode = this.OnCreateCode.bind(this);
@@ -98,12 +103,12 @@ class ServerInfoPage extends Component<ServerInfoPageProps, ServerInfoPageState>
 					<section>
 						{
 							this.props.server.games.map(game => (
-								<GameCard key={game.gameID} title={game.title} image={game.image} style={{width: "200px"}}/>
+								<GameCard key={game.gameID} title={game.title} image={game.image} style={{ width: "200px" }} />
 							))
 						}
-						<Link to={`/${this.props.server.serverID}/add-game`}>
-							<AddCard/>
-						</Link>
+						{ isServerOwner(this.props, this.props.server) ? <Link to={`/${this.props.server.serverID}/add-game`}>
+							<AddCard style={{height: "100%"}}/>
+						</Link> : null}
 					</section>
 				</section>
 				<hr />
@@ -111,12 +116,12 @@ class ServerInfoPage extends Component<ServerInfoPageProps, ServerInfoPageState>
 					<h3>Moderators</h3>
 					<section>
 						{this.state.owner ? <UserCard user={this.state.owner} isOwner /> : null}
-						{/* {
+						{
 							this.props.server.moderators.map(mod => (
 								<UserCard key={mod.id} user={mod} />
 							))
-						} */}
-						<AddCard/>
+						}
+						{ isServerOwner(this.props, this.props.server) ? <AddCard /> : null}
 					</section>
 				</section>
 				<hr />
@@ -125,23 +130,34 @@ class ServerInfoPage extends Component<ServerInfoPageProps, ServerInfoPageState>
 					<section>
 						{this.state.owner ? <UserCard user={this.state.owner} isOwner /> : null}
 						{this.props.server.members.filter(runner => runner.id !== this.props.server.owner).map(member => (
-							<UserCard user={member}/>
+							<UserCard user={member} />
 						))}
 					</section>
 				</section>
 				<hr />
 				{
-					this.props.authentication.runner?.id === this.state.owner?.id ? (
+					 isServerOwner(this.props, this.props.server) ? (
 						<section className="settings">
 							<h3>Settings</h3>
 							<section className="feilds">
-								<Feild name="Server Name" type="text" />
+								<Feild name="Server Name" type="text" defaultValue={this.state.serverName} onChange={(e) => {
+									this.setState({serverName: e.currentTarget.value});
+								}}/>
+								<Feild name="Server Icon" type="text" defaultValue={this.state.serverIcon} onChange={(e) => {
+									this.setState({serverIcon: e.currentTarget.value});
+								}}/>
 							</section>
 							<section className="buttons">
 								<Button variant="text" color="white" onClick={() => {
 									this.setState({ openCreateCode: true })
 								}}>Create Invite Code</Button>
-								<Button variant="filled">Apply</Button>
+								<Button variant="filled" onClick={() => {
+									axios.put(`${API_ENDPOINT}/servers/${this.props.server.serverID}`, {
+										Name: this.state.serverName,
+										Icon: this.state.serverIcon,
+										Owner: this.props.server.owner
+									});
+								}}>Apply</Button>
 							</section>
 						</section>
 					) : null

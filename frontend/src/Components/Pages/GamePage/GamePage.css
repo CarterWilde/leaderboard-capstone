@@ -1,11 +1,38 @@
-.page.game > .content > header > .btn-group > .category-button-parent {
+.game.page > .content > header > .btn-group > .category-button-parent {
     text-decoration: none;
 }
 
-.page.game > .content > header {
+.game.page > .content > header {
     margin: 36px;
 }
 
-.page.game .category-button-parent.active > .btn {
+.game.page .category-button-parent.active > .btn {
 	color: #5cfcac;
+}
+
+.game.page > .content > header > .moderators > section > :nth-child(n) {
+	flex-grow: 1;
+}
+
+.game.page > .content > header > .moderators {
+	width: 100%;
+	grid-column: 1/3;
+}
+
+
+.game.page .card.user,
+.game.page .add.card {
+	max-width: 300px;
+	min-width: 200px;
+	min-width: 200px;
+	max-height: 64px;
+}
+
+.game.page > .content > header > .moderators > section {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: stretch;
+	align-content: flex-start;
+	gap: 20px;
+	margin-top: 12px;
 }

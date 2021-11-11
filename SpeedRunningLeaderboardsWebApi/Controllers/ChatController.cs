@@ -54,7 +54,16 @@ namespace SpeedRunningLeaderboardsWebApi.Controllers
 		public async Task AddSocket(Guid chatId, Runner runner, WebSocket socket)
 		{
 			var socketRunner = new SocketedRunner(socket, runner, (message, run) => {
-				ForwardMessage(chatId, run, new Message(chatId, runner, DateTime.Now, message.Content));
+				if(message.Action == "sendMessage" && message.Content != null) {
+					ForwardMessage(chatId, run, _repo.AddMessage(new Message(Guid.NewGuid(), chatId, runner, DateTime.Now, message.Content)));
+				}
+				else if (message.Action == "getMessages") {
+					foreach(var storedMessage in _repo.GetMessages(chatId)) {
+						chats[chatId].ActiveMembers.Where(run => run.RunnerID == runner.RunnerID).First().SendMessage(storedMessage);
+					}
+				} else {
+					throw new WebSocketException($"Action '{message.Action}' not supported!");
+				}
 			});
 			chats[chatId].ActiveMembers.Add(socketRunner);
 			await socketRunner.Socket.Start(CancellationToken.None);

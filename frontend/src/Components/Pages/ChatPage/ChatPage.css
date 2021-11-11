@@ -1,46 +1,45 @@
-.page.add-game .content header,
-.page.add-game .content footer {
-	padding: 16px 32px;
+.chat.page {
+	height: 100%;
 }
 
-.page.add-game .content h2 {
-	padding-bottom: 12px;
-	font-size: 1.25em;
-	font-weight: normal;
-}
-
-.page.add-game .content footer {
-	display: flex;
-	justify-content: flex-end;
-}
-
-.page.add-game .content .ruleset-feild {
-	padding: 16px 32px;
-	border-bottom: 2px solid #25282e;
-}
-
-.page.add-game .content .ruleset-feild:nth-of-type(1) {
-	border-top: 2px solid #25282e;
-}
-
-.page.add-game .content .ruleset-feild footer {
-	padding: initial;
-}
-
-.page.add-game .content .feild {
-	margin: 0 0 16px 0px;
-}
-
-.page.add-game .content .split {
+.chat.page > .content {
+	height: calc(100% - 2em - 2px);
 	display: grid;
-	grid-template-columns: 1fr 1fr;
-	gap: 32px;
+	grid-template-rows: 1fr auto auto;
 }
 
-.page.add-game .content .search footer {
-	flex-wrap: wrap;
-	align-items: flex-start;
-	align-content: flex-start;
-	justify-content: flex-start;
-	gap: 16px;
+.chat.page > .content > footer {
+	padding: 16px 18px;
+	display: grid;
+	grid-template-columns: 1fr auto;
+}
+
+.chat.page > .content > footer .messageInput {
+	all: unset;
+	line-height: normal;
+	width: 100%;
+	background-color: #3e414a;
+	box-sizing: border-box;
+	border: 1px solid #25282e;
+	border-radius: 3px;
+	border-top-right-radius: 0px;
+	border-bottom-right-radius: 0px;
+	font-weight: normal;
+	transition-duration: 150ms;
+	padding-right: 0px;
+	padding: 4px 12px;
+}
+
+.chat.page > .content > footer .messageInput:focus {
+	border-color: #40ffa0;
+	resize: vertical;
+}
+
+.chat.page > .content > .messages {
+}
+
+.chat.page .sendMessage {
+	border-top-left-radius: 0px;
+	border-bottom-left-radius: 0px;
+	line-height: normal;
 }

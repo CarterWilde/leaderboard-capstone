@@ -16,6 +16,7 @@
   
   <ItemGroup>
     <None Remove="SQL\Creations\Chat.sql" />
+    <None Remove="SQL\Creations\Message.sql" />
   </ItemGroup>
 
   <ItemGroup>

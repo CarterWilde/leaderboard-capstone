@@ -5,6 +5,7 @@ namespace SpeedRunningLeaderboards.Models
 {
 	public class Message
 	{
+		public Guid MessageID { get; set; }
 		[JsonPropertyName("chatId")]
 		public Guid ChatID { get; set; }
 		[JsonPropertyName("poster")]
@@ -15,8 +16,9 @@ namespace SpeedRunningLeaderboards.Models
 		[JsonPropertyName("content")]
 		public string Content { get; private set; }
 
-		public Message(Guid chatId, Runner poster, DateTime publishDate, string content)
+		public Message(Guid messageId, Guid chatId, Runner poster, DateTime publishDate, string content)
 		{
+			MessageID = messageId;
 			ChatID = chatId;
 			Poster = poster;
 			PublishDate = publishDate;

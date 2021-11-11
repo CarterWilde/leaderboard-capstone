@@ -1,15 +1,21 @@
 import { Add, GamepadOutlined } from "@material-ui/icons";
 import { Component } from "react";
 import { NavLink, RouteComponentProps } from "react-router-dom";
-import { Server, Game, Ruleset } from "../../../Models";
+import { Server, Game, Ruleset, Runner } from "../../../Models";
 import { SubmitRun } from "../../PopUps";
-import { Accordion, AccordionItem, Button, ButtonGroup, GameCard, Leaderboard, Page, TextedIcon } from "../../UI";
+import { Accordion, AccordionItem, Button, ButtonGroup, GameCard, Leaderboard, Page, TextedIcon, UserCard, AddCard } from "../../UI";
 import ReactMarkdown from "react-markdown"
 import rehypeHighlight from "rehype-highlight"
 import remarkGfm from "remark-gfm";
 import "./GamePage.css"
+import { isServerOwner } from "../../../Utlities/AuthenticationChecks";
+import { PropsFromRedux } from "../../../App";
+import { connect } from "react-redux";
+import { RootState } from "../../../store";
+import IDBTranslator from "../../../Utlities/IDBTranslators";
+import { API_ENDPOINT } from "../../../EnviormentVariables";
 
-export interface GamePageProps extends RouteComponentProps {
+export interface GamePageProps extends RouteComponentProps, PropsFromRedux {
 	server: Server;
 	game: Game;
 	ruleset: Ruleset;
@@ -17,15 +23,21 @@ export interface GamePageProps extends RouteComponentProps {
 
 export type GamePageState = {
 	submitRunOpen: boolean;
+	owner?: Runner;
 }
 
-export default class GamePage extends Component<GamePageProps, GamePageState> {
+class GamePage extends Component<GamePageProps, GamePageState> {
 	constructor(props: GamePageProps) {
 		super(props);
 
 		this.state = {
-			submitRunOpen: false
+			submitRunOpen: false,
+			owner: undefined
 		}
+	}
+	
+	async componentDidMount() {
+		this.setState({ owner: await IDBTranslator<Runner>(this.props.server.owner, `${API_ENDPOINT}/runners/@:`) })
 	}
 
 	render() {
@@ -50,9 +62,27 @@ export default class GamePage extends Component<GamePageProps, GamePageState> {
 							</AccordionItem>
 						</Accordion>
 					</section>
+					<section className="moderators">
+						<h3>Moderators</h3>
+						<section>
+							{this.state.owner ? <UserCard user={this.state.owner} isOwner /> : null}
+							{
+								this.props.server.moderators.map(mod => (
+									<UserCard key={mod.id} user={mod} />
+								))
+							}
+							{ isServerOwner(this.props, this.props.server) ? <AddCard /> : null}
+						</section>
+					</section>
 				</header>
 				<Leaderboard ruleset={this.props.ruleset} runs={this.props.game.runs} />
 			</Page>
 		);
 	}
 }
+
+const connector = connect(
+	(state: RootState) => ({ ...state })
+);
+
+export default connector(GamePage);

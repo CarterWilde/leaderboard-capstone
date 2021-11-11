@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SpeedRunningLeaderboards.Models
 {
-	public record MessageDTO ([property:JsonPropertyName("content")]string Content);
+	public record MessageDTO ([property: JsonPropertyName("action")] string Action, [property:JsonPropertyName("content")]string? Content);
 	public class SocketedRunner : Runner
 	{
 		public EventWebSocket Socket { get; }

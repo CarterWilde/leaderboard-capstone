@@ -1,9 +1,9 @@
-import { MessageOutlined as MessageIcon } from "@material-ui/icons";
+import { ChatOutlined } from "@material-ui/icons";
 import { Component } from "react";
 import { RouteComponentProps } from "react-router-dom";
 import { WEBSOCKET_ENDPOINT } from "../../../EnviormentVariables";
 import { Server, Message as MessageModel, Chat } from "../../../Models";
-import { Page, Message } from "../../UI";
+import { Page, Message, Button } from "../../UI";
 import "./ChatPage.css";
 
 export interface MessageDTO {
@@ -33,8 +33,9 @@ export default class ChatPage extends Component<ChatPageProps, ChatPageState> {
 		this.receivedMessage = this.receivedMessage.bind(this);
 	}
 	
-	sendMessage(message: MessageDTO) {
-		this.socket?.send(JSON.stringify(message));
+	sendMessage(message: string) {
+		this.socket?.send(JSON.stringify({content: message, action: "sendMessage"}));
+		this.setState({content: ""});
 	}
 	
 	receivedMessage(message: MessageEvent) {
@@ -46,6 +47,11 @@ export default class ChatPage extends Component<ChatPageProps, ChatPageState> {
 	componentDidMount() {
 		this.socket = new WebSocket(`${WEBSOCKET_ENDPOINT}/servers/${this.props.server.serverID}/chats/${this.props.chatId}/join`);
 		this.socket.addEventListener("message", this.receivedMessage);
+		this.socket.addEventListener("open", () => {
+			this?.socket?.send(JSON.stringify({
+				"action": "getMessages"
+			}))
+		})
 	}
 
 	componentWillUnmount() {
@@ -54,10 +60,27 @@ export default class ChatPage extends Component<ChatPageProps, ChatPageState> {
 
 	render() {
 		return (
-			<Page className="chat" title={(this.state.chat?.name ? this.state.chat?.name : "Loading")} icon={<MessageIcon />}>
+			<Page className="chat" title={(this.state.chat?.name ? this.state.chat?.name : "Loading")} icon={<ChatOutlined />}>
 				<section className="messages">
 					{
-						this.state.messages.map(message => {
+						this.state.messages
+						.map(message => {
+							message.publishDate = new Date(message.publishDate);
+							return message;
+						})
+						.sort((a, b) => {
+							let aTime = a.publishDate.getTime();
+							let bTime = b.publishDate.getTime();
+							if(aTime > bTime) {
+								return 1;
+							}
+							else if (bTime > aTime) {
+								return -1;
+							} else {
+								return 0;
+							}
+						})
+						.map(message => {
 							return(
 								<Message key={message.poster.id + this.props.chatId + message.publishDate} {...message}/>
 							);
@@ -65,14 +88,15 @@ export default class ChatPage extends Component<ChatPageProps, ChatPageState> {
 					}
 					{this.state.messages.length === 0 ? "No Messages" : null}
 				</section>
-				<div>
-					<input type="text" defaultValue={this.state.content} onChange={(e) => {
+				<hr/>
+				<footer>
+					<input className="messageInput" type="text" defaultValue={this.state.content} onChange={(e) => {
 						this.setState({content: e.currentTarget.value})
 					}}/>
-					<button onClick={() => {
-						this.sendMessage({content: this.state.content})
-					}}>Send</button>
-				</div>
+					<Button variant="outline" className="sendMessage" onClick={() => {
+						this.sendMessage(this.state.content);
+					}}>Send</Button>
+				</footer>
 			</Page>
 		);
 	}

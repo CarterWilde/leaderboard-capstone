@@ -13,6 +13,7 @@ namespace SpeedRunningLeaderboards.Models
 		public string Icon { get; set; } = string.Empty;
 		public Guid Owner { get; set; }
 		public IEnumerable<Runner> Members { get; set; } = new List<Runner>();
+		public IEnumerable<Moderator> Moderators { get; set; } = new List<Moderator>();
 		public IEnumerable<Game> Games { get; set; } = new List<Game>();
 		public IEnumerable<Chat> Chats { get; set; } = new List<Chat>();
 

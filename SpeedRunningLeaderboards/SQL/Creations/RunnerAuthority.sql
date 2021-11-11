@@ -8,5 +8,5 @@ IF NOT EXISTS (SELECT * FROM sysobjects WHERE name = 'RunnerAuthority' AND xtype
 			REFERENCES dbo.Server(ServerID)
 				ON DELETE CASCADE
 				ON UPDATE CASCADE,
-		Authority INT NOT NULL
+		Authority VARCHAR(24) NOT NULL
 	);

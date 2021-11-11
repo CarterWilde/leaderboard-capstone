@@ -1,15 +1,19 @@
-import { AccountTreeOutlined, GamepadOutlined, VerifiedUserOutlined } from "@material-ui/icons";
+import { AccountTreeOutlined, ChatOutlined, GamepadOutlined, VerifiedUserOutlined } from "@material-ui/icons";
 import { Component } from "react";
+import { connect } from "react-redux";
 import { NavLink, Route, RouteComponentProps } from "react-router-dom";
 import { ServerInfoPage, GamePage, VerificationPage } from "..";
+import { PropsFromRedux } from "../../../App";
 import { Server } from "../../../Models";
+import { RootState } from "../../../store";
+import { isServerOwner } from "../../../Utlities/AuthenticationChecks";
 import { AddChat } from "../../PopUps";
 import { AddCard, TextedIcon } from "../../UI";
 import AddGamePage from "../AddGamePage/AddGamePage";
 import ChatPage from "../ChatPage/ChatPage";
 import "./ServerPage.css"
 
-export interface ServerPageProps extends RouteComponentProps {
+export interface ServerPageProps extends RouteComponentProps, PropsFromRedux {
 	server: Server;
 }
 
@@ -17,7 +21,7 @@ export type ServerPageState = {
 	isAddChatOpen: boolean;
 }
 
-export default class ServerPage extends Component<ServerPageProps, ServerPageState> {
+class ServerPage extends Component<ServerPageProps, ServerPageState> {
 	constructor(props: ServerPageProps) {
 		super(props);
 
@@ -53,13 +57,15 @@ export default class ServerPage extends Component<ServerPageProps, ServerPageSta
 							<NavLink to={`/${this.props.server.serverID}/${chat.chatId}`} key={this.props.server.serverID + chat.chatId} isActive={(match, location) => {
 								return location.pathname.startsWith(`/${this.props.server.serverID}/${chat.chatId}`);
 							}}>
-								<TextedIcon icon={<GamepadOutlined />}>{chat.name}</TextedIcon>
+								<TextedIcon icon={<ChatOutlined />}>{chat.name}</TextedIcon>
 							</NavLink>
 						);
 					})}
-					<AddCard onClick={() => {
-						this.setState({isAddChatOpen: true});
-					}}/>
+					{isServerOwner(this.props, this.props.server) ? (
+						<AddCard onClick={() => {
+							this.setState({isAddChatOpen: true});
+						}}/>
+					) : null}
 				</section>
 				<section id="serverPage">
 					<Route exact path={`/${this.props.server.serverID}/info`} render={props => (
@@ -90,3 +96,10 @@ export default class ServerPage extends Component<ServerPageProps, ServerPageSta
 		);
 	}
 }
+
+
+const connector = connect(
+	(state: RootState) => ({ ...state })
+);
+
+export default connector(ServerPage);

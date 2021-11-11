@@ -69,6 +69,13 @@ namespace SpeedRunningLeaderboardsWebApi.Controllers
 		{
 			return Ok(_gameRepo.GetVerficationRuns(serverId));
 		}
+		[HttpPut("{serverId}")]
+		public IActionResult UpdateServer(Guid serverId, [FromBody] Server entity)
+		{
+			entity.ServerID = serverId;
+			_repo.Update(entity);
+			return Ok();
+		}
 		[HttpPut("{serverId}/generate-code")]
 		public IActionResult GetInviteCode(Guid serverId, [FromBody] CodeOptions options)
 		{

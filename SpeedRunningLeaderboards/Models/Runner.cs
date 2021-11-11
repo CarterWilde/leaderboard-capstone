@@ -70,6 +70,7 @@ namespace SpeedRunningLeaderboards.Models
 
 		public Runner(Runner runner) : base(runner)
 		{
+			RunnerID = runner.RunnerID;
 			RegionID = runner.RegionID;
 			SignUpDate = runner.SignUpDate;
 			RunnerAuthorities = runner.RunnerAuthorities;

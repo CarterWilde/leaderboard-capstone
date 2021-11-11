@@ -67,11 +67,17 @@ namespace SpeedRunningLeaderboards.Repositories
 		public override Runner Get(Guid id)
 		{
 			using(var conn = _context.CreateConnection()) {
-				return conn.Query<Runner, Region, Runner>("SELECT * FROM Runner FULL JOIN DiscordLogin ON Runner.DiscordLoginID = DiscordLogin.DiscordLoginID FULL JOIN Region ON Region.RegionID = Runner.RegionID WHERE Runner.RunnerID = @id;", (runner, region) =>
-				{
-					runner.Region = region;
-					return runner;
-				}, new { id }, splitOn: "RegionID").First();
+				conn.Open();
+				using(var transaction = conn.BeginTransaction()) {
+					var myRunner = conn.Query<Runner, Region, Runner>("SELECT * FROM Runner FULL JOIN DiscordLogin ON Runner.DiscordLoginID = DiscordLogin.DiscordLoginID FULL JOIN Region ON Region.RegionID = Runner.RegionID WHERE Runner.RunnerID = @id;", (runner, region) =>
+					{
+						runner.Region = region;
+						return runner;
+					}, new { id }, splitOn: "RegionID", transaction: transaction).First();
+					myRunner.RunnerAuthorities = conn.Query<Authority>("SELECT * FROM RunnerAuthority WHERE RunnerID = @RunnerID;", new { myRunner.RunnerID }, transaction).ToList();
+					transaction.Commit();
+					return myRunner;
+				}
 			}
 		}
 
