@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { Component } from "react";
 import { connect } from "react-redux";
 import { PropsFromRedux } from "../../../App";
@@ -31,12 +31,11 @@ class CreateServer extends Component<CreateServerProps, CreateServerState> {
 	 }
 
 	async onProgress() {
-		var response = await axios.post<{Name: string, Icon: string}, Server>(`${API_ENDPOINT}/servers`, {
+		var response = await axios.post<{Name: string, Icon: string}, AxiosResponse<Server>>(`${API_ENDPOINT}/servers`, {
 			Name: this.state.name,
 			Icon: this.state.icon
 		});
-		response.games = response.games ? response.games : []
-		this.props.dispatch(addServer(response));
+		this.props.dispatch(addServer(response.data));
 	};
 
 	render() {

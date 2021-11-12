@@ -4,7 +4,7 @@ import { Component } from "react";
 import { RouteComponentProps } from "react-router-dom";
 import { API_ENDPOINT } from "../../../EnviormentVariables";
 import { Column, Game, Server } from "../../../Models";
-import { Button, Feild, Page, ButtonGroup, GameCard, AddCard } from "../../UI";
+import { Button, Feild, Page, ButtonGroup, GameCard, AddCard, TextAreaFeild } from "../../UI";
 import "./AddGamePage.css";
 
 export interface AddGamePageProps extends RouteComponentProps {
@@ -93,7 +93,7 @@ export default class AddGamePage extends Component<AddGamePageProps, AddGamePage
 							this.setState({game: {...this.state.game, image: e.currentTarget.value}});
 						}}/>
 						</div>
-						<Feild name="General Rules" type="text" defaultValue={this.state.game.rules} isTextarea onChange={(e) => {
+						<TextAreaFeild name="General Rules" defaultValue={this.state.game.rules} onChange={(e) => {
 							this.setState({game: {...this.state.game, rules: e.currentTarget.value}});
 						}}/>
 					</header>
@@ -109,7 +109,7 @@ export default class AddGamePage extends Component<AddGamePageProps, AddGamePage
 												return { rulesets: rulesets }
 											});
 										}} />
-										<Feild name="Ruleset Rules" type="text" defaultValue={ruleset.rules} isTextarea onChange={(e) => {
+										<TextAreaFeild name="Ruleset Rules" defaultValue={ruleset.rules} onChange={(e) => {
 											this.setState(prevState => {
 												let rulesets = Object.assign([] as RulesetDTO[], prevState.rulesets);
 												rulesets[i].rules = e.target.value;

@@ -202,7 +202,7 @@ namespace SpeedRunningLeaderboardsWebApi.Controllers
 		{
 			if(HttpContext.Items["RunnerSession"] is SessionRunner session) {
 				if(session.Runner != null) {
-					_repo.Create(new Server(
+					var server = _repo.Create(new Server(
 						Guid.NewGuid(),
 						serverDto.Name,
 						serverDto.Icon,
@@ -210,7 +210,7 @@ namespace SpeedRunningLeaderboardsWebApi.Controllers
 						serverDto.Members ?? new List<Runner>(),
 						serverDto.Games ?? new List<Game>()
 					));
-					return Ok();
+					return Ok(server);
 				} else {
 					return StatusCode(StatusCodes.Status401Unauthorized);
 				}

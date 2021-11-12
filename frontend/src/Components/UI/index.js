@@ -16,7 +16,6 @@ export * from "./ButtonGroup";
 export { default as Card } from "./Card";
 export * from "./Card";
 
-export { default as Feild } from "./Feild";
 export * from "./Feild";
 
 export { default as GameCard } from "./GameCard";

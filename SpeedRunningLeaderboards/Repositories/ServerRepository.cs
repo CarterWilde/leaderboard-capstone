@@ -26,6 +26,7 @@ namespace SpeedRunningLeaderboards.Repositories
 				ExecuteNonQueryFromFile("./SQL/Creations/Run.sql", conn);
 				ExecuteNonQueryFromFile("./SQL/Creations/ServerGames.sql", conn);
 				ExecuteNonQueryFromFile("./SQL/Creations/ServerMembers.sql", conn);
+				ExecuteNonQueryFromFile("./SQL/Creations/Column.sql", conn);
 				ExecuteNonQueryFromFile("./SQL/Creations/ColumnValue.sql", conn);
 				ExecuteNonQueryFromFile("./SQL/Creations/Moderator.sql", conn);
 			}
