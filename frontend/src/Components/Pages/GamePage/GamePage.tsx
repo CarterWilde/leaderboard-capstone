@@ -71,7 +71,7 @@ class GamePage extends Component<GamePageProps, GamePageState> {
 									<UserCard key={mod.id} user={mod} />
 								))
 							}
-							{ isServerOwner(this.props, this.props.server) ? <AddCard /> : null}
+							{ isServerOwner(this.props, this.props.server) ? <AddCard variant="outline" /> : null}
 						</section>
 					</section>
 				</header>

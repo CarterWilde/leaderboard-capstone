@@ -7,6 +7,16 @@
 	height: min-content;
 }
 
+.add.card.flair-hover:hover {
+	color: #5cfcac !important;
+}
+
+.add.card.outline {
+	box-shadow: none;
+	border: 2px solid #25282e;
+	background-color: transparent;
+}
+
 .add.card>svg {
 	--size: 2em;
 	width: var(--size);

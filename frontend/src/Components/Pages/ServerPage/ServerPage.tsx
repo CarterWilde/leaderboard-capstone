@@ -52,6 +52,7 @@ class ServerPage extends Component<ServerPageProps, ServerPageState> {
 							</NavLink>
 						);
 					})}
+					<hr />
 					{this.props.server.chats.map(chat => {
 						return (
 							<NavLink to={`/${this.props.server.serverID}/${chat.chatId}`} key={this.props.server.serverID + chat.chatId} isActive={(match, location) => {
@@ -62,7 +63,7 @@ class ServerPage extends Component<ServerPageProps, ServerPageState> {
 						);
 					})}
 					{isServerOwner(this.props, this.props.server) ? (
-						<AddCard onClick={() => {
+						<AddCard variant="outline" onClick={() => {
 							this.setState({isAddChatOpen: true});
 						}}/>
 					) : null}
