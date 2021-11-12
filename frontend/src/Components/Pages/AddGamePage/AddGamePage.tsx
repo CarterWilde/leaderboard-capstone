@@ -150,7 +150,7 @@ export default class AddGamePage extends Component<AddGamePageProps, AddGamePage
 													);
 												})
 											}
-											<AddCard onClick={(e) => {
+											<AddCard variant="outline" onClick={(e) => {
 												this.setState(prevState => {
 													let rulesets = Object.assign([] as RulesetDTO[], prevState.rulesets);
 													let rule = rulesets.find(r => r.key === ruleset.key);
