@@ -1,8 +1,9 @@
 import { ChatOutlined } from "@material-ui/icons";
 import { Component } from "react";
 import { RouteComponentProps } from "react-router-dom";
-import { WEBSOCKET_ENDPOINT } from "../../../EnviormentVariables";
+import { API_ENDPOINT, WEBSOCKET_ENDPOINT } from "../../../EnviormentVariables";
 import { Server, Message as MessageModel, Chat } from "../../../Models";
+import IDBTranslator from "../../../Utlities/IDBTranslators";
 import { Page, Message, Button } from "../../UI";
 import "./ChatPage.css";
 
@@ -44,7 +45,8 @@ export default class ChatPage extends Component<ChatPageProps, ChatPageState> {
 		this.setState({messages: messages});
 	}
 
-	componentDidMount() {
+	async componentDidMount() { 
+		this.setState({chat: await IDBTranslator<Chat>(this.props.chatId, `${API_ENDPOINT}/servers/${this.props.server.serverID}/chats/@:`)});
 		this.socket = new WebSocket(`${WEBSOCKET_ENDPOINT}/servers/${this.props.server.serverID}/chats/${this.props.chatId}/join`);
 		this.socket.addEventListener("message", this.receivedMessage);
 		this.socket.addEventListener("open", () => {

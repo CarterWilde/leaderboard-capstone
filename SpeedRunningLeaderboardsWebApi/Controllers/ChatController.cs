@@ -51,6 +51,15 @@ namespace SpeedRunningLeaderboardsWebApi.Controllers
 			}
 			return userResult ?? throw new Exception("Result expected!");
 		}
+		[HttpGet("{chatId}")]
+		public IActionResult GetChat(Guid serverId, Guid chatId)
+		{
+			var userResult = this.GetUser(out Runner? runner);
+			if(runner is Runner && userResult is null) {
+				return Ok(_repo.Get(chatId));
+			}
+			return userResult ?? throw new Exception("Result expected!");
+		}
 		public async Task AddSocket(Guid chatId, Runner runner, WebSocket socket)
 		{
 			var socketRunner = new SocketedRunner(socket, runner, (message, run) => {
