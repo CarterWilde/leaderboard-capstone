@@ -3,6 +3,6 @@ import { Message, Server } from ".";
 export default interface Chat {
 	chatId: string;
 	name: string;
-	server: Server['serverID'];
+	serverID: Server['serverID'];
 	messages: Message[];
 }

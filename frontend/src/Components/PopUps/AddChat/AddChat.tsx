@@ -1,9 +1,10 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { Component } from "react";
 import { connect } from "react-redux";
 import { PropsFromRedux } from "../../../App";
 import { API_ENDPOINT } from "../../../EnviormentVariables";
-import { Server } from "../../../Models";
+import { Chat, Server } from "../../../Models";
+import { addChat } from "../../../reducers";
 import { RootState } from "../../../store";
 import { Feild, PopUp } from "../../UI";
 
@@ -30,9 +31,10 @@ class AddChat extends Component<AddChatProps, AddChatState> {
 	 }
 
 	async onProgress() {
-		await axios.post<{Name: string}, Server>(`${API_ENDPOINT}/servers/${this.props.serverID}/chats`, {
+		var chatRes = await axios.post<{Name: string}, AxiosResponse<Chat>>(`${API_ENDPOINT}/servers/${this.props.serverID}/chats`, {
 			Name: this.state.name
 		});
+		this.props.dispatch(addChat(chatRes.data));
 	};
 
 	render() {

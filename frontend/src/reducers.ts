@@ -1,5 +1,5 @@
 import { createAction, createAsyncThunk, createReducer } from "@reduxjs/toolkit";
-import { Runner, Server } from "./Models";
+import { Chat, Runner, Server } from "./Models";
 import axio from "axios";
 import { API_ENDPOINT } from "./EnviormentVariables";
 import axios from "axios";
@@ -13,6 +13,8 @@ export const fetchServers = createAsyncThunk("server/fetch", async () => {
 });
 
 export const addServer = createAction<Server>("addServer");
+
+export const addChat = createAction<Chat>("addChat");
 
 const serverInitialState: {
 	loading: 'loading' | 'done' | 'error',
@@ -33,6 +35,9 @@ export const serverReducer = createReducer(serverInitialState, builder => {
 		})
 		.addCase(addServer, (state, action) => {
 			state.data.push(action.payload);
+		})
+		.addCase(addChat, (state, action) => {
+			state.data[state.data.findIndex(server => server.serverID === action.payload.serverID)].chats.push(action.payload)
 		})
 		.addCase(logout, (state, action) => {
 			state.data = [];
