@@ -131,7 +131,20 @@ namespace SpeedRunningLeaderboards.Repositories
 		public override void Delete(Guid id)
 		{
 			using(var conn = _context.CreateConnection()) {
-				conn.Execute("DELETE FROM dbo.Server WHERE Server.ServerID = @id;", new { id });
+				conn.Open();
+				using(var transaction = conn.BeginTransaction()) {
+					var chats = conn.Query<Chat>("SELECT * FROM dbo.Chat WHERE Chat.ServerID = @id", new { id }, transaction);
+					foreach(var chat in chats) {
+						conn.Execute("DELETE FROM dbo.Message WHERE Message.ChatID = @ChatID;", new { chat.ChatID }, transaction);
+					}
+					conn.Execute("DELETE FROM dbo.Chat WHERE Chat.ServerID = @id;", new { id }, transaction);
+					conn.Execute("DELETE FROM dbo.ServerGames WHERE ServerGames.ServerID = @id;", new { id }, transaction);
+					conn.Execute("DELETE FROM dbo.Run WHERE Run.ServerID = @id;", new { id }, transaction);
+					conn.Execute("DELETE FROM dbo.Moderator WHERE Moderator.ServerID = @id;", new { id }, transaction);
+					conn.Execute("DELETE FROM dbo.ServerMembers WHERE ServerMembers.ServerID = @id;", new { id }, transaction);
+					conn.Execute("DELETE FROM dbo.Server WHERE Server.ServerID = @id;", new { id }, transaction);
+					transaction.Commit();
+				}
 			}
 		}
 

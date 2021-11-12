@@ -1,5 +1,5 @@
 import { createAction, createAsyncThunk, createReducer } from "@reduxjs/toolkit";
-import { Chat, Runner, Server } from "./Models";
+import { Chat, Game, Runner, Server } from "./Models";
 import axio from "axios";
 import { API_ENDPOINT } from "./EnviormentVariables";
 import axios from "axios";
@@ -13,6 +13,7 @@ export const fetchServers = createAsyncThunk("server/fetch", async () => {
 });
 
 export const addServer = createAction<Server>("addServer");
+export const removeServer = createAction<Server['serverID']>("removeServer");
 
 export const addChat = createAction<Chat>("addChat");
 
@@ -35,6 +36,10 @@ export const serverReducer = createReducer(serverInitialState, builder => {
 		})
 		.addCase(addServer, (state, action) => {
 			state.data.push(action.payload);
+		})
+		.addCase(removeServer, (state, action) => {
+			axios.delete(`${API_ENDPOINT}/servers/${action.payload}`)
+			state.data.splice(state.data.findIndex(server => server.serverID === action.payload), 1);
 		})
 		.addCase(addChat, (state, action) => {
 			state.data[state.data.findIndex(server => server.serverID === action.payload.serverID)].chats.push(action.payload)

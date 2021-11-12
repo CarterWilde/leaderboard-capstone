@@ -218,5 +218,19 @@ namespace SpeedRunningLeaderboardsWebApi.Controllers
 				return StatusCode(StatusCodes.Status401Unauthorized);
 			}
 		}
+		[HttpDelete("{serverId}")]
+		public IActionResult DeleteServer(Guid serverId)
+		{
+			var userResult = this.GetUser(out Runner? runner);
+			if(runner is Runner && userResult is null) {
+				if(runner.RunnerID == _repo.Get(serverId).Owner) {
+					_repo.Delete(serverId);
+					return Ok();
+				} else {
+					return StatusCode(StatusCodes.Status403Forbidden);
+				}
+			}
+			return userResult ?? throw new Exception("Result expected!");
+		}
 	}
 }

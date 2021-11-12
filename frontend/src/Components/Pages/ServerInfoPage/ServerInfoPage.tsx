@@ -6,6 +6,7 @@ import { Link, RouteComponentProps } from "react-router-dom";
 import { PropsFromRedux } from "../../../App";
 import { API_ENDPOINT } from "../../../EnviormentVariables";
 import { Server, Runner } from "../../../Models";
+import { removeServer } from "../../../reducers";
 import { RootState } from "../../../store";
 import { isServerOwner } from "../../../Utlities/AuthenticationChecks";
 import { IDBTranslator } from "../../../Utlities/IDBTranslators";
@@ -29,6 +30,7 @@ export type ServerInfoPageState = {
 	openCodePreview: boolean;
 	serverName: string;
 	serverIcon: string;
+	serverDeleteConformationOpen: boolean;
 }
 
 class ServerInfoPage extends Component<ServerInfoPageProps, ServerInfoPageState> {
@@ -42,7 +44,8 @@ class ServerInfoPage extends Component<ServerInfoPageProps, ServerInfoPageState>
 			openCreateCode: false,
 			openCodePreview: false,
 			serverName: this.props.server.name,
-			serverIcon: this.props.server.icon
+			serverIcon: this.props.server.icon,
+			serverDeleteConformationOpen: false
 		};
 
 		this.OnCreateCode = this.OnCreateCode.bind(this);
@@ -137,6 +140,18 @@ class ServerInfoPage extends Component<ServerInfoPageProps, ServerInfoPageState>
 				{
 					 isServerOwner(this.props, this.props.server) ? (
 						<section className="settings">
+							<PopUp
+								title="Are you sure?"
+								open={this.state.serverDeleteConformationOpen}
+								progressText="Delete"
+								onClosed={() => {
+									this.setState({serverDeleteConformationOpen: false});
+								}}
+								onProgress={() => {
+									this.props.dispatch(removeServer(this.props.server.serverID));
+								}}
+							>
+							</PopUp>
 							<h3>Settings</h3>
 							<section className="feilds">
 								<Feild name="Server Name" type="text" defaultValue={this.state.serverName} onChange={(e) => {
@@ -150,6 +165,9 @@ class ServerInfoPage extends Component<ServerInfoPageProps, ServerInfoPageState>
 								<Button variant="text" color="white" onClick={() => {
 									this.setState({ openCreateCode: true })
 								}}>Create Invite Code</Button>
+								<Button variant="primary" style={{backgroundColor: "rgb(252, 92, 92)"}} onClick={() => {
+									this.setState({serverDeleteConformationOpen: true});
+								}}>Delete Server</Button>
 								<Button variant="filled" onClick={() => {
 									axios.put(`${API_ENDPOINT}/servers/${this.props.server.serverID}`, {
 										Name: this.state.serverName,
