@@ -90,7 +90,7 @@ export default class ChatPage extends Component<ChatPageProps, ChatPageState> {
 				</section>
 				<hr/>
 				<footer>
-					<input className="messageInput" type="text" defaultValue={this.state.content} onChange={(e) => {
+					<input className="messageInput" type="text" defaultValue={this.state.content} placeholder="Message" onChange={(e) => {
 						this.setState({content: e.currentTarget.value})
 					}}/>
 					<Button variant="outline" className="sendMessage" onClick={() => {

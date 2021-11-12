@@ -38,6 +38,10 @@
 .chat.page > .content > .messages {
 }
 
+.chat.page > .content > .messages :last-child {
+	border-bottom: none;
+}
+
 .chat.page .sendMessage {
 	border-top-left-radius: 0px;
 	border-bottom-left-radius: 0px;
