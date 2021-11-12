@@ -122,30 +122,32 @@ export default class AddGamePage extends Component<AddGamePageProps, AddGamePage
 												ruleset.columns.map((column, ci) => {
 													return (
 														<div key={column.columnID} className="column-feild">
-															<Feild name="Column Name" type="text" defaultValue={column.name} onChange={(e) => {
+															<div>
+																<label className="column-type" htmlFor={column.columnID}>Type</label>
+																<select id={column.columnID} title="column type" className="column-type" defaultValue={column.type} onChange={(e) => {
+																	this.setState(prevState => {
+																		let rulesets = Object.assign([] as RulesetDTO[], prevState.rulesets);
+																		let newCol = rulesets[i].columns.find(col => col.columnID === column.columnID);
+																		if(newCol) {
+																			newCol.type = (e.target.value as unknown) as Column['type'];
+																			return { rulesets: rulesets };
+																		}
+																		return {...prevState};
+																	});
+																}}>
+																	<option value="number">Number</option>
+																	<option value="string">String</option>
+																	<option value="vod">VOD</option>
+																	<option value="boolean">Boolean</option>
+																</select>
+															</div>
+															<Feild className="column-name" name="Column Name" type="text" defaultValue={column.name} onChange={(e) => {
 																this.setState(prevState => {
 																	let rulesets = Object.assign([] as RulesetDTO[], prevState.rulesets);
 																	rulesets[i].columns[ci].name = e.target.value;
 																	return { rulesets: rulesets }
 																});
 															}}/>
-															<label htmlFor={column.columnID}>Type</label>
-															<select id={column.columnID} name="type" defaultValue={column.type} onChange={(e) => {
-																this.setState(prevState => {
-																	let rulesets = Object.assign([] as RulesetDTO[], prevState.rulesets);
-																	let newCol = rulesets[i].columns.find(col => col.columnID === column.columnID);
-																	if(newCol) {
-																		newCol.type = (e.target.value as unknown) as Column['type'];
-																		return { rulesets: rulesets };
-																	}
-																	return {...prevState};
-																});
-															}}>
-																<option value="number">Number</option>
-																<option value="string">String</option>
-																<option value="vod">VOD</option>
-																<option value="boolean">Boolean</option>
-															</select>
 														</div>
 													);
 												})

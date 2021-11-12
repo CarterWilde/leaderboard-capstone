@@ -44,3 +44,38 @@
 	justify-content: flex-start;
 	gap: 16px;
 }
+
+.page.add-game .content .column-feild {
+	padding: 8px 0px;
+	padding-left: 4%;
+	display: grid;
+	grid-template-columns: auto 1fr;
+}
+
+label.column-type {
+	display: block;
+	width: 100%;
+}
+
+input.column-name {
+	border-top-left-radius: 0px;
+	border-bottom-left-radius: 0px;
+}
+
+select.column-type {
+	color: white;
+	background-color: #3e414a;
+	border: 1px solid #25282e;
+	padding: 4px 6px;
+	font-size: 22px;
+	border-radius: 0px;
+	border-top-left-radius: 3px;
+	border-bottom-left-radius: 3px;
+	box-sizing: border-box;
+	margin-top: 6px;
+}
+
+select.column-type:focus {
+	outline: none;
+	border-color: #5cfcac;
+}
