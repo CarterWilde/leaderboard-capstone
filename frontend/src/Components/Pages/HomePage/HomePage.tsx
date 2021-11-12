@@ -31,7 +31,7 @@ class HomePage extends Component<HomePageProps, HomePageState> {
 	mapServersToLink(servers: Server[]) {
 		return servers.map(server => {
 			return (
-				<NavLink to={`/${server.serverID}`} key={server.serverID} className="server-icon-parent" isActive={(match, location) => {
+				<NavLink to={`/${server.serverID}`} title={server.name} key={server.serverID} className="server-icon-parent" isActive={(match, location) => {
 					if (match) return true;
 					if (location.pathname === '/') return true;
 					return false;

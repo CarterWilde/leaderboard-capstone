@@ -5,12 +5,13 @@ type CardProps = {
     className?: HTMLAttributes<HTMLDivElement>['className'],
     children?: React.ReactNode,
     onClick?: HTMLAttributes<HTMLDivElement>['onClick'],
-    style?: CSSProperties
+    style?: CSSProperties,
+		title?: HTMLAttributes<HTMLDivElement>['title']
 };
 
 const Card = (props : CardProps) => {
     return(
-        <div className={`card` + (props.className ? ' ' + props.className : '' )} onClick={props.onClick} style={props.style}>
+        <div title={props.title} className={`card` + (props.className ? ' ' + props.className : '' )} onClick={props.onClick} style={props.style}>
             {props.children}
         </div>
     );

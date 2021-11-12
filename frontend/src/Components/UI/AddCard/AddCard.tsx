@@ -8,6 +8,7 @@ export type AddCardProps = {
 	onClick?: HTMLAttributes<HTMLDivElement>['onClick'],
 	style?: CSSProperties,
 	variant?: "main" | "outline";
+	title?: HTMLAttributes<HTMLDivElement>['title']
 }
 
 export const AddCard = (props: AddCardProps) => {
@@ -24,7 +25,7 @@ export const AddCard = (props: AddCardProps) => {
 		break;
 	}
 	return (
-		<Card className={className} onClick={props.onClick} style={props.style}>
+		<Card title={props.title} className={className} onClick={props.onClick} style={props.style}>
 			<Add />
 		</Card>
 	);

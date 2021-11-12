@@ -107,7 +107,7 @@ class ServerInfoPage extends Component<ServerInfoPageProps, ServerInfoPageState>
 							))
 						}
 						{ isServerOwner(this.props, this.props.server) ? <Link to={`/${this.props.server.serverID}/add-game`}>
-							<AddCard style={{height: "100%"}}/>
+							<AddCard title="Add Game" style={{height: "100%"}}/>
 						</Link> : null}
 					</section>
 				</section>
@@ -121,7 +121,6 @@ class ServerInfoPage extends Component<ServerInfoPageProps, ServerInfoPageState>
 								<UserCard key={mod.id} user={mod} />
 							))
 						}
-						{ isServerOwner(this.props, this.props.server) ? <AddCard /> : null}
 					</section>
 				</section>
 				<hr />
