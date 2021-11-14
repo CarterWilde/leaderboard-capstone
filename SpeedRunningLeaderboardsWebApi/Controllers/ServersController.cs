@@ -135,6 +135,11 @@ namespace SpeedRunningLeaderboardsWebApi.Controllers
 			}
 			return userResult ?? throw new Exception("Result expected!");
 		}
+		[HttpGet("join/{code}")]
+		public IActionResult JoinLink()
+		{
+			return Redirect("");
+		}
 
 		public static void DecrementUses(IDatabase db, string code, int uses)
 		{
@@ -186,7 +191,7 @@ namespace SpeedRunningLeaderboardsWebApi.Controllers
 			}
 			return userResult ?? throw new Exception("Result expected!");
 		}
-		[HttpPut("{serverId}/{gameId}/{rulesetId}/runs/add")]
+		[HttpPut("{serverId}/games/{gameId}/{rulesetId}/runs/add")]
 		public IActionResult AddRun(Guid serverId, Guid gameId, Guid rulesetId, [FromBody] RunDTO data)
 		{
 			var userResult = this.GetUser(out Runner? runner);
@@ -196,7 +201,12 @@ namespace SpeedRunningLeaderboardsWebApi.Controllers
 			}
 			return userResult ?? throw new Exception("Result expected!");
 		}
-
+		[HttpPut("{serverid}/games/{gameId}/mods/add/{runnerId}")]
+		public IActionResult AddMod(Guid serverId, Guid gameId, Guid runnerId)
+		{
+			_repo.AddModerator(serverId, runnerId, gameId);
+			return Ok();
+		}
 		[HttpPost]
 		public IActionResult CreateServer([FromBody] CreateServerDTO serverDto)
 		{

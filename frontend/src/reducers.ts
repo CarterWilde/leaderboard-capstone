@@ -1,5 +1,5 @@
 import { createAction, createAsyncThunk, createReducer } from "@reduxjs/toolkit";
-import { Chat, Game, Runner, Server } from "./Models";
+import { Chat, Runner, Server } from "./Models";
 import axio from "axios";
 import { API_ENDPOINT } from "./EnviormentVariables";
 import axios from "axios";

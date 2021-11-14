@@ -41,7 +41,7 @@ class SubmitRun extends Component<SubmitRunProps, SubmitRunState> {
 	}
 
 	async onProgress() {
-		await axios.put(`${API_ENDPOINT}/servers/${this.props.serverID}/${this.props.game.gameID}/${this.props.ruleset.rulesetID}/runs/add`, {
+		await axios.put(`${API_ENDPOINT}/servers/${this.props.serverID}/games/${this.props.game.gameID}/${this.props.ruleset.rulesetID}/runs/add`, {
 			RunTime: this.state.runTime,
 			VideoUrl: this.state.videoUrl,
 			Values: this.state.values

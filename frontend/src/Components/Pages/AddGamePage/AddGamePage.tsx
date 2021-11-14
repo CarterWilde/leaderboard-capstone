@@ -4,7 +4,8 @@ import { Component } from "react";
 import { RouteComponentProps } from "react-router-dom";
 import { API_ENDPOINT } from "../../../EnviormentVariables";
 import { Column, Game, Server } from "../../../Models";
-import { Button, Feild, Page, ButtonGroup, GameCard, AddCard, TextAreaFeild } from "../../UI";
+import { Button, Feild, Page, ButtonGroup, GameCard, AddCard } from "../../UI";
+import SplitPreview from "../../UI/SplitPreview/SplitPreview";
 import "./AddGamePage.css";
 
 export interface AddGamePageProps extends RouteComponentProps {
@@ -93,7 +94,7 @@ export default class AddGamePage extends Component<AddGamePageProps, AddGamePage
 							this.setState({game: {...this.state.game, image: e.currentTarget.value}});
 						}}/>
 						</div>
-						<TextAreaFeild name="General Rules" defaultValue={this.state.game.rules} onChange={(e) => {
+						<SplitPreview name="General Rules" defaultValue={this.state.game.rules} onChange={(e) => {
 							this.setState({game: {...this.state.game, rules: e.currentTarget.value}});
 						}}/>
 					</header>
@@ -109,7 +110,7 @@ export default class AddGamePage extends Component<AddGamePageProps, AddGamePage
 												return { rulesets: rulesets }
 											});
 										}} />
-										<TextAreaFeild name="Ruleset Rules" defaultValue={ruleset.rules} onChange={(e) => {
+										<SplitPreview name="Ruleset Rules" defaultValue={ruleset.rules} onChange={(e) => {
 											this.setState(prevState => {
 												let rulesets = Object.assign([] as RulesetDTO[], prevState.rulesets);
 												rulesets[i].rules = e.target.value;

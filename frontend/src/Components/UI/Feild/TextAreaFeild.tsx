@@ -2,7 +2,7 @@ import { Component, TextareaHTMLAttributes } from "react";
 
 import "./Feild.css";
 
-interface TextAreaFeildProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
+export interface TextAreaFeildProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
     name: string;
 }
 

@@ -36,6 +36,9 @@ export * from "./PopUp";
 export { default as ServerIcon } from "./ServerIcon";
 export * from "./ServerIcon";
 
+export { default as SplitPreview } from "./SplitPreview";
+export * from "./SplitPreview";
+
 export { default as TextedIcon } from "./TextedIcon";
 export * from "./TextedIcon";
 

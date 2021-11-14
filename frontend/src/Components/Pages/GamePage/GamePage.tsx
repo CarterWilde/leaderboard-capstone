@@ -2,7 +2,7 @@ import { Add, GamepadOutlined } from "@material-ui/icons";
 import { Component } from "react";
 import { NavLink, RouteComponentProps } from "react-router-dom";
 import { Server, Game, Ruleset, Runner } from "../../../Models";
-import { SubmitRun } from "../../PopUps";
+import { SubmitRun, AddModerator } from "../../PopUps";
 import { Accordion, AccordionItem, Button, ButtonGroup, GameCard, Leaderboard, Page, TextedIcon, UserCard, AddCard } from "../../UI";
 import ReactMarkdown from "react-markdown"
 import rehypeHighlight from "rehype-highlight"
@@ -24,6 +24,7 @@ export interface GamePageProps extends RouteComponentProps, PropsFromRedux {
 export type GamePageState = {
 	submitRunOpen: boolean;
 	owner?: Runner;
+	addModeratorOpen: boolean;
 }
 
 class GamePage extends Component<GamePageProps, GamePageState> {
@@ -32,7 +33,8 @@ class GamePage extends Component<GamePageProps, GamePageState> {
 
 		this.state = {
 			submitRunOpen: false,
-			owner: undefined
+			owner: undefined,
+			addModeratorOpen: false
 		}
 	}
 	
@@ -45,6 +47,7 @@ class GamePage extends Component<GamePageProps, GamePageState> {
 		return (
 			<Page className="game" title={this.props.game.title} icon={<GamepadOutlined />} aside={aside}>
 				<SubmitRun serverID={this.props.server.serverID} game={this.props.game} ruleset={this.props.ruleset} open={this.state.submitRunOpen} onClosed={() => {this.setState({submitRunOpen: false})}}/>
+				<AddModerator open={this.state.addModeratorOpen} game={this.props.game.gameID} server={this.props.server} onClosed={() => {this.setState({addModeratorOpen: false})}}/>
 				<header>
 					<GameCard image={this.props.game.image} title={this.props.game.title} />
 					<section>
@@ -71,7 +74,9 @@ class GamePage extends Component<GamePageProps, GamePageState> {
 									<UserCard key={mod.id} user={mod} />
 								))
 							}
-							{ isServerOwner(this.props, this.props.server) ? <AddCard variant="outline" /> : null}
+							{ isServerOwner(this.props, this.props.server) ? <AddCard variant="outline" onClick={() => {
+								this.setState({ addModeratorOpen: true });
+							}}/> : null}
 						</section>
 					</section>
 				</header>

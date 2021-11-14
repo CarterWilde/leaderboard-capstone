@@ -1,0 +1,49 @@
+.split-preview {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-template-rows: auto 1fr;
+}
+
+.split-preview .preview, .split-preview textarea, .split-preview .preview p {
+	font-size: 24px;
+	font-weight: normal;
+	color: white;
+	outline: none;
+}
+
+.split-preview .preview, .split-preview textarea {
+	border: 1px solid #25282e;
+	background-color: #3e414a;
+
+	all: unset;
+	width: 100%;
+	background-color: #3e414a;
+	box-sizing: border-box;
+	border: 1px solid #25282e;
+	border-radius: 3px;
+	margin-top: 6px;
+	padding: 4px 12px;
+	font-weight: normal;
+	padding-right: 0px;
+}
+
+.split-preview textarea {
+	border-right-width: 0px;
+	border-top-right-radius: 0px;
+	border-bottom-right-radius: 0px;
+	resize: vertical;
+	grid-column: 1;
+}
+
+.split-preview textarea:focus {
+	border: 1px solid #5cfcac;
+}
+
+.split-preview .preview {
+	border-left-width: 1px;
+	border-top-left-radius: 0px;
+	border-bottom-left-radius: 0px;
+	grid-row: 2;
+	grid-column: 2;
+	overflow: hidden;
+}
