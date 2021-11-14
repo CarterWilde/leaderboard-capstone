@@ -115,7 +115,7 @@ namespace SpeedRunningLeaderboardsWebApi.Controllers
 		{
 			using(var client = _clientFactory.CreateClient()) {
 				var request = new HttpRequestMessage(HttpMethod.Post, _configuration.GetSection("OAUTH_TOKEN_URL").Value);
-				IDictionary<string, string> formData = new Dictionary<string, string>
+				IEnumerable<KeyValuePair<string, string>> formData = new Dictionary<string, string>
 				{
 					{ "client_id", _configuration.GetSection("CLIENT_ID").Value },
 					{ "client_secret", secrets.CLIENT_SECRET },
@@ -123,7 +123,7 @@ namespace SpeedRunningLeaderboardsWebApi.Controllers
 					{ "code", code },
 					{ "redirect_uri", _configuration.GetSection("REDIRECT_URI").Value }
 				};
-				request.Content = new FormUrlEncodedContent(formData);
+				request.Content = new FormUrlEncodedContent(formData as IEnumerable<KeyValuePair<string?, string?>>);
 				request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
 				var response = client.Send(request);
 				if(response.IsSuccessStatusCode) {

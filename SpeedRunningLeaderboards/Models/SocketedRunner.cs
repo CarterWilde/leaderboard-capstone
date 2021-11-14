@@ -32,7 +32,11 @@ namespace SpeedRunningLeaderboards.Models
 						PropertyNameCaseInsensitive = true,
 						NumberHandling = JsonNumberHandling.AllowReadingFromString
 					});
-					HasMessage.Invoke(message, this);
+					if(message is MessageDTO) {
+						HasMessage.Invoke(message, this);
+					} else {
+						throw new JsonException("Invalid JSON Object");
+					}
 				}
 			}
 		}

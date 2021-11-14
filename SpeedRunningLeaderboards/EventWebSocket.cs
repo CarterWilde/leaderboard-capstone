@@ -40,7 +40,11 @@ namespace SpeedRunningLeaderboards
 				WebSocketReceiveResult? result = null;
 				do {
 					result = await ReceiveAsync(buffer, token);
-					ms.Write(buffer.Array, buffer.Offset, buffer.Count);
+					if(buffer.Array is byte[]) {
+						ms.Write(buffer.Array, buffer.Offset, buffer.Count);
+					} else {
+						throw new Exception();
+					}
 				} while(!result.EndOfMessage);
 
 				ms.Seek(0, SeekOrigin.Begin);

@@ -16,6 +16,9 @@ namespace SpeedRunningLeaderboards.Models
 		public IList<Run> Runs { get; set; } = new List<Run>();
 		public Game()
 		{
+			Title = "";
+			Rules = "";
+			Image = "";
 		}
 		public Game(Guid gameID, string title, string rules, string image, IList<Ruleset> rulesets, IList<Run> runs)
 		{
