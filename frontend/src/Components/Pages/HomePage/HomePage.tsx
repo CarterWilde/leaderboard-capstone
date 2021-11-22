@@ -1,5 +1,5 @@
 import { Component } from "react";
-import { NavLink, Route, BrowserRouter as Router, Switch } from "react-router-dom";
+import { NavLink, Route, HashRouter as Router, Switch } from "react-router-dom";
 import { Server } from "../../../Models";
 import { ServerIcon } from "../../UI";
 import { RootState } from '../../../store';

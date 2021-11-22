@@ -56,11 +56,11 @@ namespace SpeedRunningLeaderboardsWebApi.Controllers
 			var expire = new TimeSpan(0, 0, token.ExpiresIn);
 			db.StringSet(runner.RunnerID.ToString(), token.AccessToken, expire);
 			HttpContext.Response.Cookies.Append("session-id", runner.RunnerID.ToString(), new CookieOptions() {
-				Secure = false,
+				Secure = true,
 				IsEssential = true,
 				HttpOnly = false,
 				MaxAge = expire,
-				SameSite = SameSiteMode.Lax
+				SameSite = SameSiteMode.None
 			});
 			return Redirect(_configuration.GetSection("APP_REDIRECT_URI").Value);
 		}
