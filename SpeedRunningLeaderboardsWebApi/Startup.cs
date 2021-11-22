@@ -47,7 +47,8 @@ namespace SpeedRunningLeaderboardsWebApi
 			services.AddScoped<ChatRepository>();
 			services.AddSingleton<SecretsLoader>();
 			services.AddSingleton<SessionRunner>();
-			services.AddSingleton(ConnectionMultiplexer.Connect("redis,localhost:6379"));
+			Console.WriteLine("Loading Redis");
+			services.AddSingleton(ConnectionMultiplexer.Connect("open-leaderbaord-redis.redis.cache.windows.net:6380,password=rv4mccM4X3F9aVq3EuVfbbTVtCPN5nrpaAzCaBGnaFc=,ssl=True,abortConnect=False"));
 
 			services.AddControllers();
 		}

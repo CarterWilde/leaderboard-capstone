@@ -2,17 +2,20 @@ version: '3.4'
 
 services:
   backend:
+    image: capstoneopenleaderboarddocker.azurecr.io/backend
     build:
       context: .
       dockerfile: SpeedRunningLeaderboardsWebApi/Dockerfile
-    depends_on:
-      - sql
+    # depends_on:
+    #   - sql
   frontend:
+    image: capstoneopenleaderboarddocker.azurecr.io/frontend
     build:
       context: ./frontend
     depends_on:
       - backend
   api-gateway:
+      image: capstoneopenleaderboarddocker.azurecr.io/gateway
       build:
         context: .
         dockerfile: nginx.Dockerfile
@@ -20,11 +23,11 @@ services:
         - frontend
         - backend
       ports:
-        - 8080:9090
-  redis:
-    image: "redis:alpine"
-  sql:
-      image: "mcr.microsoft.com/mssql/server"
-      environment:
-          SA_PASSWORD: "Password123!"
-          ACCEPT_EULA: "Y"
+        - "9090:9090"
+  # redis:
+  #   image: "redis:alpine"
+  # sql:
+  #     image: "mcr.microsoft.com/mssql/server"
+  #     environment:
+  #         SA_PASSWORD: "Password123!"
+  #         ACCEPT_EULA: "Y"

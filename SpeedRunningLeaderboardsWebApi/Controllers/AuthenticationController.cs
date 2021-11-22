@@ -43,7 +43,9 @@ namespace SpeedRunningLeaderboardsWebApi.Controllers
 			_configuration = configuration;
 			_redis = redis;
 			_runnerRepository = runnerRepository;
+			_logger.LogInformation("Authentication Controller Loading Secrets");
 			secrets = loader.GetSecrets();
+			_logger.LogInformation("Authentication Controller Created");
 		}
 		[HttpGet]
 		public RedirectResult OAuthRedirect([FromQuery] string code)
