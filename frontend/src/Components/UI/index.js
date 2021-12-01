@@ -16,6 +16,9 @@ export * from "./ButtonGroup";
 export { default as Card } from "./Card";
 export * from "./Card";
 
+export { default as DurationFeild } from "./DurationFeild";
+export * from "./DurationFeild";
+
 export * from "./Feild";
 
 export { default as GameCard } from "./GameCard";

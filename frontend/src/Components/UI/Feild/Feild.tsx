@@ -2,7 +2,7 @@ import { Component, HTMLInputTypeAttribute, InputHTMLAttributes } from "react";
 
 import "./Feild.css";
 
-interface FeildProps extends InputHTMLAttributes<HTMLInputElement> {
+export interface FeildProps extends InputHTMLAttributes<HTMLInputElement> {
     name: string;
     type: HTMLInputTypeAttribute;
 }

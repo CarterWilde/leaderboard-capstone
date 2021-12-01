@@ -16,6 +16,19 @@ export default class Duration {
         }
     }
 
+		static withNumbers(hours: number, minutes: number, seconds: number, milliseconds: number) : Duration {
+			return new Duration(
+				(hours * 3600000) +
+				(minutes * 60000) +
+				(seconds * 1000) +
+				milliseconds
+			);
+		}
+
+		toMilliseconds() : number {
+			return this.value;
+		}
+
     toSeconds(duration: string): [boolean, number] {
         try {
             const values = {

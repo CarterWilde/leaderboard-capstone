@@ -1,12 +1,12 @@
 import axios from "axios";
-import { Component } from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import { PropsFromRedux } from "../../../App";
 import { API_ENDPOINT } from "../../../EnviormentVariables";
-import { ColumnValue, Game, Ruleset, Server } from "../../../Models";
+import { ColumnValue, Duration, Game, Ruleset, Server } from "../../../Models";
 import { RootState } from "../../../store";
 import ColumnConverter from "../../../Utlities/ColumnConverter";
-import { Feild, PopUp } from "../../UI";
+import { DurationFeild, Feild, PopUp } from "../../UI";
 
 export interface SubmitRunProps extends PropsFromRedux {
 	open: boolean;
@@ -17,7 +17,7 @@ export interface SubmitRunProps extends PropsFromRedux {
 };
 
 export type SubmitRunState = {
-	runTime: number;
+	runTime: Duration;
 	videoUrl: string;
 	values: ColumnValue[];
 };
@@ -26,7 +26,7 @@ class SubmitRun extends Component<SubmitRunProps, SubmitRunState> {
 	constructor(props: SubmitRunProps) {
 		super(props);
 		this.state = {
-			runTime: 0,
+			runTime: new Duration(0),
 			videoUrl: "",
 			values: this.props.ruleset.columns.map(c => {
 				return {id: "", columnID: c.columnID, value: ""}
@@ -42,7 +42,7 @@ class SubmitRun extends Component<SubmitRunProps, SubmitRunState> {
 
 	async onProgress() {
 		await axios.put(`${API_ENDPOINT}/servers/${this.props.serverID}/games/${this.props.game.gameID}/${this.props.ruleset.rulesetID}/runs/add`, {
-			RunTime: this.state.runTime,
+			RunTime: this.state.runTime.toMilliseconds(),
 			VideoUrl: this.state.videoUrl,
 			Values: this.state.values
 		});
@@ -58,7 +58,9 @@ class SubmitRun extends Component<SubmitRunProps, SubmitRunState> {
 				onProgress={this.onProgress}
 				{...this.props}
 			>
-				<Feild style={{ padding: "12px 0px" }} name="Run Length" type="number" onChange={(e) => { this.setState({ runTime: e.currentTarget.valueAsNumber }) }} />
+				<DurationFeild style={{ padding: "12px 0px" }} name="Run Duration" type="number" onChangeDuration={(e: React.ChangeEvent, duration: Duration) => {
+					this.setState({runTime: duration});
+				}}/>
 				{
 					this.props.ruleset.columns.map(column => {
 						return (
