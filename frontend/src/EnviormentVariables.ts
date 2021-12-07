@@ -13,6 +13,6 @@ switch (process.env.NODE_ENV) {
 	default:
 		API_ENDPOINT = "https://open-leaderboard-backend.azurewebsites.net/api";
 		DISCORD_LOGIN_URL = "https://discord.com/api/oauth2/authorize?client_id=895124412561506314&redirect_uri=https%3A%2F%2Fopen-leaderboard-backend.azurewebsites.net%2Fapi%2Fauthentication&response_type=code&scope=identify";
-		WEBSOCKET_ENDPOINT = window.location.hostname;
+		WEBSOCKET_ENDPOINT = "ws://open-leaderboard-backend.azurewebsites.net/api";
 		break;
 }
